@@ -282,6 +282,23 @@ export default function TeacherDashboard() {
                                 </Badge>
                               </div>
                             </div>
+                            <div className="flex flex-col items-end space-y-1">
+                              {grade.aiGradingTime && (
+                                <Badge variant="default" className="text-xs bg-green-500 hover:bg-green-600">
+                                  AI 채점 완료
+                                </Badge>
+                              )}
+                              {grade.manualGradingTime && (
+                                <Badge variant="default" className="text-xs bg-blue-500 hover:bg-blue-600">
+                                  수동 채점 완료
+                                </Badge>
+                              )}
+                              {!grade.aiGradingTime && !grade.manualGradingTime && (
+                                <Badge variant="destructive" className="text-xs">
+                                  채점 대기
+                                </Badge>
+                              )}
+                            </div>
                           </div>
                           
                           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
