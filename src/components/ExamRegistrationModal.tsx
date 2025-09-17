@@ -5,7 +5,6 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
 import { ChevronLeft, ChevronRight, Upload, Download, BookOpen, FileText, Mic, PenTool, X } from 'lucide-react';
@@ -18,10 +17,15 @@ interface ExamRegistrationModalProps {
 
 type ExamCategory = 'reading' | 'writing' | 'essay' | 'speaking';
 
-interface ExamFormData {
-  title: string;
+interface SchoolGradeCombination {
   schoolSystem: string;
   grade: string;
+}
+
+interface ExamFormData {
+  title: string;
+  selectedSchoolSystems: string[];
+  selectedCombinations: SchoolGradeCombination[];
   examDate: string;
   description: string;
   categories: ExamCategory[];
@@ -50,8 +54,8 @@ export default function ExamRegistrationModal({ isOpen, onClose, onComplete }: E
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState<ExamFormData>({
     title: '',
-    schoolSystem: '',
-    grade: '',
+    selectedSchoolSystems: [],
+    selectedCombinations: [],
     examDate: '',
     description: '',
     categories: []
@@ -64,18 +68,53 @@ export default function ExamRegistrationModal({ isOpen, onClose, onComplete }: E
     }));
   };
 
-  const handleSchoolSystemChange = (system: string) => {
-    setFormData(prev => ({
-      ...prev,
-      schoolSystem: system,
-      grade: '' // 학제 변경시 학년 초기화
-    }));
+  const handleSchoolSystemChange = (system: string, checked: boolean) => {
+    setFormData(prev => {
+      let newSelectedSystems = checked 
+        ? [...prev.selectedSchoolSystems, system]
+        : prev.selectedSchoolSystems.filter(s => s !== system);
+      
+      // 학제를 해제하면 관련된 조합들도 제거
+      let newCombinations = checked
+        ? prev.selectedCombinations
+        : prev.selectedCombinations.filter(combo => combo.schoolSystem !== system);
+
+      return {
+        ...prev,
+        selectedSchoolSystems: newSelectedSystems,
+        selectedCombinations: newCombinations
+      };
+    });
   };
 
-  const handleGradeChange = (grade: string) => {
+  const handleGradeSelection = (schoolSystem: string, grade: string) => {
+    setFormData(prev => {
+      const existingIndex = prev.selectedCombinations.findIndex(
+        combo => combo.schoolSystem === schoolSystem && combo.grade === grade
+      );
+      
+      let newCombinations;
+      if (existingIndex >= 0) {
+        // 이미 존재하면 제거
+        newCombinations = prev.selectedCombinations.filter((_, index) => index !== existingIndex);
+      } else {
+        // 존재하지 않으면 추가
+        newCombinations = [...prev.selectedCombinations, { schoolSystem, grade }];
+      }
+      
+      return {
+        ...prev,
+        selectedCombinations: newCombinations
+      };
+    });
+  };
+
+  const removeCombination = (schoolSystem: string, grade: string) => {
     setFormData(prev => ({
       ...prev,
-      grade: grade
+      selectedCombinations: prev.selectedCombinations.filter(
+        combo => !(combo.schoolSystem === schoolSystem && combo.grade === grade)
+      )
     }));
   };
 
@@ -111,8 +150,8 @@ export default function ExamRegistrationModal({ isOpen, onClose, onComplete }: E
     setCurrentStep(1);
     setFormData({
       title: '',
-      schoolSystem: '',
-      grade: '',
+      selectedSchoolSystems: [],
+      selectedCombinations: [],
       examDate: '',
       description: '',
       categories: []
@@ -120,10 +159,7 @@ export default function ExamRegistrationModal({ isOpen, onClose, onComplete }: E
     onClose();
   };
 
-  const isStep1Valid = formData.title && formData.schoolSystem && formData.grade && formData.examDate && formData.categories.length > 0;
-
-  // 선택된 학제의 학년 목록 가져오기
-  const availableGrades = formData.schoolSystem ? gradesBySystem[formData.schoolSystem as keyof typeof gradesBySystem] || [] : [];
+  const isStep1Valid = formData.title && formData.selectedCombinations.length > 0 && formData.examDate && formData.categories.length > 0;
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -175,52 +211,6 @@ export default function ExamRegistrationModal({ isOpen, onClose, onComplete }: E
                       />
                     </div>
                   </div>
-                  
-                  {/* 학제 선택 드롭다운 */}
-                  <div className="space-y-4">
-                    <Label>학제 선택 *</Label>
-                    <Select value={formData.schoolSystem} onValueChange={handleSchoolSystemChange}>
-                      <SelectTrigger className="w-full bg-background">
-                        <SelectValue placeholder="학제를 선택하세요" />
-                      </SelectTrigger>
-                      <SelectContent className="bg-background border border-border shadow-lg z-50">
-                        <SelectItem value="korea">한국</SelectItem>
-                        <SelectItem value="usa">미국</SelectItem>
-                        <SelectItem value="uk">영국</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  {/* 학년 선택 드롭다운 */}
-                  {formData.schoolSystem && (
-                    <div className="space-y-4">
-                      <Label>학년 선택 *</Label>
-                      <Select value={formData.grade} onValueChange={handleGradeChange}>
-                        <SelectTrigger className="w-full bg-background">
-                          <SelectValue placeholder="학년을 선택하세요" />
-                        </SelectTrigger>
-                        <SelectContent className="bg-background border border-border shadow-lg z-50">
-                          {availableGrades.map((grade) => (
-                            <SelectItem key={grade} value={grade}>
-                              {grade}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  )}
-
-                  {/* 선택 결과 표시 */}
-                  {formData.schoolSystem && formData.grade && (
-                    <div className="space-y-2">
-                      <Label className="text-sm font-medium">선택된 학제-학년</Label>
-                      <div className="p-3 bg-muted/50 rounded-lg">
-                        <Badge variant="default" className="px-3 py-1 text-sm">
-                          {schoolSystemLabels[formData.schoolSystem as keyof typeof schoolSystemLabels]} - {formData.grade}
-                        </Badge>
-                      </div>
-                    </div>
-                  )}
 
                   <div className="space-y-2">
                     <Label htmlFor="description">시험 설명</Label>
@@ -231,6 +221,92 @@ export default function ExamRegistrationModal({ isOpen, onClose, onComplete }: E
                       value={formData.description}
                       onChange={(e) => handleInputChange('description', e.target.value)}
                     />
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* 학제/학년 다중 선택 */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-lg">학제 및 학년 선택 *</CardTitle>
+                  <p className="text-sm text-muted-foreground">학제를 선택한 후, 해당 학제의 학년을 선택하세요.</p>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  {/* 학제 선택 (체크박스) */}
+                  <div className="space-y-4">
+                    <Label className="text-base font-medium">학제 선택</Label>
+                    <div className="grid grid-cols-3 gap-4">
+                      {Object.entries(schoolSystemLabels).map(([key, label]) => (
+                        <div key={key} className="flex items-center space-x-3 p-3 border border-border rounded-lg hover:bg-muted/50 transition-colors">
+                          <Checkbox
+                            id={`school-${key}`}
+                            checked={formData.selectedSchoolSystems.includes(key)}
+                            onCheckedChange={(checked) => handleSchoolSystemChange(key, checked as boolean)}
+                          />
+                          <Label htmlFor={`school-${key}`} className="font-medium cursor-pointer">
+                            {label}
+                          </Label>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* 각 선택된 학제에 대한 학년 선택 */}
+                  {formData.selectedSchoolSystems.map((schoolSystem) => {
+                    const grades = gradesBySystem[schoolSystem as keyof typeof gradesBySystem] || [];
+                    const systemLabel = schoolSystemLabels[schoolSystem as keyof typeof schoolSystemLabels];
+                    
+                    return (
+                      <div key={schoolSystem} className="space-y-4 p-4 border border-border rounded-lg bg-muted/20">
+                        <Label className="text-base font-medium">{systemLabel} 학년 선택</Label>
+                        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2">
+                          {grades.map((grade) => {
+                            const isSelected = formData.selectedCombinations.some(
+                              combo => combo.schoolSystem === schoolSystem && combo.grade === grade
+                            );
+                            
+                            return (
+                              <Button
+                                key={grade}
+                                variant={isSelected ? "default" : "outline"}
+                                size="sm"
+                                className="h-8 text-xs"
+                                onClick={() => handleGradeSelection(schoolSystem, grade)}
+                              >
+                                {grade}
+                              </Button>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    );
+                  })}
+
+                  {/* 선택된 조합 태그 표시 */}
+                  <div className="space-y-2">
+                    <Label className="text-sm font-medium">선택된 학제-학년 조합</Label>
+                    <div className="min-h-[2rem] flex flex-wrap gap-2">
+                      {formData.selectedCombinations.length === 0 ? (
+                        <p className="text-sm text-muted-foreground">선택된 조합이 없습니다.</p>
+                      ) : (
+                        formData.selectedCombinations.map((combo, index) => {
+                          const systemLabel = schoolSystemLabels[combo.schoolSystem as keyof typeof schoolSystemLabels];
+                          return (
+                            <Badge key={index} variant="secondary" className="flex items-center gap-2 px-3 py-1">
+                              <span>{systemLabel}-{combo.grade}</span>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                className="h-4 w-4 p-0 hover:bg-destructive hover:text-destructive-foreground"
+                                onClick={() => removeCombination(combo.schoolSystem, combo.grade)}
+                              >
+                                <X className="h-3 w-3" />
+                              </Button>
+                            </Badge>
+                          );
+                        })
+                      )}
+                    </div>
                   </div>
                 </CardContent>
               </Card>
