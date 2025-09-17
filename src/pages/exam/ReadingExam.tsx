@@ -205,13 +205,6 @@ export default function ReadingExam() {
                       Previous
                     </Button>
 
-                    <Button variant="outline" className="min-w-fit shrink text-xs px-2 py-1 sm:text-sm sm:px-3 sm:py-2 lg:text-base lg:px-4 lg:py-2">
-                      Save Answer
-                    </Button>
-                    
-                    <Button variant="default" className="min-w-fit shrink text-xs px-2 py-1 sm:text-sm sm:px-3 sm:py-2 lg:text-base lg:px-4 lg:py-2">
-                      Clear Answer
-                    </Button>
 
                     <Button 
                       variant="outline"

@@ -267,10 +267,6 @@ export default function WritingExam() {
               {renderQuestionInput()}
 
               <div className="flex items-center justify-between pt-4 border-t">
-                <Button variant="outline">
-                  <Save className="h-4 w-4 mr-2" />
-                  Save Answer
-                </Button>
                 
                 <div className="flex flex-wrap items-center justify-center gap-1 sm:gap-2">
                   <Button 
@@ -283,9 +279,6 @@ export default function WritingExam() {
                     Previous
                   </Button>
 
-                  <Button variant="outline" className="min-w-fit shrink text-xs px-2 py-1 sm:text-sm sm:px-3 sm:py-2 lg:text-base lg:px-4 lg:py-2">
-                    Save Answer
-                  </Button>
 
                   <Button 
                     variant="outline"

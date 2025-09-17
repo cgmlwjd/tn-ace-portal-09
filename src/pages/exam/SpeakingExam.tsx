@@ -325,13 +325,6 @@ export default function SpeakingExam() {
                       Previous
                     </Button>
 
-                    <Button variant="outline" className="min-w-fit shrink text-xs px-2 py-1 sm:text-sm sm:px-3 sm:py-2 lg:text-base lg:px-4 lg:py-2">
-                      Skip Question
-                    </Button>
-                    
-                    <Button variant="default" className="min-w-fit shrink text-xs px-2 py-1 sm:text-sm sm:px-3 sm:py-2 lg:text-base lg:px-4 lg:py-2">
-                      Save Response
-                    </Button>
 
                     <Button 
                       variant="outline"
