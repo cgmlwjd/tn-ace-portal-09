@@ -33,9 +33,9 @@ const gradeOptions = {
     '고1', '고2', '고3'
   ],
   american: [
-    'K', '1st', '2nd', '3rd', '4th', '5th',
-    '6th', '7th', '8th',
-    '9th', '10th', '11th', '12th'
+    'K', 'grade 1', 'grade 2', 'grade 3', 'grade 4', 'grade 5',
+    'grade 6', 'grade 7', 'grade 8',
+    'grade 9', 'grade 10', 'grade 11', 'grade 12'
   ],
   british: [
     'Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5', 'Year 6',
