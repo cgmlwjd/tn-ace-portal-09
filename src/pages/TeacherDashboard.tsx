@@ -95,7 +95,7 @@ export default function TeacherDashboard() {
     schoolSystem: "korea", 
     grade: "고1",
     submittedAt: "2024-01-16 13:45",
-    aiGradingTime: null,
+    aiGradingTime: "2024-01-16 14:10",
     manualGradingTime: "2024-01-16 15:20",
     type: "Speaking"
   }, {
