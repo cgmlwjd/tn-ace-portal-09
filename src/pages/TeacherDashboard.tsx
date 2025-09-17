@@ -187,10 +187,11 @@ export default function TeacherDashboard() {
                         <div className="flex flex-wrap gap-2">
                           {exam.categories?.map((category: string) => (
                             <Badge key={category} variant="outline" className="text-xs">
-                              {category === 'reading' ? 'Reading' : 
-                               category === 'writing' ? 'Writing' : 
-                               category === 'essay' ? 'Essay' : 
-                               category === 'speaking' ? 'Speaking' : category}
+                              {category === 'reading' ? 'Reading (영어)' : 
+                               category === 'writing' ? 'Writing (영어)' : 
+                               category === 'essay' ? 'Essay (영어)' : 
+                               category === 'speaking' ? 'Speaking (영어)' :
+                               category === 'math' ? 'Math (수학)' : category}
                             </Badge>
                           ))}
                         </div>

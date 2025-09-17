@@ -7,7 +7,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
-import { ChevronLeft, ChevronRight, Upload, Download, BookOpen, FileText, Mic, PenTool, X } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Upload, Download, BookOpen, FileText, Mic, PenTool, X, Calculator } from 'lucide-react';
 
 interface ExamRegistrationModalProps {
   isOpen: boolean;
@@ -15,7 +15,7 @@ interface ExamRegistrationModalProps {
   onComplete: (examData: any) => void;
 }
 
-type ExamCategory = 'reading' | 'writing' | 'essay' | 'speaking';
+type ExamCategory = 'reading' | 'writing' | 'essay' | 'speaking' | 'math';
 
 interface SchoolGradeCombination {
   schoolSystem: string;
@@ -32,10 +32,11 @@ interface ExamFormData {
 }
 
 const categoryLabels = {
-  reading: { name: 'Reading', icon: BookOpen, color: 'text-blue-500' },
-  writing: { name: 'Writing', icon: FileText, color: 'text-green-500' },
-  essay: { name: 'Essay', icon: PenTool, color: 'text-purple-500' },
-  speaking: { name: 'Speaking', icon: Mic, color: 'text-orange-500' }
+  reading: { name: 'Reading (영어)', icon: BookOpen, color: 'text-blue-500' },
+  writing: { name: 'Writing (영어)', icon: FileText, color: 'text-green-500' },
+  essay: { name: 'Essay (영어)', icon: PenTool, color: 'text-purple-500' },
+  speaking: { name: 'Speaking (영어)', icon: Mic, color: 'text-orange-500' },
+  math: { name: 'Math (수학)', icon: Calculator, color: 'text-red-500' }
 };
 
 const schoolSystemLabels = {
