@@ -25,44 +25,121 @@ export default function ManualGrading() {
   };
 
   // Mock data - in real app this would come from API
-  const gradingData = {
-    id: gradeId,
-    student: {
+  const getGradingDataByType = (id: string) => {
+    const baseStudent = {
       name: "김민수",
       schoolSystem: "korea",
-      grade: "중2",
+      grade: "중2", 
       studentId: "2024001"
-    },
-    exam: {
-      title: "영어 중간고사 - 2학년",
-      category: "Essay",
-      maxScore: 100,
-      timeLimit: "60분"
-    },
-    question: {
-      number: 1,
-      text: "다음 주제에 대해 150-200단어로 영어 에세이를 작성하시오.\n\n주제: \"My Future Dream and How to Achieve It\"\n\n- 자신의 미래 꿈이 무엇인지 명확히 서술하시오\n- 그 꿈을 이루기 위한 구체적인 계획을 제시하시오\n- 과정에서 예상되는 어려움과 극복 방법을 언급하시오",
-      type: "essay",
-      maxScore: 100
-    },
-    studentAnswer: {
-      content: "My future dream is to become a doctor. I have always been interested in helping people and making them feel better when they are sick.\n\nTo achieve this dream, I have several plans. First, I need to study very hard in science subjects like biology and chemistry. I am already taking extra classes after school to improve my grades. Second, I plan to volunteer at the local hospital during summer vacation to gain experience and learn more about medical work.\n\nI know there will be many difficulties on this path. Medical school is very competitive and expensive. Also, studying medicine takes many years and requires a lot of dedication. However, I believe I can overcome these challenges by staying motivated and working consistently towards my goal.\n\nI think helping people as a doctor would be very rewarding, and this motivates me to work hard every day.",
-      wordCount: 142,
-      submittedAt: "2024-01-16 14:30:25",
-      timeSpent: "45분"
-    },
-    aiGrading: {
-      totalScore: 78,
-      breakdown: {
-        content: { score: 20, maxScore: 25, comment: "주제에 적합하고 개인적인 경험이 잘 반영됨" },
-        organization: { score: 18, maxScore: 25, comment: "논리적 구성이 좋으나 결론 부분이 약함" },
-        vocabulary: { score: 20, maxScore: 25, comment: "적절한 어휘 사용, 다양성 부족" },
-        grammar: { score: 20, maxScore: 25, comment: "문법적 오류 몇 개 발견, 전반적으로 양호" }
+    };
+
+    const gradingDataTypes = {
+      "1": { // Essay
+        id: id,
+        student: baseStudent,
+        exam: {
+          title: "영어 중간고사 - 2학년",
+          category: "Essay",
+          maxScore: 100,
+          timeLimit: "60분"
+        },
+        question: {
+          number: 1,
+          text: "다음 주제에 대해 150-200단어로 영어 에세이를 작성하시오.\n\n주제: \"My Future Dream and How to Achieve It\"\n\n- 자신의 미래 꿈이 무엇인지 명확히 서술하시오\n- 그 꿈을 이루기 위한 구체적인 계획을 제시하시오\n- 과정에서 예상되는 어려움과 극복 방법을 언급하시오",
+          type: "essay",
+          maxScore: 100
+        },
+        studentAnswer: {
+          content: "My future dream is to become a doctor. I have always been interested in helping people and making them feel better when they are sick.\n\nTo achieve this dream, I have several plans. First, I need to study very hard in science subjects like biology and chemistry. I am already taking extra classes after school to improve my grades. Second, I plan to volunteer at the local hospital during summer vacation to gain experience and learn more about medical work.\n\nI know there will be many difficulties on this path. Medical school is very competitive and expensive. Also, studying medicine takes many years and requires a lot of dedication. However, I believe I can overcome these challenges by staying motivated and working consistently towards my goal.\n\nI think helping people as a doctor would be very rewarding, and this motivates me to work hard every day.",
+          wordCount: 142,
+          submittedAt: "2024-01-16 14:30:25",
+          timeSpent: "45분"
+        },
+        aiGrading: {
+          totalScore: 78,
+          breakdown: {
+            content: { score: 20, maxScore: 25, comment: "주제에 적합하고 개인적인 경험이 잘 반영됨" },
+            organization: { score: 18, maxScore: 25, comment: "논리적 구성이 좋으나 결론 부분이 약함" },
+            vocabulary: { score: 20, maxScore: 25, comment: "적절한 어휘 사용, 다양성 부족" },
+            grammar: { score: 20, maxScore: 25, comment: "문법적 오류 몇 개 발견, 전반적으로 양호" }
+          },
+          feedback: "전반적으로 잘 작성된 에세이입니다. 주제에 대한 이해도가 높고 개인적인 목표가 명확하게 드러납니다. 다만 단어 수가 요구사항(150-200단어)에 약간 부족하고, 결론 부분을 더 강화할 필요가 있습니다.",
+          gradedAt: "2024-01-16 14:35:12"
+        }
       },
-      feedback: "전반적으로 잘 작성된 에세이입니다. 주제에 대한 이해도가 높고 개인적인 목표가 명확하게 드러납니다. 다만 단어 수가 요구사항(150-200단어)에 약간 부족하고, 결론 부분을 더 강화할 필요가 있습니다.",
-      gradedAt: "2024-01-16 14:35:12"
-    }
+      "2": { // Speaking
+        id: id,
+        student: { ...baseStudent, name: "이지은", grade: "고1" },
+        exam: {
+          title: "Speaking Test - Level 3",
+          category: "Speaking",
+          maxScore: 100,
+          timeLimit: "30분"
+        },
+        question: {
+          number: 1,
+          text: "다음 상황에 대해 2-3분간 영어로 말해보세요.\n\n상황: You are introducing your hometown to a foreign friend who is visiting Korea for the first time.\n\n포함할 내용:\n- 고향의 위치와 특징\n- 유명한 장소나 음식\n- 방문을 추천하는 이유\n- 외국인 친구에게 주고 싶은 조언",
+          type: "speaking",
+          maxScore: 100
+        },
+        studentAnswer: {
+          content: "음성 답변 (2분 35초)\n\n전사된 내용:\n\"Hello! I'm so excited to introduce my hometown to you. I live in Busan, which is located in the southeastern part of Korea. It's the second largest city in Korea and it's famous for its beautiful beaches.\n\nOne of the most popular places you should visit is Haeundae Beach. The sand is really soft and the water is clean. You can also try our famous food called 'milmyeon' which is cold noodles. It's perfect for hot summer days. Another place I recommend is Gamcheon Culture Village. It's very colorful and you can take amazing photos there.\n\nI think you should visit Busan because it has both modern city life and traditional Korean culture. The people are very friendly and the seafood is incredibly fresh. My advice for you is to try local street food at Jagalchi Fish Market and don't forget to watch the sunrise at the beach.\"",
+          wordCount: null,
+          submittedAt: "2024-01-16 13:45:20",
+          timeSpent: "25분",
+          audioLength: "2분 35초"
+        },
+        aiGrading: {
+          totalScore: 85,
+          breakdown: {
+            pronunciation: { score: 20, maxScore: 25, comment: "발음이 명확하고 이해하기 쉬움" },
+            fluency: { score: 22, maxScore: 25, comment: "자연스러운 발화, 약간의 망설임 있음" },
+            vocabulary: { score: 21, maxScore: 25, comment: "적절하고 다양한 어휘 사용" },
+            grammar: { score: 22, maxScore: 25, comment: "문법적으로 정확하고 구조가 좋음" }
+          },
+          feedback: "전반적으로 우수한 스피킹 실력을 보여줍니다. 주제에 대해 체계적으로 설명했고, 구체적인 예시를 들어 설득력을 높였습니다. 발음과 유창성 모두 좋은 수준이며, 청자를 배려한 표현을 사용했습니다.",
+          gradedAt: "2024-01-16 14:10:15"
+        }
+      },
+      "3": { // Reading
+        id: id,
+        student: { ...baseStudent, name: "박상현", schoolSystem: "usa", grade: "Grade 8" },
+        exam: {
+          title: "영어 중간고사 - 2학년",
+          category: "Reading",
+          maxScore: 100,
+          timeLimit: "50분"
+        },
+        question: {
+          number: 1,
+          text: "다음 글을 읽고 물음에 답하시오.\n\n[Reading Passage]\nClimate change is one of the most pressing issues of our time. The Earth's average temperature has risen by approximately 1.1 degrees Celsius since the late 19th century. This warming is primarily caused by human activities, particularly the burning of fossil fuels, which releases greenhouse gases into the atmosphere.\n\nThe effects of climate change are already visible around the world. Arctic ice is melting at an alarming rate, sea levels are rising, and extreme weather events are becoming more frequent and severe. These changes pose serious threats to ecosystems, human health, and economic stability.\n\nHowever, there is still hope. Many countries are taking action to reduce greenhouse gas emissions. Renewable energy sources like solar and wind power are becoming more affordable and widespread. Individual actions, such as using public transportation and reducing energy consumption, can also make a difference.\n\n[Questions]\n1. What is the main cause of current climate change?\n2. List three effects of climate change mentioned in the passage.\n3. What solutions does the author suggest to address climate change?\n4. In your opinion, what is the most effective way to combat climate change? Explain your reasoning.",
+          type: "reading",
+          maxScore: 100
+        },
+        studentAnswer: {
+          content: "1. The main cause of current climate change is human activities, especially burning fossil fuels that release greenhouse gases into the atmosphere.\n\n2. Three effects of climate change are:\n- Arctic ice melting at a fast rate\n- Sea levels rising\n- Extreme weather events becoming more frequent and severe\n\n3. The author suggests several solutions:\n- Countries reducing greenhouse gas emissions\n- Using renewable energy sources like solar and wind power\n- Individual actions like using public transportation and reducing energy consumption\n\n4. In my opinion, the most effective way to combat climate change is developing and using renewable energy sources. I think this because fossil fuels are the main cause of the problem, so replacing them with clean energy like solar and wind power will have the biggest impact. Also, renewable energy is becoming cheaper, so more people and countries will want to use it.",
+          wordCount: 138,
+          submittedAt: "2024-01-16 12:15:30",
+          timeSpent: "35분"
+        },
+        aiGrading: {
+          totalScore: 88,
+          breakdown: {
+            comprehension: { score: 23, maxScore: 25, comment: "지문 내용을 정확히 이해하고 답변함" },
+            accuracy: { score: 22, maxScore: 25, comment: "질문에 대한 정확하고 완전한 답변" },
+            analysis: { score: 21, maxScore: 25, comment: "개인 의견을 논리적으로 설명함" },
+            language: { score: 22, maxScore: 25, comment: "명확하고 적절한 영어 표현 사용" }
+          },
+          feedback: "독해 능력이 뛰어납니다. 지문의 주요 내용을 정확히 파악했고, 세부 정보도 빠뜨리지 않고 답변했습니다. 특히 마지막 주관식 문제에서 자신의 의견을 논리적 근거와 함께 제시한 점이 좋습니다.",
+          gradedAt: "2024-01-16 12:20:45"
+        }
+      }
+    };
+
+    return gradingDataTypes[id as keyof typeof gradingDataTypes] || gradingDataTypes["1"];
   };
+
+  const gradingData = getGradingDataByType(gradeId || "1");
 
   const handleSubmit = async () => {
     if (!manualScore) {
@@ -200,10 +277,17 @@ export default function ManualGrading() {
                 </div>
               </div>
               <div className="flex items-center space-x-4 text-sm text-muted-foreground">
-                <div className="flex items-center space-x-1">
-                  <FileText className="h-4 w-4" />
-                  <span>단어 수: {gradingData.studentAnswer.wordCount}</span>
-                </div>
+                {gradingData.exam.category === 'Speaking' ? (
+                  <div className="flex items-center space-x-1">
+                    <Clock className="h-4 w-4" />
+                    <span>음성 길이: {(gradingData.studentAnswer as any).audioLength}</span>
+                  </div>
+                ) : (
+                  <div className="flex items-center space-x-1">
+                    <FileText className="h-4 w-4" />
+                    <span>단어 수: {gradingData.studentAnswer.wordCount}</span>
+                  </div>
+                )}
                 <div className="flex items-center space-x-1">
                   <Clock className="h-4 w-4" />
                   <span>소요시간: {gradingData.studentAnswer.timeSpent}</span>
