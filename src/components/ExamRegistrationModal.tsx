@@ -406,36 +406,6 @@ export default function ExamRegistrationModal({ isOpen, onClose, onComplete }: E
                               </div>
                             </div>
 
-                            {/* 카테고리별 추가 옵션 */}
-                            {category === 'speaking' && (
-                              <div className="space-y-2">
-                                <Label>오디오 파일 (선택사항)</Label>
-                                <div className="border-2 border-dashed border-border rounded-lg p-4 text-center hover:bg-muted/50 transition-colors cursor-pointer">
-                                  <Mic className="h-8 w-8 mx-auto mb-2 text-orange-500" />
-                                  <p className="text-sm text-muted-foreground">
-                                    Speaking 문제용 오디오 파일을 업로드하세요
-                                  </p>
-                                  <p className="text-xs text-muted-foreground mt-1">
-                                    지원 형식: MP3, WAV, M4A
-                                  </p>
-                                </div>
-                              </div>
-                            )}
-
-                            {(category === 'reading' || category === 'writing') && (
-                              <div className="space-y-2">
-                                <Label>이미지 파일 (선택사항)</Label>
-                                <div className="border-2 border-dashed border-border rounded-lg p-4 text-center hover:bg-muted/50 transition-colors cursor-pointer">
-                                  <FileText className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
-                                  <p className="text-sm text-muted-foreground">
-                                    문제에 사용할 이미지를 업로드하세요
-                                  </p>
-                                  <p className="text-xs text-muted-foreground mt-1">
-                                    지원 형식: JPG, PNG, GIF
-                                  </p>
-                                </div>
-                              </div>
-                            )}
                           </div>
                         </div>
                       );
