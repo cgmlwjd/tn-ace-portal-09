@@ -418,6 +418,281 @@ export default function AIGradingResult() {
             ]
           }
         }
+      },
+      "8": { // Math 단일 카테고리, 여러 문제 (대수)
+        student: { name: "이수현", grade: "중2", schoolSystem: "korea" },
+        exam: { 
+          title: "수학 중간고사 - 대수", 
+          category: "Math",
+          totalMaxScore: 100
+        },
+        categories: {
+          "Math": {
+            questions: [
+              {
+                number: 1,
+                text: "다음 연립방정식을 풀어보시오.\n\n2x + 3y = 7\n4x - y = 5\n\n풀이 과정을 자세히 써주시오.",
+                maxScore: 25,
+                aiGrading: {
+                  score: 22,
+                  breakdown: {
+                    process: { score: 12, maxScore: 15, comment: "풀이 과정이 명확함" },
+                    accuracy: { score: 10, maxScore: 10, comment: "정답이 정확함" }
+                  },
+                  feedback: "연립방정식 해법을 정확히 이해하고 있습니다. 풀이 과정이 체계적입니다.",
+                  gradedAt: "2024-01-18 10:20:15",
+                  processingTime: "2.3초"
+                },
+                studentAnswer: {
+                  content: "주어진 연립방정식:\n2x + 3y = 7 ... ①\n4x - y = 5 ... ②\n\n②에서 y = 4x - 5 ... ③\n③을 ①에 대입:\n2x + 3(4x - 5) = 7\n2x + 12x - 15 = 7\n14x = 22\nx = 11/7\n\n③에 x = 11/7 대입:\ny = 4(11/7) - 5 = 44/7 - 35/7 = 9/7\n\n따라서 x = 11/7, y = 9/7",
+                  submittedAt: "2024-01-18 10:15:30"
+                }
+              },
+              {
+                number: 2,
+                text: "다음 이차방정식의 해를 구하시오.\n\nx² - 5x + 6 = 0\n\n인수분해와 근의 공식 두 가지 방법으로 풀어보시오.",
+                maxScore: 25,
+                aiGrading: {
+                  score: 23,
+                  breakdown: {
+                    factoring: { score: 12, maxScore: 12, comment: "인수분해 완벽" },
+                    formula: { score: 11, maxScore: 13, comment: "근의 공식 적용 정확, 계산 과정 약간 부족" }
+                  },
+                  feedback: "두 가지 방법을 모두 정확히 사용했습니다. 근의 공식 과정을 더 자세히 쓰면 좋겠습니다.",
+                  gradedAt: "2024-01-18 10:21:45",
+                  processingTime: "1.9초"
+                },
+                studentAnswer: {
+                  content: "방법 1) 인수분해:\nx² - 5x + 6 = 0\n(x - 2)(x - 3) = 0\n따라서 x = 2 또는 x = 3\n\n방법 2) 근의 공식:\na = 1, b = -5, c = 6\nx = (5 ± √(25 - 24))/2 = (5 ± 1)/2\nx = 3 또는 x = 2\n\n두 방법 모두 같은 답: x = 2, 3",
+                  submittedAt: "2024-01-18 10:17:20"
+                }
+              },
+              {
+                number: 3,
+                text: "함수 f(x) = 2x + 3에 대해 다음을 구하시오.\n\n(1) f(5)의 값\n(2) f(x) = 11일 때 x의 값\n(3) 이 함수의 그래프의 기울기와 y절편",
+                maxScore: 25,
+                aiGrading: {
+                  score: 21,
+                  breakdown: {
+                    calculation: { score: 15, maxScore: 15, comment: "모든 계산이 정확함" },
+                    concept: { score: 6, maxScore: 10, comment: "개념 이해는 좋으나 설명 부족" }
+                  },
+                  feedback: "계산은 완벽하지만 일차함수의 기울기와 절편에 대한 설명을 더 자세히 하면 좋겠습니다.",
+                  gradedAt: "2024-01-18 10:22:30",
+                  processingTime: "1.5초"
+                },
+                studentAnswer: {
+                  content: "(1) f(5) = 2(5) + 3 = 10 + 3 = 13\n\n(2) f(x) = 11에서\n2x + 3 = 11\n2x = 8\nx = 4\n\n(3) f(x) = 2x + 3에서\n기울기 = 2\ny절편 = 3\n그래프는 (0, 3)을 지나고 기울기가 2인 직선",
+                  submittedAt: "2024-01-18 10:18:15"
+                }
+              },
+              {
+                number: 4,
+                text: "부등식을 풀고 수직선 위에 나타내시오.\n\n3x - 7 ≥ 2x + 1",
+                maxScore: 25,
+                aiGrading: {
+                  score: 20,
+                  breakdown: {
+                    solution: { score: 15, maxScore: 15, comment: "부등식 풀이가 정확함" },
+                    graph: { score: 5, maxScore: 10, comment: "수직선 그래프 표현이 부족함" }
+                  },
+                  feedback: "부등식 풀이는 완벽하지만 수직선 표현을 더 명확히 그려주세요.",
+                  gradedAt: "2024-01-18 10:23:15",
+                  processingTime: "1.8초"
+                },
+                studentAnswer: {
+                  content: "3x - 7 ≥ 2x + 1\n3x - 2x ≥ 1 + 7\nx ≥ 8\n\n수직선 표현: \n------|●━━━━━━━━━━→\n      8\n(8 이상의 모든 실수)",
+                  submittedAt: "2024-01-18 10:19:45"
+                }
+              }
+            ]
+          }
+        }
+      },
+      "9": { // Math 단일 카테고리, 여러 문제 (기하)
+        student: { name: "박지호", grade: "고1", schoolSystem: "usa" },
+        exam: { 
+          title: "Math Comprehensive Test - Geometry", 
+          category: "Math",
+          totalMaxScore: 100
+        },
+        categories: {
+          "Math": {
+            questions: [
+              {
+                number: 1,
+                text: "원의 중심이 원점이고 반지름이 5인 원의 방정식을 구하고, 점 (3, 4)가 이 원 위에 있는지 확인하시오.",
+                maxScore: 20,
+                aiGrading: {
+                  score: 18,
+                  breakdown: {
+                    equation: { score: 10, maxScore: 10, comment: "원의 방정식이 정확함" },
+                    verification: { score: 8, maxScore: 10, comment: "점이 원 위에 있음을 정확히 확인" }
+                  },
+                  feedback: "원의 방정식과 점의 위치 확인을 정확히 했습니다.",
+                  gradedAt: "2024-01-18 11:35:20",
+                  processingTime: "1.2초"
+                },
+                studentAnswer: {
+                  content: "원의 중심이 원점 (0, 0)이고 반지름이 5인 원의 방정식:\nx² + y² = 25\n\n점 (3, 4)가 원 위에 있는지 확인:\n3² + 4² = 9 + 16 = 25\n방정식을 만족하므로 점 (3, 4)는 이 원 위에 있다.",
+                  submittedAt: "2024-01-18 11:30:45"
+                }
+              },
+              {
+                number: 2,
+                text: "삼각형 ABC에서 A(1, 2), B(4, 6), C(7, 2)일 때, 다음을 구하시오.\n\n(1) AB의 길이\n(2) 삼각형 ABC의 넓이\n(3) BC의 중점 좌표",
+                maxScore: 30,
+                aiGrading: {
+                  score: 26,
+                  breakdown: {
+                    distance: { score: 10, maxScore: 10, comment: "거리 공식 정확히 적용" },
+                    area: { score: 8, maxScore: 10, comment: "넓이 계산 정확하나 과정 설명 부족" },
+                    midpoint: { score: 8, maxScore: 10, comment: "중점 공식 정확히 적용" }
+                  },
+                  feedback: "모든 계산이 정확합니다. 넓이 구하는 과정을 더 자세히 설명하면 좋겠습니다.",
+                  gradedAt: "2024-01-18 11:36:45",
+                  processingTime: "2.1초"
+                },
+                studentAnswer: {
+                  content: "(1) AB의 길이:\nAB = √[(4-1)² + (6-2)²] = √[9 + 16] = √25 = 5\n\n(2) 삼각형 ABC의 넓이:\n신발끈 공식 사용:\n넓이 = ½|x₁(y₂-y₃) + x₂(y₃-y₁) + x₃(y₁-y₂)|\n= ½|1(6-2) + 4(2-2) + 7(2-6)|\n= ½|4 + 0 - 28| = ½ × 24 = 12\n\n(3) BC의 중점:\n중점 = ((4+7)/2, (6+2)/2) = (5.5, 4)",
+                  submittedAt: "2024-01-18 11:32:20"
+                }
+              },
+              {
+                number: 3,
+                text: "직선 2x - 3y + 6 = 0과 직선 x + y - 4 = 0의 교점을 구하고, 두 직선이 수직인지 확인하시오.",
+                maxScore: 25,
+                aiGrading: {
+                  score: 23,
+                  breakdown: {
+                    intersection: { score: 15, maxScore: 15, comment: "교점 계산이 정확함" },
+                    perpendicular: { score: 8, maxScore: 10, comment: "수직 여부 확인 정확하나 설명 보완 필요" }
+                  },
+                  feedback: "교점 계산은 완벽합니다. 수직 조건에 대한 설명을 더 자세히 하면 좋겠습니다.",
+                  gradedAt: "2024-01-18 11:37:30",
+                  processingTime: "1.8초"
+                },
+                studentAnswer: {
+                  content: "교점 구하기:\n2x - 3y + 6 = 0 ... ①\nx + y - 4 = 0 ... ②\n\n②에서 y = 4 - x\n①에 대입: 2x - 3(4-x) + 6 = 0\n2x - 12 + 3x + 6 = 0\n5x = 6\nx = 6/5\n\ny = 4 - 6/5 = 14/5\n\n교점: (6/5, 14/5)\n\n수직 여부 확인:\n직선 ①의 기울기: 2/3\n직선 ②의 기울기: -1\n기울기의 곱: (2/3) × (-1) = -2/3 ≠ -1\n따라서 두 직선은 수직이 아니다.",
+                  submittedAt: "2024-01-18 11:33:15"
+                }
+              },
+              {
+                number: 4,
+                text: "정사각형 ABCD의 한 변의 길이가 6이고, A(0, 0), B(6, 0)일 때, 나머지 두 점 C, D의 좌표를 구하시오. (두 가지 경우가 있음)",
+                maxScore: 25,
+                aiGrading: {
+                  score: 21,
+                  breakdown: {
+                    case1: { score: 12, maxScore: 12, comment: "첫 번째 경우 정확" },
+                    case2: { score: 9, maxScore: 13, comment: "두 번째 경우 계산 실수" }
+                  },
+                  feedback: "첫 번째 경우는 완벽합니다. 두 번째 경우의 계산을 다시 확인해보세요.",
+                  gradedAt: "2024-01-18 11:38:15",
+                  processingTime: "2.5초"
+                },
+                studentAnswer: {
+                  content: "A(0, 0), B(6, 0)이고 정사각형의 한 변이 6일 때:\n\nCase 1: 반시계 방향으로 정사각형 형성\nC(6, 6), D(0, 6)\n\nCase 2: 시계 방향으로 정사각형 형성  \nC(6, -6), D(0, -6)\n\n검증:\n- AB = 6 (주어진 조건)\n- BC = CD = DA = 6 (정사각형 조건)\n- 모든 내각이 90° (정사각형 조건)\n\n따라서 두 가지 경우: C(6, 6), D(0, 6) 또는 C(6, -6), D(0, -6)",
+                  submittedAt: "2024-01-18 11:34:30"
+                }
+              }
+            ]
+          }
+        }
+      },
+      "10": { // Math 단일 카테고리, 여러 문제 (함수)
+        student: { name: "최예린", grade: "고1", schoolSystem: "korea" },
+        exam: { 
+          title: "수학 기말고사 - 함수", 
+          category: "Math",
+          totalMaxScore: 100
+        },
+        categories: {
+          "Math": {
+            questions: [
+              {
+                number: 1,
+                text: "다음 함수의 정의역과 치역을 구하시오.\n\nf(x) = √(x - 2) + 1",
+                maxScore: 20,
+                aiGrading: {
+                  score: 18,
+                  breakdown: {
+                    domain: { score: 10, maxScore: 10, comment: "정의역을 정확히 구함" },
+                    range: { score: 8, maxScore: 10, comment: "치역 구하기 정확하나 설명 보완 필요" }
+                  },
+                  feedback: "정의역과 치역을 잘 구했습니다. 치역에 대한 설명을 더 자세히 하면 좋겠습니다.",
+                  gradedAt: "2024-01-18 14:50:25",
+                  processingTime: "1.5초"
+                },
+                studentAnswer: {
+                  content: "f(x) = √(x - 2) + 1에서\n\n정의역: 제곱근 안의 값이 0 이상이어야 하므로\nx - 2 ≥ 0\nx ≥ 2\n따라서 정의역은 [2, +∞)\n\n치역: √(x - 2) ≥ 0이므로\n√(x - 2) + 1 ≥ 1\n따라서 치역은 [1, +∞)",
+                  submittedAt: "2024-01-18 14:45:20"
+                }
+              },
+              {
+                number: 2,
+                text: "함수 f(x) = x² - 4x + 3에 대해 다음을 구하시오.\n\n(1) 이 함수를 완전제곱식으로 나타내시오.\n(2) 꼭짓점의 좌표를 구하시오.\n(3) 축의 방정식을 구하시오.\n(4) 최댓값 또는 최솟값을 구하시오.",
+                maxScore: 30,
+                aiGrading: {
+                  score: 27,
+                  breakdown: {
+                    completing: { score: 8, maxScore: 8, comment: "완전제곱식 변형 완벽" },
+                    vertex: { score: 7, maxScore: 7, comment: "꼭짓점 좌표 정확" },
+                    axis: { score: 6, maxScore: 7, comment: "축의 방정식 정확" },
+                    extremum: { score: 6, maxScore: 8, comment: "최솟값 정확하나 설명 부족" }
+                  },
+                  feedback: "모든 계산이 정확합니다. 최솟값을 갖는 이유에 대한 설명을 추가하면 좋겠습니다.",
+                  gradedAt: "2024-01-18 14:51:40",
+                  processingTime: "2.3초"
+                },
+                studentAnswer: {
+                  content: "(1) 완전제곱식 변형:\nf(x) = x² - 4x + 3\n= x² - 4x + 4 - 4 + 3\n= (x - 2)² - 1\n\n(2) 꼭짓점: (2, -1)\n\n(3) 축의 방정식: x = 2\n\n(4) a = 1 > 0이므로 아래로 볼록한 포물선\n따라서 최솟값을 가지며, 최솟값은 -1",
+                  submittedAt: "2024-01-18 14:46:35"
+                }
+              },
+              {
+                number: 3,
+                text: "합성함수를 구하시오.\n\nf(x) = 2x + 1, g(x) = x² - 3일 때,\n(1) (f ∘ g)(x)\n(2) (g ∘ f)(x)\n(3) f(g(2))와 g(f(2))의 값",
+                maxScore: 25,
+                aiGrading: {
+                  score: 23,
+                  breakdown: {
+                    fog: { score: 8, maxScore: 8, comment: "f∘g 정확히 구함" },
+                    gof: { score: 8, maxScore: 8, comment: "g∘f 정확히 구함" },
+                    values: { score: 7, maxScore: 9, comment: "함수값 계산 정확하나 과정 설명 부족" }
+                  },
+                  feedback: "합성함수를 정확히 구했습니다. 함수값 계산 과정을 더 자세히 보여주세요.",
+                  gradedAt: "2024-01-18 14:52:20",
+                  processingTime: "1.9초"
+                },
+                studentAnswer: {
+                  content: "(1) (f ∘ g)(x) = f(g(x)) = f(x² - 3)\n= 2(x² - 3) + 1 = 2x² - 6 + 1 = 2x² - 5\n\n(2) (g ∘ f)(x) = g(f(x)) = g(2x + 1)\n= (2x + 1)² - 3 = 4x² + 4x + 1 - 3 = 4x² + 4x - 2\n\n(3) f(g(2)) = f(2² - 3) = f(1) = 2(1) + 1 = 3\ng(f(2)) = g(2(2) + 1) = g(5) = 5² - 3 = 22",
+                  submittedAt: "2024-01-18 14:47:15"
+                }
+              },
+              {
+                number: 4,
+                text: "역함수를 구하고 그래프의 관계를 설명하시오.\n\nf(x) = 3x - 2 (x ∈ ℝ)에 대해\n(1) 역함수 f⁻¹(x)를 구하시오.\n(2) f(x)와 f⁻¹(x)의 그래프의 관계를 설명하시오.\n(3) f(1)과 f⁻¹(1)의 값을 구하시오.",
+                maxScore: 25,
+                aiGrading: {
+                  score: 21,
+                  breakdown: {
+                    inverse: { score: 10, maxScore: 10, comment: "역함수를 정확히 구함" },
+                    relation: { score: 6, maxScore: 10, comment: "그래프 관계 설명이 부족" },
+                    values: { score: 5, maxScore: 5, comment: "함수값 계산 정확" }
+                  },
+                  feedback: "역함수 계산은 완벽합니다. 그래프 관계에 대한 설명을 더 구체적으로 해주세요.",
+                  gradedAt: "2024-01-18 14:53:10",
+                  processingTime: "2.1초"
+                },
+                studentAnswer: {
+                  content: "(1) 역함수 구하기:\ny = 3x - 2에서 x와 y를 바꾸면\nx = 3y - 2\n3y = x + 2\ny = (x + 2)/3\n\n따라서 f⁻¹(x) = (x + 2)/3\n\n(2) 그래프 관계:\nf(x)와 f⁻¹(x)의 그래프는 직선 y = x에 대하여 대칭이다.\n\n(3) f(1) = 3(1) - 2 = 1\nf⁻¹(1) = (1 + 2)/3 = 1",
+                  submittedAt: "2024-01-18 14:48:25"
+                }
+              }
+            ]
+          }
+        }
       }
     };
 
