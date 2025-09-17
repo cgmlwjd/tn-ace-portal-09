@@ -466,35 +466,6 @@ export default function EnglishExam() {
                 {currentSectionData?.title} ({currentSection + 1}/{sections.length})
               </p>
             </div>
-            
-            <div className="flex items-center space-x-4">
-              {/* Timer */}
-              <div className={`flex items-center space-x-2 px-3 py-2 rounded-lg ${
-                timeRemaining < 300 ? 'bg-red-50 text-red-700' : 'bg-muted'
-              }`}>
-                <Clock className="h-4 w-4" />
-                <span className="font-mono font-medium">{formatTime(timeRemaining)}</span>
-              </div>
-              
-              {/* Pause/Resume Button */}
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={togglePause}
-              >
-                {isPaused ? (
-                  <>
-                    <Play className="h-4 w-4 mr-2" />
-                    Resume
-                  </>
-                ) : (
-                  <>
-                    <Pause className="h-4 w-4 mr-2" />
-                    Pause
-                  </>
-                )}
-              </Button>
-            </div>
           </div>
           
           {/* Progress Bar */}
@@ -524,6 +495,40 @@ export default function EnglishExam() {
 
       <main className="flex-1 container mx-auto px-4 py-6">
         <div className="space-y-6">
+          {/* Timer and Controls */}
+          <Card>
+            <CardContent className="p-4">
+              <div className="flex items-center justify-between">
+                {/* Timer */}
+                <div className={`flex items-center space-x-2 px-3 py-2 rounded-lg ${
+                  timeRemaining < 300 ? 'bg-red-50 text-red-700' : 'bg-muted'
+                }`}>
+                  <Clock className="h-4 w-4" />
+                  <span className="font-mono font-medium">{formatTime(timeRemaining)}</span>
+                </div>
+                
+                {/* Pause/Resume Button */}
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={togglePause}
+                >
+                  {isPaused ? (
+                    <>
+                      <Play className="h-4 w-4 mr-2" />
+                      Resume
+                    </>
+                  ) : (
+                    <>
+                      <Pause className="h-4 w-4 mr-2" />
+                      Pause
+                    </>
+                  )}
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+          
           {/* Section Content */}
           {renderSectionContent()}
           
