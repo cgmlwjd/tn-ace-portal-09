@@ -166,52 +166,63 @@ export default function MathExam() {
                 ))}
               </div>
             )}
+          </div>
+        </CardContent>
+      </Card>
+    );
+  };
 
-            {/* Answer Input */}
-            <div className="border-t border-border pt-6">
-              {currentQ.type === 'multiple-choice' ? (
-                <div className="space-y-3">
-                  <p className="font-medium text-sm">정답을 선택하세요:</p>
-                  {currentQ.options?.map((option, index) => (
-                    <label key={index} className="flex items-center space-x-3 cursor-pointer">
-                      <input
-                        type="radio"
-                        name={`question-${currentQ.id}`}
-                        value={option}
-                        checked={answers[currentQ.id] === option}
-                        onChange={(e) => updateAnswer(currentQ.id, e.target.value)}
-                        disabled={isPaused}
-                        className="text-brand-bronze focus:ring-brand-bronze"
-                      />
-                      <span>{option}</span>
-                    </label>
-                  ))}
-                </div>
-              ) : currentQ.type === 'calculation' || currentQ.type === 'short-answer' ? (
-                <div className="space-y-3">
-                  <label className="block text-sm font-medium">답:</label>
-                  <Input
-                    placeholder="답을 입력하세요..."
-                    value={answers[currentQ.id] || ''}
-                    onChange={(e) => updateAnswer(currentQ.id, e.target.value)}
-                    disabled={isPaused}
-                    className="max-w-md"
-                  />
-                </div>
-              ) : (
-                <div className="space-y-3">
-                  <label className="block text-sm font-medium">풀이 과정 및 답:</label>
-                  <Textarea
-                    placeholder="계산 과정을 포함하여 답을 작성하세요..."
-                    value={answers[currentQ.id] || ''}
-                    onChange={(e) => updateAnswer(currentQ.id, e.target.value)}
-                    disabled={isPaused}
-                    rows={8}
-                    className="resize-none"
-                  />
-                </div>
-              )}
-            </div>
+  const renderAnswerSection = () => {
+    if (!currentQ) return null;
+
+    return (
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-sm">정답 선택</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            {currentQ.type === 'multiple-choice' ? (
+              <div className="space-y-3">
+                <p className="font-medium text-sm">정답을 선택하세요:</p>
+                {currentQ.options?.map((option, index) => (
+                  <label key={index} className="flex items-center space-x-3 cursor-pointer">
+                    <input
+                      type="radio"
+                      name={`question-${currentQ.id}`}
+                      value={option}
+                      checked={answers[currentQ.id] === option}
+                      onChange={(e) => updateAnswer(currentQ.id, e.target.value)}
+                      disabled={isPaused}
+                      className="text-brand-bronze focus:ring-brand-bronze"
+                    />
+                    <span className="text-sm">{option}</span>
+                  </label>
+                ))}
+              </div>
+            ) : currentQ.type === 'calculation' || currentQ.type === 'short-answer' ? (
+              <div className="space-y-3">
+                <label className="block text-sm font-medium">답:</label>
+                <Input
+                  placeholder="답을 입력하세요..."
+                  value={answers[currentQ.id] || ''}
+                  onChange={(e) => updateAnswer(currentQ.id, e.target.value)}
+                  disabled={isPaused}
+                />
+              </div>
+            ) : (
+              <div className="space-y-3">
+                <label className="block text-sm font-medium">풀이 과정 및 답:</label>
+                <Textarea
+                  placeholder="계산 과정을 포함하여 답을 작성하세요..."
+                  value={answers[currentQ.id] || ''}
+                  onChange={(e) => updateAnswer(currentQ.id, e.target.value)}
+                  disabled={isPaused}
+                  rows={8}
+                  className="resize-none"
+                />
+              </div>
+            )}
           </div>
         </CardContent>
       </Card>
@@ -302,9 +313,9 @@ export default function MathExam() {
       )}
 
       <main className="flex-1 container mx-auto px-4 py-6">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Main Question Area */}
-          <div className="lg:col-span-3">
+          <div className="lg:col-span-2">
             {renderQuestion()}
             
             {/* Navigation */}
@@ -340,8 +351,11 @@ export default function MathExam() {
             </Card>
           </div>
 
-          {/* Question Overview */}
-          <div>
+          {/* Answer Section */}
+          <div className="space-y-6">
+            {renderAnswerSection()}
+            
+            {/* Question Overview */}
             <Card>
               <CardHeader>
                 <CardTitle className="text-sm">문제 개요</CardTitle>
