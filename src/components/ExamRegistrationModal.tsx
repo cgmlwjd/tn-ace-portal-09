@@ -274,7 +274,11 @@ export default function ExamRegistrationModal({ isOpen, onClose, onComplete }: E
                     <div className="space-y-3">
                       <Label>학년 * (여러개 선택 가능)</Label>
                        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 max-h-48 overflow-y-auto">
-                          {(() => {
+                          {formData.schoolSystem.length === 0 ? (
+                            <div className="col-span-full text-center text-sm text-muted-foreground py-4">
+                              먼저 학제를 선택해주세요
+                            </div>
+                          ) : (() => {
                             // 학제별 학년 정의
                             const gradesBySystem = {
                               korea: [
@@ -330,12 +334,7 @@ export default function ExamRegistrationModal({ isOpen, onClose, onComplete }: E
                               }
                             });
                             
-                            // 중복 제거
-                            const uniqueGrades = availableGrades.filter((grade, index, self) => 
-                              index === self.findIndex(g => g.value === grade.value)
-                            );
-                            
-                            return uniqueGrades.map(({ value, label }) => (
+                            return availableGrades.map(({ value, label }) => (
                               <div key={value} className="flex items-center space-x-2 p-2 border border-border rounded hover:bg-muted/50 transition-colors">
                                 <Checkbox
                                   id={`grade-${value}`}
