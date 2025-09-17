@@ -73,6 +73,20 @@ const mockExams = [
     status: 'completed',
     type: 'math',
     score: 92
+  },
+  {
+    id: 6,
+    title: "영어 종합 평가 - 4개 영역",
+    categories: ["reading", "writing", "speaking", "essay"],
+    selectedCombinations: [
+      { schoolSystem: "korea", grade: "중2" }
+    ],
+    created: "2024-01-20",
+    duration: 150,
+    questions: 40,
+    status: 'completed',
+    type: 'english',
+    score: 88
   }
 ];
 

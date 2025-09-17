@@ -96,6 +96,77 @@ const mockQuestionDetails = {
         teacherFeedback: "훌륭합니다! 피타고라스 정리를 정확히 활용했네요."
       }
     ]
+  },
+  6: { // examId - 영어 종합 평가
+    reading: [
+      {
+        id: 1,
+        question: "다음 글을 읽고 주제를 가장 잘 나타내는 것을 고르시오.",
+        passage: "Social media has transformed the way people communicate and share information. While it has brought people closer together across great distances, it has also raised concerns about privacy, mental health, and the spread of misinformation. As we continue to integrate these platforms into our daily lives, we must carefully consider both their benefits and drawbacks.",
+        options: ["A) Social media benefits", "B) Social media problems", "C) Social media's dual impact", "D) Future of communication"],
+        studentAnswer: "C) Social media's dual impact",
+        correctAnswer: "C) Social media's dual impact",
+        aiScore: 15,
+        aiMaxScore: 15,
+        aiFeedback: "완벽한 답변입니다! 지문의 핵심 내용인 소셜미디어의 양면성을 정확히 파악했습니다.",
+        teacherScore: 15,
+        teacherMaxScore: 15,
+        teacherFeedback: "훌륭합니다. 지문의 전체적인 흐름을 잘 이해했네요."
+      },
+      {
+        id: 2,
+        question: "다음 빈칸에 들어갈 말로 가장 적절한 것은?",
+        passage: "Regular exercise is essential for maintaining good health. It not only strengthens the body but also _______ mental well-being by reducing stress and improving mood.",
+        options: ["A) damages", "B) enhances", "C) ignores", "D) complicates"],
+        studentAnswer: "B) enhances",
+        correctAnswer: "B) enhances",
+        aiScore: 10,
+        aiMaxScore: 10,
+        aiFeedback: "정답입니다! 운동이 정신 건강을 향상시킨다는 문맥을 정확히 파악했습니다.",
+        teacherScore: 10,
+        teacherMaxScore: 10,
+        teacherFeedback: "맞습니다. 문맥상 긍정적인 의미의 단어가 들어가야 함을 잘 알았네요."
+      }
+    ],
+    writing: [
+      {
+        id: 3,
+        question: "다음 주제에 대해 150단어 이상으로 에세이를 작성하시오: 'The role of technology in education'",
+        studentAnswer: "Technology has revolutionized education in numerous ways. First, it has made learning more accessible through online courses and digital resources. Students can now access information from anywhere in the world and learn at their own pace. Second, interactive tools like educational apps and virtual reality make learning more engaging and fun. These technologies help students understand complex concepts through visual and hands-on experiences. Third, technology enables personalized learning, allowing teachers to adapt their methods to individual student needs. However, we must also be careful not to rely too heavily on technology and maintain the human connection that is essential in education. In conclusion, when used appropriately, technology can greatly enhance the educational experience.",
+        aiScore: 92,
+        aiMaxScore: 100,
+        aiFeedback: "뛰어난 에세이입니다! 구조가 체계적이고 구체적인 예시가 잘 포함되어 있습니다. 문법과 어휘 사용도 매우 우수합니다.",
+        teacherScore: 95,
+        teacherMaxScore: 100,
+        teacherFeedback: "탁월한 작문입니다. 논리적 구성과 균형 잡힌 관점이 인상적이에요. 결론 부분도 매우 효과적입니다."
+      }
+    ],
+    speaking: [
+      {
+        id: 4,
+        question: "최근에 본 영화에 대해 2분간 이야기해 주세요. (줄거리, 감상, 추천 이유)",
+        studentAnswer: "[음성 파일] - 학생이 '기생충' 영화에 대해 상세히 설명하며 사회적 메시지와 영화적 기법에 대해 논의함",
+        aiScore: 88,
+        aiMaxScore: 100,
+        aiFeedback: "매우 유창하고 체계적인 발표였습니다. 발음이 명확하고 내용이 구체적이며 개인적 견해가 잘 표현되었습니다. 약간의 문법적 실수가 있었지만 전체적으로 훌륭합니다.",
+        teacherScore: 90,
+        teacherMaxScore: 100,
+        teacherFeedback: "정말 인상적인 발표였어요! 영화에 대한 깊이 있는 이해와 비판적 사고가 잘 드러났습니다. 자신감 있는 발표 태도도 좋았어요."
+      }
+    ],
+    essay: [
+      {
+        id: 5,
+        question: "다음 주제에 대해 300단어 이상의 논증 에세이를 작성하시오: 'Should students be allowed to use smartphones in school?'",
+        studentAnswer: "The question of whether students should be allowed to use smartphones in school is a complex issue that requires careful consideration of both benefits and drawbacks. I believe that smartphones should be permitted in schools, but with clear guidelines and restrictions.\n\nFirstly, smartphones can serve as powerful educational tools. They provide instant access to information, educational apps, and online resources that can enhance learning. Students can use them for research, language translation, and accessing digital textbooks. In emergency situations, smartphones also ensure that students can contact their parents or emergency services immediately.\n\nHowever, critics argue that smartphones can be distracting and may negatively impact face-to-face social interactions. There are valid concerns about cyberbullying, inappropriate content access, and the potential for academic dishonesty during exams.\n\nTo address these concerns, schools should implement a balanced approach. Smartphones could be allowed during breaks and specific class activities but restricted during lessons and examinations. Teachers should be trained to integrate smartphone technology effectively into their curriculum while maintaining classroom discipline.\n\nIn conclusion, rather than completely banning smartphones, schools should embrace them as part of modern education while establishing clear policies to minimize their negative effects. This approach prepares students for a technology-driven world while maintaining the integrity of the learning environment.",
+        aiScore: 89,
+        aiMaxScore: 100,
+        aiFeedback: "매우 잘 구성된 논증 에세이입니다. 균형 잡힌 관점과 구체적인 해결책 제시가 훌륭합니다. 문단 구성과 논리적 흐름이 매우 좋습니다.",
+        teacherScore: 92,
+        teacherMaxScore: 100,
+        teacherFeedback: "뛰어난 논증 에세이네요! 양쪽 관점을 공정하게 다루고 실용적인 해결책을 제시한 점이 특히 좋습니다. 영어 실력이 많이 늘었어요."
+      }
+    ]
   }
 };
 

@@ -85,8 +85,32 @@ const mockExams = [
     created: "2024-01-05",
     duration: 80,
     questions: 12,
-    status: 'available',
-    type: 'math'
+    status: 'completed',
+    type: 'math',
+    score: 92,
+    results: {
+      math: { score: 92, maxScore: 100, timeSpent: '75분', correctAnswers: 11, totalQuestions: 12 }
+    }
+  },
+  {
+    id: 6,
+    title: "영어 종합 평가 - 4개 영역",
+    categories: ["reading", "writing", "speaking", "essay"],
+    selectedCombinations: [
+      { schoolSystem: "korea", grade: "중2" }
+    ],
+    created: "2024-01-20",
+    duration: 150,
+    questions: 40,
+    status: 'completed',
+    type: 'english',
+    score: 88,
+    results: {
+      reading: { score: 85, maxScore: 100, timeSpent: '35분', correctAnswers: 17, totalQuestions: 20 },
+      writing: { score: 90, maxScore: 100, timeSpent: '40분', wordCount: 425, targetWords: '400-500' },
+      speaking: { score: 88, maxScore: 100, timeSpent: '25분', questionsAnswered: 8, totalQuestions: 8 },
+      essay: { score: 89, maxScore: 100, timeSpent: '50분', wordCount: 385, targetWords: '350-400' }
+    }
   }
 ];
 
