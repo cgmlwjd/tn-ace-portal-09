@@ -197,21 +197,13 @@ export const StudentDashboard: React.FC = () => {
       <CardContent>
         <div className="space-y-3">
           {/* Exam Info */}
-          <div className="grid grid-cols-3 gap-4 text-sm">
-            <div>
-              <p className="text-muted-foreground">섹션 수</p>
-              <p className="font-medium">{exam.categories?.length || 0}개</p>
-            </div>
+          <div className="text-sm">
             <div>
               <p className="text-muted-foreground">시험 시간</p>
               <p className="font-medium flex items-center">
                 <Clock className="h-3 w-3 mr-1" />
                 {exam.duration}분
               </p>
-            </div>
-            <div>
-              <p className="text-muted-foreground">문제 수</p>
-              <p className="font-medium">{exam.questions}문제</p>
             </div>
           </div>
 
