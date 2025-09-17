@@ -82,19 +82,31 @@ export default function TeacherDashboard() {
     id: 1,
     studentName: "김민수",
     examTitle: "영어 중간고사 - 2학년",
+    schoolSystem: "korea",
+    grade: "중2",
     submittedAt: "2024-01-16 14:30",
+    aiGradingTime: "2024-01-16 14:35",
+    manualGradingTime: null,
     type: "Essay"
   }, {
     id: 2,
     studentName: "이지은",
     examTitle: "Speaking Test - Level 3",
+    schoolSystem: "korea", 
+    grade: "고1",
     submittedAt: "2024-01-16 13:45",
+    aiGradingTime: null,
+    manualGradingTime: "2024-01-16 15:20",
     type: "Speaking"
   }, {
     id: 3,
     studentName: "박상현",
     examTitle: "영어 중간고사 - 2학년",
+    schoolSystem: "usa",
+    grade: "Grade 8",
     submittedAt: "2024-01-16 12:15",
+    aiGradingTime: "2024-01-16 12:20",
+    manualGradingTime: "2024-01-16 16:45",
     type: "Reading"
   }];
   return <div className="min-h-screen flex flex-col bg-background">
@@ -254,20 +266,40 @@ export default function TeacherDashboard() {
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-3">
-                      {pendingGrades.map(grade => <div key={grade.id} className="border border-border rounded-lg p-3">
-                          <div className="flex items-start justify-between mb-2">
-                            <div>
-                              <h5 className="font-medium text-sm">{grade.studentName}</h5>
-                              <p className="text-xs text-muted-foreground">{grade.examTitle}</p>
+                      {pendingGrades.map(grade => <div key={grade.id} className="border border-border rounded-lg p-4">
+                          <div className="flex items-start justify-between mb-3">
+                            <div className="flex-1">
+                              <h5 className="font-medium text-base text-foreground">{grade.studentName}</h5>
+                              <p className="text-sm text-muted-foreground">{grade.examTitle}</p>
+                              <div className="flex items-center space-x-2 mt-1">
+                                <Badge variant="secondary" className="text-xs">
+                                  {grade.schoolSystem === 'korea' ? '한국' : 
+                                   grade.schoolSystem === 'usa' ? '미국' : 
+                                   grade.schoolSystem === 'uk' ? '영국' : grade.schoolSystem}-{grade.grade}
+                                </Badge>
+                                <Badge variant="outline" className="text-xs">
+                                  {grade.type}
+                                </Badge>
+                              </div>
                             </div>
-                            <Badge variant="outline" className="text-xs">
-                              {grade.type}
-                            </Badge>
                           </div>
-                          <p className="text-xs text-muted-foreground mb-3">
-                            제출 시간: {grade.submittedAt}
-                          </p>
-                          <div className="flex space-x-2">
+                          
+                          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
+                            <div>
+                              <p className="text-xs font-medium text-muted-foreground">제출 시간</p>
+                              <p className="text-sm">{grade.submittedAt}</p>
+                            </div>
+                            <div>
+                              <p className="text-xs font-medium text-muted-foreground">AI 채점 시간</p>
+                              <p className="text-sm">{grade.aiGradingTime || '미완료'}</p>
+                            </div>
+                            <div>
+                              <p className="text-xs font-medium text-muted-foreground">수동 채점 시간</p>
+                              <p className="text-sm">{grade.manualGradingTime || '미완료'}</p>
+                            </div>
+                          </div>
+                          
+                          <div className="flex space-x-2 pt-3 border-t border-border">
                             <Button variant="outline" size="sm" className="flex-1">
                               AI 채점
                             </Button>
