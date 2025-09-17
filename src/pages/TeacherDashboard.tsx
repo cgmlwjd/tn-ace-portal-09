@@ -150,10 +150,9 @@ export default function TeacherDashboard() {
 
           {/* Main Content Tabs */}
           <Tabs defaultValue="exams" className="space-y-6">
-            <TabsList className="grid w-full lg:w-auto grid-cols-3">
+            <TabsList className="grid w-full lg:w-auto grid-cols-2">
               <TabsTrigger value="exams">시험 관리</TabsTrigger>
               <TabsTrigger value="grading">채점 관리</TabsTrigger>
-              <TabsTrigger value="analytics">성적 분석</TabsTrigger>
             </TabsList>
 
             {/* 시험 관리 탭 */}
@@ -244,31 +243,6 @@ export default function TeacherDashboard() {
                   </CardContent>
                 </Card>
               </div>
-            </TabsContent>
-
-            {/* 성적 분석 탭 */}
-            <TabsContent value="analytics" className="space-y-6">
-              <Card className="shadow-bronze">
-                <CardHeader>
-                  <CardTitle className="flex items-center space-x-2">
-                    <BarChart3 className="h-5 w-5" />
-                    <span>성적 분석 대시보드</span>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-center py-12">
-                    <BarChart3 className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
-                    <h3 className="text-lg font-semibold mb-2">성적 분석 차트</h3>
-                    <p className="text-muted-foreground mb-4">
-                      학생들의 성적 분포, 평균 점수, 문제별 정답률 등을<br />
-                      시각적으로 분석할 수 있는 차트가 표시됩니다.
-                    </p>
-                    <Button variant="outline">
-                      상세 분석 보기
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
             </TabsContent>
           </Tabs>
         </div>
