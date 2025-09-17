@@ -189,8 +189,6 @@ export default function AdminDashboard() {
               </CardContent>
             </Card>
 
-            <Card className="shadow-bronze">
-            </Card>
           </div>
 
           {/* Main Content */}
