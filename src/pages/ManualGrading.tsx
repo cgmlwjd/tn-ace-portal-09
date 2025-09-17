@@ -8,7 +8,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Header } from '@/components/Layout/Header';
 import { Footer } from '@/components/Layout/Footer';
-import { ArrowLeft, User, Clock, FileText, Brain, GraduationCap, CheckCircle, Save } from 'lucide-react';
+import { ArrowLeft, User, Clock, FileText, Brain, GraduationCap, CheckCircle, Save, Play, Pause, Volume2, SkipBack, SkipForward, Video, Mic } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
 
 export default function ManualGrading() {
@@ -19,6 +19,12 @@ export default function ManualGrading() {
   const [feedback, setFeedback] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const [isAudioPlaying, setIsAudioPlaying] = useState(false);
+  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
+  const [audioCurrentTime, setAudioCurrentTime] = useState(0);
+  const [videCurrentTime, setVideoCurrentTime] = useState(0);
+  const [audioVolume, setAudioVolume] = useState(1);
+  const [videoVolume, setVideoVolume] = useState(1);
 
   const handleLanguageToggle = () => {
     setCurrentLanguage(currentLanguage === 'ko' ? 'en' : 'ko');
@@ -187,6 +193,22 @@ export default function ManualGrading() {
     }, 500);
   };
 
+  const handleAudioPlayPause = () => {
+    setIsAudioPlaying(!isAudioPlaying);
+    // In real implementation, this would control actual audio element
+  };
+
+  const handleVideoPlayPause = () => {
+    setIsVideoPlaying(!isVideoPlaying);
+    // In real implementation, this would control actual video element
+  };
+
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <Header onLanguageToggle={handleLanguageToggle} currentLanguage={currentLanguage} />
@@ -271,6 +293,121 @@ export default function ManualGrading() {
               <CardTitle>학생 답안</CardTitle>
             </CardHeader>
             <CardContent>
+              {/* Speaking 카테고리일 때 미디어 플레이어 추가 */}
+              {gradingData.exam.category === 'Speaking' && (
+                <div className="space-y-4 mb-6">
+                  {/* Audio Player */}
+                  <div className="bg-muted/50 p-4 rounded-lg">
+                    <div className="flex items-center justify-between mb-3">
+                      <div className="flex items-center space-x-2">
+                        <Mic className="h-5 w-5 text-primary" />
+                        <span className="font-medium">음성 녹음</span>
+                        <Badge variant="outline" className="text-xs">
+                          {(gradingData.studentAnswer as any).audioLength}
+                        </Badge>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-center space-x-3">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={handleAudioPlayPause}
+                        className="flex items-center space-x-1"
+                      >
+                        {isAudioPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
+                        <span>{isAudioPlaying ? '일시정지' : '재생'}</span>
+                      </Button>
+                      
+                      <div className="flex-1 bg-muted rounded-full h-2 relative">
+                        <div 
+                          className="bg-primary h-2 rounded-full transition-all duration-300" 
+                          style={{ width: `${(audioCurrentTime / 155) * 100}%` }}
+                        />
+                      </div>
+                      
+                      <span className="text-sm text-muted-foreground min-w-[60px]">
+                        {formatTime(audioCurrentTime)} / 2:35
+                      </span>
+                      
+                      <div className="flex items-center space-x-2">
+                        <Volume2 className="h-4 w-4 text-muted-foreground" />
+                        <div className="w-16 bg-muted rounded-full h-2 relative">
+                          <div 
+                            className="bg-primary h-2 rounded-full" 
+                            style={{ width: `${audioVolume * 100}%` }}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-center space-x-2 mt-3">
+                      <Button variant="ghost" size="sm">
+                        <SkipBack className="h-4 w-4" />
+                      </Button>
+                      <Button variant="ghost" size="sm">
+                        <SkipForward className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </div>
+
+                  {/* Video Player */}
+                  <div className="bg-muted/50 p-4 rounded-lg">
+                    <div className="flex items-center justify-between mb-3">
+                      <div className="flex items-center space-x-2">
+                        <Video className="h-5 w-5 text-primary" />
+                        <span className="font-medium">영상 녹화</span>
+                        <Badge variant="outline" className="text-xs">
+                          {(gradingData.studentAnswer as any).audioLength}
+                        </Badge>
+                      </div>
+                    </div>
+                    
+                    {/* Video Preview Area */}
+                    <div className="bg-black/10 border-2 border-dashed border-muted-foreground/30 rounded-lg h-48 flex items-center justify-center mb-3">
+                      <div className="text-center">
+                        <Video className="h-12 w-12 text-muted-foreground mx-auto mb-2" />
+                        <p className="text-muted-foreground text-sm">영상 미리보기</p>
+                        <p className="text-xs text-muted-foreground">화질: 720p | 크기: 15.2MB</p>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-center space-x-3">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={handleVideoPlayPause}
+                        className="flex items-center space-x-1"
+                      >
+                        {isVideoPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
+                        <span>{isVideoPlaying ? '일시정지' : '재생'}</span>
+                      </Button>
+                      
+                      <div className="flex-1 bg-muted rounded-full h-2 relative">
+                        <div 
+                          className="bg-primary h-2 rounded-full transition-all duration-300" 
+                          style={{ width: `${(videCurrentTime / 155) * 100}%` }}
+                        />
+                      </div>
+                      
+                      <span className="text-sm text-muted-foreground min-w-[60px]">
+                        {formatTime(videCurrentTime)} / 2:35
+                      </span>
+                      
+                      <div className="flex items-center space-x-2">
+                        <Volume2 className="h-4 w-4 text-muted-foreground" />
+                        <div className="w-16 bg-muted rounded-full h-2 relative">
+                          <div 
+                            className="bg-primary h-2 rounded-full" 
+                            style={{ width: `${videoVolume * 100}%` }}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+              
               <div className="bg-muted/50 p-4 rounded-lg mb-4">
                 <div className="whitespace-pre-line text-foreground">
                   {gradingData.studentAnswer.content}
