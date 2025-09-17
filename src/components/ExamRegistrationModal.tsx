@@ -407,6 +407,25 @@ export default function ExamRegistrationModal({ isOpen, onClose, onComplete }: E
                               </div>
                             </div>
 
+                            {/* Math 카테고리 이미지 업로드 */}
+                            {category === 'math' && (
+                              <div className="space-y-2">
+                                <Label>이미지 파일 업로드 (수학 문제)</Label>
+                                <div className="border-2 border-dashed border-border rounded-lg p-4 text-center hover:bg-muted/50 transition-colors cursor-pointer">
+                                  <Calculator className="h-8 w-8 mx-auto mb-2 text-red-500" />
+                                  <p className="text-sm text-muted-foreground">
+                                    수학 문제 이미지를 여러 개 업로드하세요
+                                  </p>
+                                  <p className="text-xs text-muted-foreground mt-1">
+                                    지원 형식: JPG, PNG, GIF (여러 파일 선택 가능)
+                                  </p>
+                                </div>
+                                <p className="text-xs text-muted-foreground">
+                                  * Ctrl/Cmd + 클릭으로 여러 파일을 선택할 수 있습니다.
+                                </p>
+                              </div>
+                            )}
+
                           </div>
                         </div>
                       );
