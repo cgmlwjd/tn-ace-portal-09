@@ -24,6 +24,10 @@ export default function TeacherDashboard() {
     id: 1,
     title: "영어 중간고사 - 2학년",
     categories: ["reading", "writing"],
+    selectedCombinations: [
+      { schoolSystem: "korea", grade: "중2" },
+      { schoolSystem: "usa", grade: "Grade 8" }
+    ],
     created: "2024-01-15",
     duration: "60분",
     questions: 25
@@ -31,6 +35,10 @@ export default function TeacherDashboard() {
     id: 2,
     title: "Speaking Test - Level 3",
     categories: ["speaking"],
+    selectedCombinations: [
+      { schoolSystem: "korea", grade: "고1" },
+      { schoolSystem: "korea", grade: "고2" }
+    ],
     created: "2024-01-12",
     duration: "30분",
     questions: 8
@@ -38,6 +46,10 @@ export default function TeacherDashboard() {
     id: 3,
     title: "Essay Writing Assessment",
     categories: ["writing", "essay"],
+    selectedCombinations: [
+      { schoolSystem: "uk", grade: "Year 10" },
+      { schoolSystem: "uk", grade: "Year 11" }
+    ],
     created: "2024-01-10",
     duration: "90분",
     questions: 3
@@ -45,6 +57,10 @@ export default function TeacherDashboard() {
     id: 4,
     title: "Essay 평가 시험",
     categories: ["essay"],
+    selectedCombinations: [
+      { schoolSystem: "usa", grade: "Grade 11" },
+      { schoolSystem: "usa", grade: "Grade 12" }
+    ],
     created: "2024-01-08",
     duration: "120분",
     questions: 2
@@ -184,7 +200,7 @@ export default function TeacherDashboard() {
                           <p className="text-sm text-muted-foreground">생성일: {exam.created}</p>
                         </div>
                         
-                        <div className="flex flex-wrap gap-2">
+                        <div className="flex flex-wrap gap-2 mb-3">
                           {exam.categories?.map((category: string) => (
                             <Badge key={category} variant="outline" className="text-xs">
                               {category === 'reading' ? 'Reading (영어)' : 
@@ -194,6 +210,23 @@ export default function TeacherDashboard() {
                                category === 'math' ? 'Math (수학)' : category}
                             </Badge>
                           ))}
+                        </div>
+
+                        {/* 학제-학년 정보 표시 */}
+                        <div className="mb-3">
+                          <p className="text-xs text-muted-foreground mb-1">대상 학제-학년:</p>
+                          <div className="flex flex-wrap gap-1">
+                            {exam.selectedCombinations?.map((combo: any, index: number) => {
+                              const systemLabel = combo.schoolSystem === 'korea' ? '한국' : 
+                                                combo.schoolSystem === 'usa' ? '미국' : 
+                                                combo.schoolSystem === 'uk' ? '영국' : combo.schoolSystem;
+                              return (
+                                <Badge key={index} variant="secondary" className="text-xs">
+                                  {systemLabel}-{combo.grade}
+                                </Badge>
+                              );
+                            })}
+                          </div>
                         </div>
 
                         <div className="flex items-center justify-end space-x-2 mt-4 pt-4 border-t border-border">
