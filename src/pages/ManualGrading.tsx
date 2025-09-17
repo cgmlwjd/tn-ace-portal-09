@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
 import { Header } from '@/components/Layout/Header';
 import { Footer } from '@/components/Layout/Footer';
 import { ArrowLeft, User, Clock, FileText, Brain, GraduationCap, CheckCircle, Save, Play, Pause, Volume2, SkipBack, SkipForward, Video, Mic } from 'lucide-react';
@@ -19,6 +20,7 @@ export default function ManualGrading() {
   const [feedback, setFeedback] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const [showSubmitDialog, setShowSubmitDialog] = useState(false);
   const [isAudioPlaying, setIsAudioPlaying] = useState(false);
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const [audioCurrentTime, setAudioCurrentTime] = useState(0);
@@ -167,7 +169,13 @@ export default function ManualGrading() {
       return;
     }
 
+    // Show confirmation dialog
+    setShowSubmitDialog(true);
+  };
+
+  const handleConfirmSubmit = async () => {
     setIsSubmitting(true);
+    setShowSubmitDialog(false);
     
     // Simulate API call
     setTimeout(() => {
@@ -549,6 +557,24 @@ export default function ManualGrading() {
       </main>
 
       <Footer />
+      
+      {/* Submit Confirmation Dialog */}
+      <AlertDialog open={showSubmitDialog} onOpenChange={setShowSubmitDialog}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>채점 완료 확인</AlertDialogTitle>
+            <AlertDialogDescription>
+              채점을 완료하시겠습니까? 채점 완료 후에는 수정할 수 없습니다.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>취소</AlertDialogCancel>
+            <AlertDialogAction onClick={handleConfirmSubmit}>
+              완료
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
