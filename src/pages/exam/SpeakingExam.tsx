@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Header } from '@/components/Layout/Header';
 import { Footer } from '@/components/Layout/Footer';
+import { SubmitConfirmationModal } from '@/components/SubmitConfirmationModal';
 import { ArrowLeft, ArrowRight, Clock, Mic, MicOff, Video, VideoOff, Volume2, Play, Pause, RotateCcw } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -16,6 +17,7 @@ export default function SpeakingExam() {
   const [isVideoOn, setIsVideoOn] = useState(true);
   const [recordingTime, setRecordingTime] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const [showSubmitModal, setShowSubmitModal] = useState(false);
 
   const handleLanguageToggle = () => {
     setCurrentLanguage(currentLanguage === 'ko' ? 'en' : 'ko');
@@ -397,7 +399,11 @@ export default function SpeakingExam() {
                     <p className="text-sm text-muted-foreground">
                       Ready to submit your Speaking section?
                     </p>
-                    <Button variant="destructive" className="w-full">
+                    <Button 
+                      variant="destructive" 
+                      className="w-full"
+                      onClick={() => setShowSubmitModal(true)}
+                    >
                       Submit Speaking Section
                     </Button>
                     <p className="text-xs text-muted-foreground">
@@ -412,6 +418,12 @@ export default function SpeakingExam() {
       </main>
 
       <Footer />
+      
+      <SubmitConfirmationModal
+        open={showSubmitModal}
+        onOpenChange={setShowSubmitModal}
+        sectionName="Speaking"
+      />
     </div>
   );
 }

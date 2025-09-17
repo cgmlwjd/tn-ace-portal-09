@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Header } from '@/components/Layout/Header';
 import { Footer } from '@/components/Layout/Footer';
+import { SubmitConfirmationModal } from '@/components/SubmitConfirmationModal';
 import { ArrowLeft, ArrowRight, Clock, PenTool, Save, Flag, Pause, Play } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -15,6 +16,7 @@ export default function WritingExam() {
   const [currentQuestion, setCurrentQuestion] = useState(1);
   const [answers, setAnswers] = useState<{[key: number]: string}>({});
   const [isPaused, setIsPaused] = useState(false);
+  const [showSubmitModal, setShowSubmitModal] = useState(false);
 
   const handleLanguageToggle = () => {
     setCurrentLanguage(currentLanguage === 'ko' ? 'en' : 'ko');
@@ -365,7 +367,11 @@ export default function WritingExam() {
                 <p className="text-sm text-muted-foreground">
                   Ready to submit your Writing section?
                 </p>
-                <Button variant="destructive" className="w-full">
+                <Button 
+                  variant="destructive" 
+                  className="w-full"
+                  onClick={() => setShowSubmitModal(true)}
+                >
                   Submit Writing Section
                 </Button>
                 <p className="text-xs text-muted-foreground">
@@ -378,6 +384,12 @@ export default function WritingExam() {
       </main>
 
       <Footer />
+      
+      <SubmitConfirmationModal
+        open={showSubmitModal}
+        onOpenChange={setShowSubmitModal}
+        sectionName="Writing"
+      />
     </div>
   );
 }

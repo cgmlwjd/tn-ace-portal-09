@@ -7,6 +7,7 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { Header } from '@/components/Layout/Header';
 import { Footer } from '@/components/Layout/Footer';
+import { SubmitConfirmationModal } from '@/components/SubmitConfirmationModal';
 import { ArrowLeft, ArrowRight, Clock, BookOpen, Flag, Pause, Play } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -15,6 +16,7 @@ export default function ReadingExam() {
   const [currentQuestion, setCurrentQuestion] = useState(1);
   const [selectedAnswers, setSelectedAnswers] = useState<{[key: number]: string}>({});
   const [isPaused, setIsPaused] = useState(false);
+  const [showSubmitModal, setShowSubmitModal] = useState(false);
 
   const handleLanguageToggle = () => {
     setCurrentLanguage(currentLanguage === 'ko' ? 'en' : 'ko');
@@ -292,7 +294,11 @@ export default function ReadingExam() {
                     <p className="text-sm text-muted-foreground">
                       Ready to submit your Reading section?
                     </p>
-                    <Button variant="destructive" className="w-full">
+                    <Button 
+                      variant="destructive" 
+                      className="w-full"
+                      onClick={() => setShowSubmitModal(true)}
+                    >
                       Submit Reading Section
                     </Button>
                     <p className="text-xs text-muted-foreground">
@@ -307,6 +313,12 @@ export default function ReadingExam() {
       </main>
 
       <Footer />
+      
+      <SubmitConfirmationModal
+        open={showSubmitModal}
+        onOpenChange={setShowSubmitModal}
+        sectionName="Reading"
+      />
     </div>
   );
 }

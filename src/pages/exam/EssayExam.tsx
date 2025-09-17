@@ -6,6 +6,7 @@ import { Progress } from '@/components/ui/progress';
 import { Textarea } from '@/components/ui/textarea';
 import { Header } from '@/components/Layout/Header';
 import { Footer } from '@/components/Layout/Footer';
+import { SubmitConfirmationModal } from '@/components/SubmitConfirmationModal';
 import { ArrowLeft, ArrowRight, Clock, FileText, Save, Eye, Flag, Pause, Play } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -15,6 +16,7 @@ export default function EssayExam() {
   const [essays, setEssays] = useState<{[key: number]: string}>({});
   const [isPreviewMode, setIsPreviewMode] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
+  const [showSubmitModal, setShowSubmitModal] = useState(false);
 
   const handleLanguageToggle = () => {
     setCurrentLanguage(currentLanguage === 'ko' ? 'en' : 'ko');
@@ -346,7 +348,11 @@ Your essay should be 350-450 words and include:
                     <p className="text-sm text-muted-foreground">
                       Ready to submit all your essays?
                     </p>
-                    <Button variant="destructive" className="w-full">
+                    <Button 
+                      variant="destructive" 
+                      className="w-full"
+                      onClick={() => setShowSubmitModal(true)}
+                    >
                       Submit Essay Section
                     </Button>
                     <p className="text-xs text-muted-foreground">
@@ -361,6 +367,12 @@ Your essay should be 350-450 words and include:
       </main>
 
       <Footer />
+      
+      <SubmitConfirmationModal
+        open={showSubmitModal}
+        onOpenChange={setShowSubmitModal}
+        sectionName="Essay"
+      />
     </div>
   );
 }
