@@ -361,34 +361,37 @@ export default function MathExam() {
                 <CardTitle className="text-base font-medium">문제 현황</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="grid grid-cols-4 gap-3">
+                <div className="flex flex-wrap gap-3">
                   {mockMathQuestions.map((_, index) => {
                     const isCurrentQuestion = index === currentQuestion;
                     const isAnswered = answers[mockMathQuestions[index].id];
                     
                     return (
-                      <button
-                        key={index}
-                        onClick={() => goToQuestion(index)}
-                        disabled={isPaused}
-                        className={`
-                          relative h-12 w-12 rounded-xl font-medium text-sm
-                          transition-all duration-200 hover:scale-105 disabled:hover:scale-100
-                          flex items-center justify-center
-                          ${isCurrentQuestion 
-                            ? 'bg-primary text-primary-foreground shadow-lg ring-2 ring-primary/20' 
-                            : isAnswered
-                            ? 'bg-secondary/80 text-secondary-foreground border-2 border-secondary'
-                            : 'bg-background border-2 border-border hover:border-muted-foreground/30 text-muted-foreground hover:text-foreground'
-                          }
-                          ${isPaused ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
-                        `}
-                      >
-                        {index + 1}
-                        {isAnswered && !isCurrentQuestion && (
-                          <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-background" />
-                        )}
-                      </button>
+                      <>
+                        <button
+                          key={index}
+                          onClick={() => goToQuestion(index)}
+                          disabled={isPaused}
+                          className={`
+                            relative h-12 w-12 rounded-xl font-medium text-sm
+                            transition-all duration-200 hover:scale-105 disabled:hover:scale-100
+                            flex items-center justify-center
+                            ${isCurrentQuestion 
+                              ? 'bg-primary text-primary-foreground shadow-lg ring-2 ring-primary/20' 
+                              : isAnswered
+                              ? 'bg-secondary/80 text-secondary-foreground border-2 border-secondary'
+                              : 'bg-background border-2 border-border hover:border-muted-foreground/30 text-muted-foreground hover:text-foreground'
+                            }
+                            ${isPaused ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
+                          `}
+                        >
+                          {index + 1}
+                          {isAnswered && !isCurrentQuestion && (
+                            <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-background" />
+                          )}
+                        </button>
+                        {(index + 1) % 5 === 0 && <div className="w-full" />}
+                      </>
                     );
                   })}
                 </div>
