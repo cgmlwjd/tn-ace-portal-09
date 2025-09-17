@@ -15,6 +15,7 @@ export default function SpeakingExam() {
   const [isMicOn, setIsMicOn] = useState(true);
   const [isVideoOn, setIsVideoOn] = useState(true);
   const [recordingTime, setRecordingTime] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
 
   const handleLanguageToggle = () => {
     setCurrentLanguage(currentLanguage === 'ko' ? 'en' : 'ko');
@@ -86,12 +87,6 @@ export default function SpeakingExam() {
           {/* Exam Header */}
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center space-x-4">
-              <Link to="/test/exam">
-                <Button variant="ghost" size="sm">
-                  <ArrowLeft className="h-4 w-4 mr-2" />
-                  시험 목록
-                </Button>
-              </Link>
               <div>
                 <h1 className="text-2xl font-bold text-foreground flex items-center space-x-2">
                   <Mic className="h-6 w-6" />
@@ -106,6 +101,24 @@ export default function SpeakingExam() {
                 <Clock className="h-4 w-4" />
                 <span className="font-mono">{timeRemaining}:00</span>
               </div>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setIsPaused(!isPaused)}
+                className="hidden sm:flex"
+              >
+                {isPaused ? (
+                  <>
+                    <Play className="h-4 w-4 mr-2" />
+                    재개
+                  </>
+                ) : (
+                  <>
+                    <Pause className="h-4 w-4 mr-2" />
+                    일시정지
+                  </>
+                )}
+              </Button>
               <Badge variant="outline">
                 Question {currentQuestion} of {totalQuestions}
               </Badge>
@@ -120,6 +133,22 @@ export default function SpeakingExam() {
             </div>
             <Progress value={(currentQuestion / totalQuestions) * 100} className="h-2" />
           </div>
+
+          {/* Pause Overlay */}
+          {isPaused && (
+            <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center">
+              <Card className="max-w-md mx-4">
+                <CardContent className="pt-6 text-center space-y-4">
+                  <div className="text-lg font-semibold">시험이 일시정지되었습니다</div>
+                  <p className="text-muted-foreground">이어서 하시려면 재개 버튼을 눌러주세요.</p>
+                  <Button onClick={() => setIsPaused(false)} className="w-full">
+                    <Play className="h-4 w-4 mr-2" />
+                    재개
+                  </Button>
+                </CardContent>
+              </Card>
+            </div>
+          )}
 
           <div className="grid lg:grid-cols-2 gap-8">
             {/* Video Interface */}
@@ -300,6 +329,23 @@ export default function SpeakingExam() {
                       </Button>
                       <Button variant="default" className="w-full sm:w-auto">
                         Save Response
+                      </Button>
+                      <Button
+                        variant="outline"
+                        onClick={() => setIsPaused(!isPaused)}
+                        className="w-full sm:w-auto sm:hidden"
+                      >
+                        {isPaused ? (
+                          <>
+                            <Play className="h-4 w-4 mr-2" />
+                            재개
+                          </>
+                        ) : (
+                          <>
+                            <Pause className="h-4 w-4 mr-2" />
+                            일시정지
+                          </>
+                        )}
                       </Button>
                     </div>
 
