@@ -275,8 +275,8 @@ export default function EnglishExam() {
       );
     }
     
-    // Writing Section
-    if ('questions' in content && content.questions[0].type) {
+    // Writing Section (questions with type but no section property)
+    if ('questions' in content && content.questions[0]?.type && !content.questions[0]?.section) {
       const currentQ = content.questions[currentQuestion];
       const answerKey = `${currentSection}-${currentQuestion}`;
       
@@ -359,9 +359,11 @@ export default function EnglishExam() {
       );
     }
     
-    // Speaking Section
+    // Speaking Section (questions with both type and section properties)
     if ('questions' in content && content.questions[0]?.section) {
-      console.log('EnglishExam: Rendering SpeakingInterface for question:', content.questions[currentQuestion]);
+      console.log('EnglishExam: Rendering SpeakingInterface');
+      console.log('EnglishExam: Current question:', content.questions[currentQuestion]);
+      console.log('EnglishExam: Content has', content.questions.length, 'questions');
       const currentQ = content.questions[currentQuestion];
       const answerKey = `${currentSection}-${currentQuestion}`;
       
@@ -369,6 +371,7 @@ export default function EnglishExam() {
         <SpeakingInterface 
           question={currentQ}
           onComplete={(recording) => {
+            console.log('EnglishExam: Recording completed:', recording);
             if (recording) {
               updateAnswer(currentSection, currentQuestion, recording);
             }
