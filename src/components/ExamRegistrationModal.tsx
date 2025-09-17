@@ -103,8 +103,8 @@ export default function ExamRegistrationModal({ isOpen, onClose, onComplete }: E
       ...prev,
       schoolSystem: checked 
         ? [...prev.schoolSystem, system]
-        : prev.schoolSystem.filter(s => s !== system),
-      grade: [] // 학제 변경 시 학년 초기화
+        : prev.schoolSystem.filter(s => s !== system)
+      // 학제 변경 시 학년 리셋 제거
     }));
   };
 
@@ -129,8 +129,8 @@ export default function ExamRegistrationModal({ isOpen, onClose, onComplete }: E
   const removeSchoolSystem = (system: string) => {
     setFormData(prev => ({
       ...prev,
-      schoolSystem: prev.schoolSystem.filter(s => s !== system),
-      grade: [] // 학제 제거 시 학년도 초기화
+      schoolSystem: prev.schoolSystem.filter(s => s !== system)
+      // 학제 제거 시 학년 리셋 제거
     }));
   };
 
@@ -274,94 +274,75 @@ export default function ExamRegistrationModal({ isOpen, onClose, onComplete }: E
                     <div className="space-y-3">
                       <Label>학년 * (여러개 선택 가능)</Label>
                        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 max-h-48 overflow-y-auto">
-                         {formData.schoolSystem.includes('korea') && (
-                          <>
-                            {[
-                              { value: 'elementary-1', label: '초등 1학년' },
-                              { value: 'elementary-2', label: '초등 2학년' },
-                              { value: 'elementary-3', label: '초등 3학년' },
-                              { value: 'elementary-4', label: '초등 4학년' },
-                              { value: 'elementary-5', label: '초등 5학년' },
-                              { value: 'elementary-6', label: '초등 6학년' },
-                              { value: 'middle-1', label: '중등 1학년' },
-                              { value: 'middle-2', label: '중등 2학년' },
-                              { value: 'middle-3', label: '중등 3학년' },
-                              { value: 'high-1', label: '고등 1학년' },
-                              { value: 'high-2', label: '고등 2학년' },
-                              { value: 'high-3', label: '고등 3학년' }
-                            ].map(({ value, label }) => (
-                              <div key={value} className="flex items-center space-x-2 p-2 border border-border rounded hover:bg-muted/50 transition-colors">
-                                <Checkbox
-                                  id={`grade-${value}`}
-                                  checked={formData.grade.includes(value)}
-                                  onCheckedChange={(checked) => handleGradeChange(value, checked as boolean)}
-                                />
-                                <Label htmlFor={`grade-${value}`} className="text-xs cursor-pointer">
-                                  {label}
-                                </Label>
-                              </div>
-                            ))}
-                          </>
-                        )}
-                        {formData.schoolSystem.includes('usa') && (
-                          <>
-                            {[
-                              { value: 'grade-1', label: 'Grade 1' },
-                              { value: 'grade-2', label: 'Grade 2' },
-                              { value: 'grade-3', label: 'Grade 3' },
-                              { value: 'grade-4', label: 'Grade 4' },
-                              { value: 'grade-5', label: 'Grade 5' },
-                              { value: 'grade-6', label: 'Grade 6' },
-                              { value: 'grade-7', label: 'Grade 7' },
-                              { value: 'grade-8', label: 'Grade 8' },
-                              { value: 'grade-9', label: 'Grade 9' },
-                              { value: 'grade-10', label: 'Grade 10' },
-                              { value: 'grade-11', label: 'Grade 11' },
-                              { value: 'grade-12', label: 'Grade 12' }
-                            ].map(({ value, label }) => (
-                              <div key={value} className="flex items-center space-x-2 p-2 border border-border rounded hover:bg-muted/50 transition-colors">
-                                <Checkbox
-                                  id={`grade-${value}`}
-                                  checked={formData.grade.includes(value)}
-                                  onCheckedChange={(checked) => handleGradeChange(value, checked as boolean)}
-                                />
-                                <Label htmlFor={`grade-${value}`} className="text-xs cursor-pointer">
-                                  {label}
-                                </Label>
-                              </div>
-                            ))}
-                          </>
-                        )}
-                        {formData.schoolSystem.includes('uk') && (
-                          <>
-                            {[
-                              { value: 'year-1', label: 'Year 1' },
-                              { value: 'year-2', label: 'Year 2' },
-                              { value: 'year-3', label: 'Year 3' },
-                              { value: 'year-4', label: 'Year 4' },
-                              { value: 'year-5', label: 'Year 5' },
-                              { value: 'year-6', label: 'Year 6' },
-                              { value: 'year-7', label: 'Year 7' },
-                              { value: 'year-8', label: 'Year 8' },
-                              { value: 'year-9', label: 'Year 9' },
-                              { value: 'year-10', label: 'Year 10' },
-                              { value: 'year-11', label: 'Year 11' },
-                              { value: 'year-12', label: 'Year 12' },
-                              { value: 'year-13', label: 'Year 13' }
-                            ].map(({ value, label }) => (
-                              <div key={value} className="flex items-center space-x-2 p-2 border border-border rounded hover:bg-muted/50 transition-colors">
-                                <Checkbox
-                                  id={`grade-${value}`}
-                                  checked={formData.grade.includes(value)}
-                                  onCheckedChange={(checked) => handleGradeChange(value, checked as boolean)}
-                                />
-                                <Label htmlFor={`grade-${value}`} className="text-xs cursor-pointer">
-                                  {label}
-                                </Label>
-                              </div>
-                            ))}
-                          </>
-                        )}
+                         {(() => {
+                           const allGrades = [];
+                           
+                           // 선택된 학제들의 학년만 수집 (중복 제거)
+                           if (formData.schoolSystem.includes('korea')) {
+                             allGrades.push(
+                               { value: 'elementary-1', label: '초등 1학년' },
+                               { value: 'elementary-2', label: '초등 2학년' },
+                               { value: 'elementary-3', label: '초등 3학년' },
+                               { value: 'elementary-4', label: '초등 4학년' },
+                               { value: 'elementary-5', label: '초등 5학년' },
+                               { value: 'elementary-6', label: '초등 6학년' },
+                               { value: 'middle-1', label: '중등 1학년' },
+                               { value: 'middle-2', label: '중등 2학년' },
+                               { value: 'middle-3', label: '중등 3학년' },
+                               { value: 'high-1', label: '고등 1학년' },
+                               { value: 'high-2', label: '고등 2학년' },
+                               { value: 'high-3', label: '고등 3학년' }
+                             );
+                           }
+                           
+                           if (formData.schoolSystem.includes('usa')) {
+                             allGrades.push(
+                               { value: 'grade-1', label: 'Grade 1' },
+                               { value: 'grade-2', label: 'Grade 2' },
+                               { value: 'grade-3', label: 'Grade 3' },
+                               { value: 'grade-4', label: 'Grade 4' },
+                               { value: 'grade-5', label: 'Grade 5' },
+                               { value: 'grade-6', label: 'Grade 6' },
+                               { value: 'grade-7', label: 'Grade 7' },
+                               { value: 'grade-8', label: 'Grade 8' },
+                               { value: 'grade-9', label: 'Grade 9' },
+                               { value: 'grade-10', label: 'Grade 10' },
+                               { value: 'grade-11', label: 'Grade 11' },
+                               { value: 'grade-12', label: 'Grade 12' }
+                             );
+                           }
+                           
+                           if (formData.schoolSystem.includes('uk')) {
+                             allGrades.push(
+                               { value: 'year-1', label: 'Year 1' },
+                               { value: 'year-2', label: 'Year 2' },
+                               { value: 'year-3', label: 'Year 3' },
+                               { value: 'year-4', label: 'Year 4' },
+                               { value: 'year-5', label: 'Year 5' },
+                               { value: 'year-6', label: 'Year 6' },
+                               { value: 'year-7', label: 'Year 7' },
+                               { value: 'year-8', label: 'Year 8' },
+                               { value: 'year-9', label: 'Year 9' },
+                               { value: 'year-10', label: 'Year 10' },
+                               { value: 'year-11', label: 'Year 11' },
+                               { value: 'year-12', label: 'Year 12' },
+                               { value: 'year-13', label: 'Year 13' }
+                             );
+                           }
+                           
+                           return allGrades.map(({ value, label }) => (
+                             <div key={value} className="flex items-center space-x-2 p-2 border border-border rounded hover:bg-muted/50 transition-colors">
+                               <Checkbox
+                                 id={`grade-${value}`}
+                                 checked={formData.grade.includes(value)}
+                                 onCheckedChange={(checked) => handleGradeChange(value, checked as boolean)}
+                               />
+                               <Label htmlFor={`grade-${value}`} className="text-xs cursor-pointer">
+                                 {label}
+                               </Label>
+                             </div>
+                           ));
+                         })()}
                       </div>
                       
                       {/* 선택된 학년 태그 표시 - [학제 - 학년] 형태로 표시 */}
