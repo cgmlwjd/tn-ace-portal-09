@@ -195,14 +195,6 @@ export default function TeacherDashboard() {
 
                         <div className="flex items-center space-x-2 mt-4 pt-4 border-t border-border">
                           <Button variant="outline" size="sm">
-                            <Edit className="h-4 w-4 mr-2" />
-                            미리보기
-                          </Button>
-                          <Button variant="outline" size="sm">
-                            <BarChart3 className="h-4 w-4 mr-2" />
-                            결과 보기
-                          </Button>
-                          <Button variant="outline" size="sm">
                             <Trash2 className="h-4 w-4 mr-2" />
                             삭제
                           </Button>
