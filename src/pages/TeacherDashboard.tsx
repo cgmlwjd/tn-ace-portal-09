@@ -66,6 +66,28 @@ export default function TeacherDashboard() {
     created: "2024-01-08",
     duration: "120분",
     questions: 2
+  }, {
+    id: 5,
+    title: "수학 중간고사 - 대수",
+    categories: ["math"],
+    selectedCombinations: [
+      { schoolSystem: "korea", grade: "중2" },
+      { schoolSystem: "korea", grade: "중3" }
+    ],
+    created: "2024-01-07",
+    duration: "80분",
+    questions: 20
+  }, {
+    id: 6,
+    title: "Math Test - Geometry",
+    categories: ["math"],
+    selectedCombinations: [
+      { schoolSystem: "usa", grade: "Grade 9" },
+      { schoolSystem: "usa", grade: "Grade 10" }
+    ],
+    created: "2024-01-05",
+    duration: "75분",
+    questions: 18
   }];
 
   // State declarations
@@ -172,6 +194,36 @@ export default function TeacherDashboard() {
     aiGradingTime: "2024-01-17 14:25",
     manualGradingTime: null,
     categories: ["writing", "essay", "speaking"]
+  }, {
+    id: 8,
+    studentName: "이수현",
+    examTitle: "수학 중간고사 - 대수",
+    schoolSystem: "korea",
+    grade: "중2",
+    submittedAt: "2024-01-18 10:15",
+    aiGradingTime: "2024-01-18 10:20",
+    manualGradingTime: null,
+    categories: ["math"]
+  }, {
+    id: 9,
+    studentName: "박지호",
+    examTitle: "Math Comprehensive Test - Geometry",
+    schoolSystem: "usa",
+    grade: "Grade 9",
+    submittedAt: "2024-01-18 11:30",
+    aiGradingTime: null,
+    manualGradingTime: null,
+    categories: ["math"]
+  }, {
+    id: 10,
+    studentName: "최예린",
+    examTitle: "수학 기말고사 - 함수",
+    schoolSystem: "korea",
+    grade: "고1",
+    submittedAt: "2024-01-18 14:45",
+    aiGradingTime: "2024-01-18 14:50",
+    manualGradingTime: "2024-01-18 16:10",
+    categories: ["math"]
   }];
   return <div className="min-h-screen flex flex-col bg-background">
       <Header onLanguageToggle={handleLanguageToggle} currentLanguage={currentLanguage} />
@@ -279,11 +331,11 @@ export default function TeacherDashboard() {
                         <div className="flex flex-wrap gap-2 mb-3">
                           {exam.categories?.map((category: string) => (
                             <Badge key={category} variant="outline" className="text-xs">
-                              {category === 'reading' ? 'Reading (영어)' : 
-                               category === 'writing' ? 'Writing (영어)' : 
-                               category === 'essay' ? 'Essay (영어)' : 
-                               category === 'speaking' ? 'Speaking (영어)' :
-                               category === 'math' ? 'Math (수학)' : category}
+                               {category === 'reading' ? 'Reading (영어)' : 
+                                category === 'writing' ? 'Writing (영어)' : 
+                                category === 'essay' ? 'Essay (영어)' : 
+                                category === 'speaking' ? 'Speaking (영어)' :
+                                category === 'math' ? 'Math (수학)' : category}
                             </Badge>
                           ))}
                         </div>
@@ -342,14 +394,15 @@ export default function TeacherDashboard() {
                                    grade.schoolSystem === 'uk' ? '영국' : grade.schoolSystem}-{grade.grade}
                                 </Badge>
                                 <div className="flex flex-wrap gap-1">
-                                  {grade.categories?.map((category: string, idx: number) => (
-                                    <Badge key={idx} variant="outline" className="text-xs">
-                                      {category === 'reading' ? 'Reading' : 
-                                       category === 'writing' ? 'Writing' : 
-                                       category === 'essay' ? 'Essay' : 
-                                       category === 'speaking' ? 'Speaking' : category}
-                                    </Badge>
-                                  ))}
+                                   {grade.categories?.map((category: string, idx: number) => (
+                                     <Badge key={idx} variant="outline" className="text-xs">
+                                       {category === 'reading' ? 'Reading' : 
+                                        category === 'writing' ? 'Writing' : 
+                                        category === 'essay' ? 'Essay' : 
+                                        category === 'speaking' ? 'Speaking' : 
+                                        category === 'math' ? 'Math' : category}
+                                     </Badge>
+                                   ))}
                                 </div>
                               </div>
                             </div>
