@@ -132,21 +132,49 @@ export default function MathExam() {
     if (!currentQ) return null;
 
     return (
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center space-x-2">
-            <Calculator className="h-5 w-5" />
-            <span>문제 {currentQuestion + 1} / {totalQuestions}</span>
-            <Badge variant="outline">{currentQ.type}</Badge>
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
+      <Card className="overflow-hidden">
+        {/* Question Header with Gradient Background */}
+        <div className="bg-gradient-to-r from-indigo-50 to-purple-50 border-b border-border">
+          <div className="p-6">
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center space-x-3">
+                <div className="p-2 rounded-lg bg-indigo-100">
+                  <Calculator className="h-5 w-5 text-indigo-600" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-indigo-900">
+                    문제 {currentQuestion + 1}
+                  </h3>
+                  <p className="text-sm text-indigo-600">
+                    총 {totalQuestions}문제 중
+                  </p>
+                </div>
+              </div>
+              <Badge 
+                variant="secondary" 
+                className="bg-indigo-100 text-indigo-700 border-indigo-200"
+              >
+                {currentQ.type}
+              </Badge>
+            </div>
+            
+            {/* Progress indicator */}
+            <div className="w-full bg-white/50 rounded-full h-2">
+              <div 
+                className="bg-indigo-500 h-2 rounded-full transition-all duration-300" 
+                style={{ width: `${progress}%` }}
+              />
+            </div>
+          </div>
+        </div>
+
+        <CardContent className="p-6">
           <div className="space-y-6">
             {/* Question Text */}
-            <div>
-              <p className="text-lg font-medium mb-2">{currentQ.question}</p>
+            <div className="bg-gray-50 rounded-lg p-4 border-l-4 border-indigo-500">
+              <p className="text-lg font-medium text-gray-900 mb-2">{currentQ.question}</p>
               {currentQ.instruction && (
-                <p className="text-sm text-muted-foreground">{currentQ.instruction}</p>
+                <p className="text-sm text-gray-600 italic">{currentQ.instruction}</p>
               )}
             </div>
 
@@ -154,13 +182,15 @@ export default function MathExam() {
             {currentQ.images && currentQ.images.length > 0 && (
               <div className="space-y-4">
                 {currentQ.images.map((image, index) => (
-                  <div key={index} className="border border-border rounded-lg p-4 bg-muted/50">
-                    <div className="flex items-center space-x-2 mb-2">
-                      <ImageIcon className="h-4 w-4 text-muted-foreground" />
-                      <span className="text-sm text-muted-foreground">문제 도표 {index + 1}</span>
+                  <div key={index} className="border border-gray-200 rounded-xl p-4 bg-gradient-to-br from-gray-50 to-white shadow-sm">
+                    <div className="flex items-center space-x-2 mb-3">
+                      <div className="p-1.5 rounded-full bg-gray-100">
+                        <ImageIcon className="h-4 w-4 text-gray-600" />
+                      </div>
+                      <span className="text-sm font-medium text-gray-700">문제 도표 {index + 1}</span>
                     </div>
-                    <div className="aspect-video bg-background rounded border-2 border-dashed border-muted-foreground/25 flex items-center justify-center">
-                      <p className="text-muted-foreground">수학 문제 이미지가 여기에 표시됩니다</p>
+                    <div className="aspect-video bg-white rounded-lg border-2 border-dashed border-gray-300 flex items-center justify-center shadow-sm">
+                      <p className="text-gray-500 font-medium">수학 문제 이미지가 여기에 표시됩니다</p>
                     </div>
                   </div>
                 ))}
@@ -168,12 +198,16 @@ export default function MathExam() {
             )}
 
             {/* Answer Input */}
-            <div className="border-t border-border pt-6">
+            <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+              <div className="flex items-center space-x-2 mb-4">
+                <div className="w-2 h-2 rounded-full bg-indigo-500"></div>
+                <h4 className="font-semibold text-gray-900">답안 작성</h4>
+              </div>
+              
               {currentQ.type === 'multiple-choice' ? (
                 <div className="space-y-3">
-                  <p className="font-medium text-sm">정답을 선택하세요:</p>
                   {currentQ.options?.map((option, index) => (
-                    <label key={index} className="flex items-center space-x-3 cursor-pointer">
+                    <label key={index} className="flex items-center space-x-3 cursor-pointer p-3 rounded-lg border border-gray-200 hover:border-indigo-300 hover:bg-indigo-50 transition-all duration-200">
                       <input
                         type="radio"
                         name={`question-${currentQ.id}`}
@@ -181,33 +215,31 @@ export default function MathExam() {
                         checked={answers[currentQ.id] === option}
                         onChange={(e) => updateAnswer(currentQ.id, e.target.value)}
                         disabled={isPaused}
-                        className="text-brand-bronze focus:ring-brand-bronze"
+                        className="text-indigo-600 focus:ring-indigo-500 w-4 h-4"
                       />
-                      <span>{option}</span>
+                      <span className="text-gray-700 font-medium">{option}</span>
                     </label>
                   ))}
                 </div>
               ) : currentQ.type === 'calculation' || currentQ.type === 'short-answer' ? (
                 <div className="space-y-3">
-                  <label className="block text-sm font-medium">답:</label>
                   <Input
                     placeholder="답을 입력하세요..."
                     value={answers[currentQ.id] || ''}
                     onChange={(e) => updateAnswer(currentQ.id, e.target.value)}
                     disabled={isPaused}
-                    className="max-w-md"
+                    className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
                   />
                 </div>
               ) : (
                 <div className="space-y-3">
-                  <label className="block text-sm font-medium">풀이 과정 및 답:</label>
                   <Textarea
                     placeholder="계산 과정을 포함하여 답을 작성하세요..."
                     value={answers[currentQ.id] || ''}
                     onChange={(e) => updateAnswer(currentQ.id, e.target.value)}
                     disabled={isPaused}
                     rows={8}
-                    className="resize-none"
+                    className="resize-none border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
                   />
                 </div>
               )}
