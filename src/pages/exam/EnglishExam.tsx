@@ -524,14 +524,19 @@ export default function EnglishExam() {
 
       <main className="flex-1 container mx-auto px-4 py-6">
         <div className="space-y-6">
-          {/* Exam Categories */}
+          {/* Section Navigation */}
           <Card>
             <CardContent className="p-4">
               <div className="flex items-center justify-center">
-                <div className="flex flex-wrap gap-2 justify-center">
-                  {examData.categories?.map((category: string) => (
-                    <Badge key={category} variant="outline" className="px-3 py-1">
-                      {category.charAt(0).toUpperCase() + category.slice(1)}
+                <div className="flex items-center space-x-2">
+                  {sections.map((section, index) => (
+                    <Badge
+                      key={index}
+                      variant={index === currentSection ? "default" : "secondary"}
+                      className="cursor-pointer"
+                      onClick={() => !isPaused && setCurrentSection(index)}
+                    >
+                      {section.title.split(' ')[0]}
                     </Badge>
                   ))}
                 </div>
