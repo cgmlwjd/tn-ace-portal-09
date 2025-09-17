@@ -111,7 +111,7 @@ export default function TeacherDashboard() {
     submittedAt: "2024-01-16 14:30",
     aiGradingTime: "2024-01-16 14:35",
     manualGradingTime: null,
-    type: "Essay"
+    categories: ["essay"]
   }, {
     id: 2,
     studentName: "이지은",
@@ -121,7 +121,7 @@ export default function TeacherDashboard() {
     submittedAt: "2024-01-16 13:45",
     aiGradingTime: "2024-01-16 14:10",
     manualGradingTime: "2024-01-16 15:20",
-    type: "Speaking"
+    categories: ["speaking"]
   }, {
     id: 3,
     studentName: "박상현",
@@ -131,7 +131,47 @@ export default function TeacherDashboard() {
     submittedAt: "2024-01-16 12:15",
     aiGradingTime: "2024-01-16 12:20",
     manualGradingTime: "2024-01-16 16:45",
-    type: "Reading"
+    categories: ["reading"]
+  }, {
+    id: 4,
+    studentName: "최수빈",
+    examTitle: "영어 종합 평가",
+    schoolSystem: "korea",
+    grade: "고2",
+    submittedAt: "2024-01-17 09:15",
+    aiGradingTime: "2024-01-17 09:20",
+    manualGradingTime: null,
+    categories: ["reading", "writing", "speaking"]
+  }, {
+    id: 5,
+    studentName: "정하늘",
+    examTitle: "English Comprehensive Test",
+    schoolSystem: "usa",
+    grade: "Grade 10",
+    submittedAt: "2024-01-17 10:30",
+    aiGradingTime: null,
+    manualGradingTime: null,
+    categories: ["essay", "speaking"]
+  }, {
+    id: 6,
+    studentName: "장민준",
+    examTitle: "영어 실력 진단 평가",
+    schoolSystem: "uk",
+    grade: "Year 9",
+    submittedAt: "2024-01-17 11:45",
+    aiGradingTime: "2024-01-17 11:50",
+    manualGradingTime: "2024-01-17 13:20",
+    categories: ["reading", "writing"]
+  }, {
+    id: 7,
+    studentName: "김서연",
+    examTitle: "통합 영어 평가",
+    schoolSystem: "korea",
+    grade: "중3",
+    submittedAt: "2024-01-17 14:20",
+    aiGradingTime: "2024-01-17 14:25",
+    manualGradingTime: null,
+    categories: ["writing", "essay", "speaking"]
   }];
   return <div className="min-h-screen flex flex-col bg-background">
       <Header onLanguageToggle={handleLanguageToggle} currentLanguage={currentLanguage} />
@@ -301,12 +341,16 @@ export default function TeacherDashboard() {
                                    grade.schoolSystem === 'usa' ? '미국' : 
                                    grade.schoolSystem === 'uk' ? '영국' : grade.schoolSystem}-{grade.grade}
                                 </Badge>
-                                <Badge variant="outline" className="text-xs">
-                                  {grade.type === 'Essay' ? 'Essay' : 
-                                   grade.type === 'Speaking' ? 'Speaking' : 
-                                   grade.type === 'Reading' ? 'Reading' :
-                                   grade.type === 'Writing' ? 'Writing' : grade.type}
-                                </Badge>
+                                <div className="flex flex-wrap gap-1">
+                                  {grade.categories?.map((category: string, idx: number) => (
+                                    <Badge key={idx} variant="outline" className="text-xs">
+                                      {category === 'reading' ? 'Reading' : 
+                                       category === 'writing' ? 'Writing' : 
+                                       category === 'essay' ? 'Essay' : 
+                                       category === 'speaking' ? 'Speaking' : category}
+                                    </Badge>
+                                  ))}
+                                </div>
                               </div>
                             </div>
                             <div className="flex flex-col items-end space-y-1">

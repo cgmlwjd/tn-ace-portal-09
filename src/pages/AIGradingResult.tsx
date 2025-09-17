@@ -84,6 +84,70 @@ export default function AIGradingResult() {
           wordCount: 138,
           submittedAt: "2024-01-16 12:15:30"
         }
+      },
+      "4": {
+        student: { name: "최수빈", grade: "고2", schoolSystem: "korea" },
+        exam: { title: "영어 종합 평가", category: "Reading+Writing+Speaking" },
+        question: { number: 1, maxScore: 300 },
+        aiGrading: {
+          totalScore: 245,
+          breakdown: {
+            reading: { score: 85, maxScore: 100, comment: "독해 능력이 우수하며 세부 내용 파악이 정확함" },
+            writing: { score: 78, maxScore: 100, comment: "문법과 어휘 사용이 적절하나 구성력 향상 필요" },
+            speaking: { score: 82, maxScore: 100, comment: "발음과 유창성이 좋으나 어휘 다양성 부족" }
+          },
+          feedback: "전반적으로 균형 잡힌 영어 실력을 보여줍니다. 특히 독해와 말하기 영역에서 우수한 성과를 거두었으며, 쓰기 영역의 구성력을 보완하면 더욱 향상될 것입니다.",
+          gradedAt: "2024-01-17 09:20:30",
+          processingTime: "8.4초"
+        },
+        studentAnswer: {
+          content: "종합 답안 - Reading: 지문 분석 완료, Writing: 에세이 작성, Speaking: 2분 40초 음성 답변",
+          wordCount: null,
+          submittedAt: "2024-01-17 09:15:10"
+        }
+      },
+      "5": {
+        student: { name: "정하늘", grade: "Grade 10", schoolSystem: "usa" },
+        exam: { title: "English Comprehensive Test", category: "Essay+Speaking" },
+        question: { number: 1, maxScore: 200 },
+        aiGrading: {
+          totalScore: 168,
+          breakdown: {
+            essay: { score: 85, maxScore: 100, comment: "논리적 구성과 창의적 아이디어가 돋보임" },
+            speaking: { score: 83, maxScore: 100, comment: "자연스러운 표현과 정확한 발음이 인상적" }
+          },
+          feedback: "창의성과 논리성을 겸비한 우수한 답안입니다. 에세이의 구성력과 스피킹의 자연스러움이 특히 뛰어나며, 고급 어휘 활용도 돋보입니다.",
+          gradedAt: "2024-01-17 10:35:22",
+          processingTime: "6.7초"
+        },
+        studentAnswer: {
+          content: "Essay: 180단어 에세이 + Speaking: 3분 15초 음성 답변",
+          wordCount: 180,
+          audioLength: "3분 15초",
+          submittedAt: "2024-01-17 10:30:45"
+        }
+      },
+      "7": {
+        student: { name: "김서연", grade: "중3", schoolSystem: "korea" },
+        exam: { title: "통합 영어 평가", category: "Writing+Essay+Speaking" },
+        question: { number: 1, maxScore: 300 },
+        aiGrading: {
+          totalScore: 238,
+          breakdown: {
+            writing: { score: 78, maxScore: 100, comment: "문법 정확도가 높고 표현이 자연스러움" },
+            essay: { score: 82, maxScore: 100, comment: "논증 구조가 명확하고 설득력이 있음" },
+            speaking: { score: 78, maxScore: 100, comment: "발음은 좋으나 유창성 개선이 필요" }
+          },
+          feedback: "전 영역에서 고른 실력을 보여주는 우수한 답안입니다. 특히 에세이 작성 능력이 뛰어나며, 스피킹 영역의 유창성을 더 키운다면 완벽할 것입니다.",
+          gradedAt: "2024-01-17 14:25:18",
+          processingTime: "9.1초"
+        },
+        studentAnswer: {
+          content: "Writing: 단답형+서술형 답안, Essay: 200단어 에세이, Speaking: 2분 50초 음성 답변",
+          wordCount: 200,
+          audioLength: "2분 50초",
+          submittedAt: "2024-01-17 14:20:35"
+        }
       }
     };
 

@@ -141,6 +141,104 @@ export default function ManualGrading() {
           feedback: "독해 능력이 뛰어납니다. 지문의 주요 내용을 정확히 파악했고, 세부 정보도 빠뜨리지 않고 답변했습니다. 특히 마지막 주관식 문제에서 자신의 의견을 논리적 근거와 함께 제시한 점이 좋습니다.",
           gradedAt: "2024-01-16 12:20:45"
         }
+      },
+      "4": { // Multiple Categories - Reading+Writing+Speaking
+        id: id,
+        student: { ...baseStudent, name: "최수빈", grade: "고2" },
+        exam: {
+          title: "영어 종합 평가",
+          category: "Reading+Writing+Speaking",
+          maxScore: 300,
+          timeLimit: "120분"
+        },
+        question: {
+          number: 1,
+          text: "종합 평가 문제\n\n[Part 1: Reading (100점)]\n주어진 지문을 읽고 문제에 답하시오.\n\n[Part 2: Writing (100점)]\n다음 주제로 150-200단어의 에세이를 작성하시오.\n주제: 'The Impact of Technology on Education'\n\n[Part 3: Speaking (100점)]\n다음 질문에 대해 2-3분간 영어로 답변하시오.\n'Describe your ideal future career and explain why you want to pursue it.'",
+          type: "comprehensive",
+          maxScore: 300
+        },
+        studentAnswer: {
+          content: "[Reading 답안] 1. Technology has revolutionized education... [Writing 답안] Technology has significantly transformed the educational landscape... [Speaking 답안] 음성 답변 (2분 40초)",
+          wordCount: 185,
+          audioLength: "2분 40초",
+          submittedAt: "2024-01-17 09:15:10",
+          timeSpent: "95분"
+        },
+        aiGrading: {
+          totalScore: 245,
+          breakdown: {
+            reading: { score: 85, maxScore: 100, comment: "독해 능력이 우수하며 세부 내용 파악이 정확함" },
+            writing: { score: 78, maxScore: 100, comment: "문법과 어휘 사용이 적절하나 구성력 향상 필요" },
+            speaking: { score: 82, maxScore: 100, comment: "발음과 유창성이 좋으나 어휘 다양성 부족" }
+          },
+          feedback: "전반적으로 균형 잡힌 영어 실력을 보여줍니다. 특히 독해와 말하기 영역에서 우수한 성과를 거두었으며, 쓰기 영역의 구성력을 보완하면 더욱 향상될 것입니다.",
+          gradedAt: "2024-01-17 09:20:30"
+        }
+      },
+      "5": { // Essay+Speaking
+        id: id,
+        student: { ...baseStudent, name: "정하늘", schoolSystem: "usa", grade: "Grade 10" },
+        exam: {
+          title: "English Comprehensive Test",
+          category: "Essay+Speaking",
+          maxScore: 200,
+          timeLimit: "90분"
+        },
+        question: {
+          number: 1,
+          text: "[Part 1: Essay (100점)]\nWrite a 200-word essay on the topic: 'The Role of Social Media in Modern Communication'\n\n[Part 2: Speaking (100점)]\nDiscuss the advantages and disadvantages of online learning. Speak for 3-4 minutes.",
+          type: "essay_speaking",
+          maxScore: 200
+        },
+        studentAnswer: {
+          content: "[Essay] Social media has fundamentally changed how we communicate in the 21st century... [Speaking] 음성 답변 (3분 15초) - 온라인 학습의 장단점에 대한 체계적인 설명",
+          wordCount: 210,
+          audioLength: "3분 15초",
+          submittedAt: "2024-01-17 10:30:45",
+          timeSpent: "75분"
+        },
+        aiGrading: {
+          totalScore: 168,
+          breakdown: {
+            essay: { score: 85, maxScore: 100, comment: "논리적 구성과 창의적 아이디어가 돋보임" },
+            speaking: { score: 83, maxScore: 100, comment: "자연스러운 표현과 정확한 발음이 인상적" }
+          },
+          feedback: "창의성과 논리성을 겸비한 우수한 답안입니다. 에세이의 구성력과 스피킹의 자연스러움이 특히 뛰어나며, 고급 어휘 활용도 돋보입니다.",
+          gradedAt: "2024-01-17 10:35:22"
+        }
+      },
+      "7": { // Writing+Essay+Speaking
+        id: id,
+        student: { ...baseStudent, name: "김서연", grade: "중3" },
+        exam: {
+          title: "통합 영어 평가",
+          category: "Writing+Essay+Speaking",
+          maxScore: 300,
+          timeLimit: "100분"
+        },
+        question: {
+          number: 1,
+          text: "[Part 1: Writing (100점)]\n주어진 상황에 맞는 영어 문장을 완성하시오.\n\n[Part 2: Essay (100점)]\n다음 주제로 150-200단어의 에세이를 작성하시오.\n주제: 'My Dream School and Why'\n\n[Part 3: Speaking (100점)]\n다음 질문에 대해 2-3분간 영어로 답변하시오.\n'What is your favorite hobby and how did you start it?'",
+          type: "comprehensive_writing",
+          maxScore: 300
+        },
+        studentAnswer: {
+          content: "[Writing] 단답형 및 서술형 문제 답안 완료 [Essay] My dream school would be a place where creativity meets academic excellence... [Speaking] 음성 답변 (2분 50초)",
+          wordCount: 195,
+          audioLength: "2분 50초",
+          submittedAt: "2024-01-17 14:20:35",
+          timeSpent: "85분"
+        },
+        aiGrading: {
+          totalScore: 238,
+          breakdown: {
+            writing: { score: 78, maxScore: 100, comment: "문법 정확도가 높고 표현이 자연스러움" },
+            essay: { score: 82, maxScore: 100, comment: "논증 구조가 명확하고 설득력이 있음" },
+            speaking: { score: 78, maxScore: 100, comment: "발음은 좋으나 유창성 개선이 필요" }
+          },
+          feedback: "전 영역에서 고른 실력을 보여주는 우수한 답안입니다. 특히 에세이 작성 능력이 뛰어나며, 스피킹 영역의 유창성을 더 키운다면 완벽할 것입니다.",
+          gradedAt: "2024-01-17 14:25:18"
+        }
       }
     };
 
