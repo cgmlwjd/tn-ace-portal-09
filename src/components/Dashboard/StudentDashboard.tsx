@@ -135,6 +135,16 @@ export const StudentDashboard: React.FC = () => {
     }
   };
 
+  const handleViewResults = (exam: any) => {
+    if (exam.status === 'completed') {
+      navigate(`/student/results/${exam.id}`);
+    } else if (exam.status === 'grading') {
+      alert('아직 채점이 진행 중입니다. 잠시 후 다시 확인해 주세요.');
+    } else {
+      alert('아직 결과를 볼 수 없습니다. 시험을 먼저 응시해 주세요.');
+    }
+  };
+
   const ExamCard = ({ exam }: { exam: any }) => (
     <Card key={exam.id} className="hover:shadow-bronze transition-shadow">
       <CardHeader className="pb-3">
@@ -218,13 +228,17 @@ export const StudentDashboard: React.FC = () => {
               <Button 
                 variant="outline" 
                 className="w-full"
-                onClick={() => navigate('/student/results')}
+                onClick={() => handleViewResults(exam)}
               >
                 결과 보기
               </Button>
             ) : (
-              <Button variant="outline" className="w-full" disabled>
-                채점 중...
+              <Button 
+                variant="outline" 
+                className="w-full"
+                onClick={() => handleViewResults(exam)}
+              >
+                {exam.status === 'grading' ? '채점 중...' : '결과 보기'}
               </Button>
             )}
           </div>
