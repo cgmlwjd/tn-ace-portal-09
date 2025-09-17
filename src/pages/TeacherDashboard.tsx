@@ -277,9 +277,6 @@ export default function TeacherDashboard() {
                                    grade.schoolSystem === 'usa' ? '미국' : 
                                    grade.schoolSystem === 'uk' ? '영국' : grade.schoolSystem}-{grade.grade}
                                 </Badge>
-                                <Badge variant="outline" className="text-xs">
-                                  {grade.type}
-                                </Badge>
                               </div>
                             </div>
                             <div className="flex flex-col items-end space-y-1">
