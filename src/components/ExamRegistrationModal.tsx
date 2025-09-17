@@ -20,7 +20,7 @@ type ExamCategory = 'reading' | 'writing' | 'essay' | 'speaking';
 
 interface ExamFormData {
   title: string;
-  schoolSystem: string[];
+  schoolSystem: string;
   grade: string[];
   examDate: string;
   description: string;
@@ -84,7 +84,7 @@ export default function ExamRegistrationModal({ isOpen, onClose, onComplete }: E
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState<ExamFormData>({
     title: '',
-    schoolSystem: [],
+    schoolSystem: '',
     grade: [],
     examDate: '',
     description: '',
@@ -101,9 +101,8 @@ export default function ExamRegistrationModal({ isOpen, onClose, onComplete }: E
   const handleSchoolSystemChange = (system: string, checked: boolean) => {
     setFormData(prev => ({
       ...prev,
-      schoolSystem: checked 
-        ? [...prev.schoolSystem, system]
-        : prev.schoolSystem.filter(s => s !== system)
+      schoolSystem: checked ? system : '',
+      grade: [] // 학제 변경 시 학년 초기화
     }));
   };
 
@@ -125,10 +124,11 @@ export default function ExamRegistrationModal({ isOpen, onClose, onComplete }: E
     }));
   };
 
-  const removeSchoolSystem = (system: string) => {
+  const removeSchoolSystem = () => {
     setFormData(prev => ({
       ...prev,
-      schoolSystem: prev.schoolSystem.filter(s => s !== system)
+      schoolSystem: '',
+      grade: [] // 학제 제거 시 학년도 초기화
     }));
   };
 
@@ -162,7 +162,7 @@ export default function ExamRegistrationModal({ isOpen, onClose, onComplete }: E
     setCurrentStep(1);
     setFormData({
       title: '',
-      schoolSystem: [],
+      schoolSystem: '',
       grade: [],
       examDate: '',
       description: '',
@@ -171,7 +171,7 @@ export default function ExamRegistrationModal({ isOpen, onClose, onComplete }: E
     onClose();
   };
 
-  const isStep1Valid = formData.title && formData.schoolSystem.length > 0 && formData.grade.length > 0 && formData.examDate && formData.categories.length > 0;
+  const isStep1Valid = formData.title && formData.schoolSystem && formData.grade.length > 0 && formData.examDate && formData.categories.length > 0;
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -224,55 +224,53 @@ export default function ExamRegistrationModal({ isOpen, onClose, onComplete }: E
                     </div>
                   </div>
                   
-                  {/* 학제 선택 */}
-                  <div className="space-y-3">
-                    <Label>학제 * (여러개 선택 가능)</Label>
-                    <div className="grid grid-cols-3 gap-3">
-                      {[
-                        { value: 'korea', label: '한국' },
-                        { value: 'usa', label: '미국' },
-                        { value: 'uk', label: '영국' }
-                      ].map(({ value, label }) => (
-                        <div key={value} className="flex items-center space-x-2 p-3 border border-border rounded-lg hover:bg-muted/50 transition-colors">
-                          <Checkbox
-                            id={`school-${value}`}
-                            checked={formData.schoolSystem.includes(value)}
-                            onCheckedChange={(checked) => handleSchoolSystemChange(value, checked as boolean)}
-                          />
-                          <Label htmlFor={`school-${value}`} className="font-medium cursor-pointer">
-                            {label}
-                          </Label>
-                        </div>
-                      ))}
-                    </div>
-                    
-                    {/* 선택된 학제 태그 표시 */}
-                    <div className="space-y-2">
-                      <Label className="text-sm text-muted-foreground">선택된 학제</Label>
-                      <div className="min-h-[2rem] flex flex-wrap gap-2">
-                        {formData.schoolSystem.length === 0 ? (
-                          <p className="text-sm text-muted-foreground">선택된 학제가 없습니다.</p>
-                        ) : (
-                          formData.schoolSystem.map((system) => (
-                            <Badge key={system} variant="secondary" className="flex items-center gap-1">
-                              {schoolSystemLabels[system as keyof typeof schoolSystemLabels]}
-                              <X 
-                                className="h-3 w-3 cursor-pointer hover:text-destructive" 
-                                onClick={() => removeSchoolSystem(system)}
-                              />
-                            </Badge>
-                          ))
-                        )}
-                      </div>
-                    </div>
-                  </div>
+                   {/* 학제 선택 */}
+                   <div className="space-y-3">
+                     <Label>학제 * (하나만 선택 가능)</Label>
+                     <div className="grid grid-cols-3 gap-3">
+                       {[
+                         { value: 'korea', label: '한국' },
+                         { value: 'usa', label: '미국' },
+                         { value: 'uk', label: '영국' }
+                       ].map(({ value, label }) => (
+                         <div key={value} className="flex items-center space-x-2 p-3 border border-border rounded-lg hover:bg-muted/50 transition-colors">
+                           <Checkbox
+                             id={`school-${value}`}
+                             checked={formData.schoolSystem === value}
+                             onCheckedChange={(checked) => handleSchoolSystemChange(value, checked as boolean)}
+                           />
+                           <Label htmlFor={`school-${value}`} className="font-medium cursor-pointer">
+                             {label}
+                           </Label>
+                         </div>
+                       ))}
+                     </div>
+                     
+                     {/* 선택된 학제 태그 표시 */}
+                     <div className="space-y-2">
+                       <Label className="text-sm text-muted-foreground">선택된 학제</Label>
+                       <div className="min-h-[2rem] flex flex-wrap gap-2">
+                         {!formData.schoolSystem ? (
+                           <p className="text-sm text-muted-foreground">선택된 학제가 없습니다.</p>
+                         ) : (
+                           <Badge variant="secondary" className="flex items-center gap-1">
+                             {schoolSystemLabels[formData.schoolSystem as keyof typeof schoolSystemLabels]}
+                             <X 
+                               className="h-3 w-3 cursor-pointer hover:text-destructive" 
+                               onClick={() => removeSchoolSystem()}
+                             />
+                           </Badge>
+                         )}
+                       </div>
+                     </div>
+                   </div>
 
-                  {/* 학년 선택 */}
-                  {formData.schoolSystem.length > 0 && (
+                   {/* 학년 선택 */}
+                   {formData.schoolSystem && (
                     <div className="space-y-3">
                       <Label>학년 * (여러개 선택 가능)</Label>
-                      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 max-h-48 overflow-y-auto">
-                        {formData.schoolSystem.includes('korea') && (
+                       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 max-h-48 overflow-y-auto">
+                         {formData.schoolSystem === 'korea' && (
                           <>
                             {[
                               { value: 'elementary-1', label: '초등 1학년' },
@@ -301,7 +299,7 @@ export default function ExamRegistrationModal({ isOpen, onClose, onComplete }: E
                             ))}
                           </>
                         )}
-                        {formData.schoolSystem.includes('usa') && (
+                        {formData.schoolSystem === 'usa' && (
                           <>
                             {[
                               { value: 'grade-1', label: 'Grade 1' },
@@ -330,7 +328,7 @@ export default function ExamRegistrationModal({ isOpen, onClose, onComplete }: E
                             ))}
                           </>
                         )}
-                        {formData.schoolSystem.includes('uk') && (
+                        {formData.schoolSystem === 'uk' && (
                           <>
                             {[
                               { value: 'year-1', label: 'Year 1' },
