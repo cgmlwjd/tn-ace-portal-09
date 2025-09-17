@@ -180,9 +180,8 @@ export default function TeacherDashboard() {
                         <div className="flex items-start justify-between mb-3">
                           <div>
                             <h4 className="font-semibold text-foreground">{exam.title}</h4>
-                            <p className="text-sm text-muted-foreground">생성일: {exam.created}</p>
                           </div>
-                          
+                          <p className="text-sm text-muted-foreground">생성일: {exam.created}</p>
                         </div>
                         
                         <div className="flex flex-wrap gap-2">
