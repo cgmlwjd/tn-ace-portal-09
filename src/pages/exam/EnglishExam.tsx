@@ -360,7 +360,8 @@ export default function EnglishExam() {
     }
     
     // Speaking Section
-    if ('questions' in content && content.questions[0].section) {
+    if ('questions' in content && content.questions[0]?.section) {
+      console.log('EnglishExam: Rendering SpeakingInterface for question:', content.questions[currentQuestion]);
       const currentQ = content.questions[currentQuestion];
       const answerKey = `${currentSection}-${currentQuestion}`;
       

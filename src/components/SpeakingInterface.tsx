@@ -41,6 +41,7 @@ export const SpeakingInterface: React.FC<SpeakingInterfaceProps> = ({ question, 
   useEffect(() => {
     const initializeMedia = async () => {
       try {
+        console.log('SpeakingInterface: Initializing media...');
         const stream = await navigator.mediaDevices.getUserMedia({
           video: true,
           audio: true
@@ -51,6 +52,7 @@ export const SpeakingInterface: React.FC<SpeakingInterfaceProps> = ({ question, 
 
         if (videoRef.current) {
           videoRef.current.srcObject = stream;
+          console.log('SpeakingInterface: Video stream set successfully');
         }
 
         toast({
@@ -59,10 +61,11 @@ export const SpeakingInterface: React.FC<SpeakingInterfaceProps> = ({ question, 
         });
 
       } catch (error) {
-        console.error('미디어 권한 오류:', error);
+        console.error('SpeakingInterface: 미디어 권한 오류:', error);
+        setMediaPermissions({ camera: false, microphone: false });
         toast({
           title: "미디어 권한 오류",
-          description: "카메라와 마이크 권한이 필요합니다.",
+          description: "카메라와 마이크 권한이 필요합니다. 브라우저에서 권한을 허용해주세요.",
           variant: "destructive",
         });
       }
@@ -224,12 +227,22 @@ export const SpeakingInterface: React.FC<SpeakingInterfaceProps> = ({ question, 
           <div className="space-y-4">
             {/* Video Feed */}
             <div className="aspect-video bg-black rounded-lg overflow-hidden relative">
-              <video
-                ref={videoRef}
-                autoPlay
-                muted
-                className="w-full h-full object-cover"
-              />
+              {mediaPermissions.camera ? (
+                <video
+                  ref={videoRef}
+                  autoPlay
+                  muted
+                  playsInline
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center bg-muted">
+                  <div className="text-center">
+                    <Video className="h-12 w-12 mx-auto mb-2 text-muted-foreground" />
+                    <p className="text-sm text-muted-foreground">카메라 권한을 허용해주세요</p>
+                  </div>
+                </div>
+              )}
               {isRecording && (
                 <div className="absolute top-4 right-4 flex items-center space-x-2 bg-red-600 text-white px-3 py-1 rounded-full">
                   <div className="w-2 h-2 bg-white rounded-full animate-pulse" />
@@ -257,10 +270,19 @@ export const SpeakingInterface: React.FC<SpeakingInterfaceProps> = ({ question, 
 
             {/* Controls */}
             <div className="flex justify-center space-x-2">
-              {phase === 'setup' && (
+              {!mediaPermissions.camera && !mediaPermissions.microphone && (
+                <Button 
+                  onClick={() => window.location.reload()}
+                  variant="outline"
+                >
+                  <Video className="h-4 w-4 mr-2" />
+                  권한 재요청
+                </Button>
+              )}
+              
+              {phase === 'setup' && mediaPermissions.camera && mediaPermissions.microphone && (
                 <Button 
                   onClick={startPreparation} 
-                  disabled={!mediaPermissions.camera || !mediaPermissions.microphone}
                   className="bg-brand-bronze hover:bg-brand-bronze/90"
                 >
                   <Play className="h-4 w-4 mr-2" />
