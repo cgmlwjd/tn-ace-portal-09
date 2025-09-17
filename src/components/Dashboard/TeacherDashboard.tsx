@@ -38,7 +38,9 @@ const quickActions = [
 const recentExams = [
   { title: 'Mid-term Reading Test', category: 'Reading', date: '2024-01-20' },
   { title: 'Grammar Practice Test', category: 'Writing', date: '2024-01-18' },
+  { title: 'Math - Algebra Test', category: 'Math', date: '2024-01-17' },
   { title: 'Speaking Assessment', category: 'Speaking', date: '2024-01-15' },
+  { title: 'Math - Geometry Quiz', category: 'Math', date: '2024-01-14' },
   { title: 'Essay Writing Task', category: 'Essay', date: '2024-01-12' },
 ];
 
