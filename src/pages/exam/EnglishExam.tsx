@@ -559,19 +559,6 @@ export default function EnglishExam() {
                   Previous
                 </Button>
                 
-                <div className="flex items-center space-x-2">
-                  {sections.map((section, index) => (
-                    <Badge
-                      key={index}
-                      variant={index === currentSection ? "default" : "secondary"}
-                      className="cursor-pointer"
-                      onClick={() => !isPaused && setCurrentSection(index)}
-                    >
-                      {section.title.split(' ')[0]}
-                    </Badge>
-                  ))}
-                </div>
-                
                 {currentSection === sections.length - 1 && 
                  currentQuestion === (currentSectionData?.content && 'questions' in currentSectionData.content 
                    ? currentSectionData.content.questions.length - 1 
