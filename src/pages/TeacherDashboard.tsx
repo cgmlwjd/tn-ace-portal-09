@@ -23,28 +23,28 @@ export default function TeacherDashboard() {
   const recentExams = [{
     id: 1,
     title: "영어 중간고사 - 2학년",
-    category: "Reading",
+    categories: ["reading", "writing"],
     created: "2024-01-15",
     duration: "60분",
     questions: 25
   }, {
     id: 2,
     title: "Speaking Test - Level 3",
-    category: "Speaking",
+    categories: ["speaking"],
     created: "2024-01-12",
     duration: "30분",
     questions: 8
   }, {
     id: 3,
     title: "Essay Writing Assessment",
-    category: "Writing",
+    categories: ["writing", "essay"],
     created: "2024-01-10",
     duration: "90분",
     questions: 3
   }, {
     id: 4,
     title: "Essay 평가 시험",
-    category: "Essay",
+    categories: ["essay"],
     created: "2024-01-08",
     duration: "120분",
     questions: 2
@@ -185,10 +185,14 @@ export default function TeacherDashboard() {
                         </div>
                         
                         <div className="flex flex-wrap gap-2">
-                          <Badge variant="outline" className="text-xs">Reading</Badge>
-                          <Badge variant="outline" className="text-xs">Writing</Badge>
-                          <Badge variant="outline" className="text-xs">Essay</Badge>
-                          <Badge variant="outline" className="text-xs">Speaking</Badge>
+                          {exam.categories?.map((category: string) => (
+                            <Badge key={category} variant="outline" className="text-xs">
+                              {category === 'reading' ? 'Reading' : 
+                               category === 'writing' ? 'Writing' : 
+                               category === 'essay' ? 'Essay' : 
+                               category === 'speaking' ? 'Speaking' : category}
+                            </Badge>
+                          ))}
                         </div>
 
                         <div className="flex items-center justify-end space-x-2 mt-4 pt-4 border-t border-border">
