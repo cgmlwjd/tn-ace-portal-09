@@ -191,7 +191,7 @@ export default function TeacherDashboard() {
                           <Badge variant="outline" className="text-xs">Speaking</Badge>
                         </div>
 
-                        <div className="flex items-center space-x-2 mt-4 pt-4 border-t border-border">
+                        <div className="flex items-center justify-end space-x-2 mt-4 pt-4 border-t border-border">
                           <Button variant="outline" size="sm">
                             <Trash2 className="h-4 w-4 mr-2" />
                             삭제
