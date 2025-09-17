@@ -18,6 +18,7 @@ export default function ManualGrading() {
   const [manualScore, setManualScore] = useState('');
   const [feedback, setFeedback] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
 
   const handleLanguageToggle = () => {
     setCurrentLanguage(currentLanguage === 'ko' ? 'en' : 'ko');
@@ -94,6 +95,19 @@ export default function ManualGrading() {
       setIsSubmitting(false);
       navigate('/teacher');
     }, 1000);
+  };
+
+  const handleTempSave = async () => {
+    setIsSaving(true);
+    
+    // Simulate API call for temporary save
+    setTimeout(() => {
+      toast({
+        title: "임시 저장 완료",
+        description: "채점 내용이 임시 저장되었습니다.",
+      });
+      setIsSaving(false);
+    }, 500);
   };
 
   return (
@@ -283,15 +297,25 @@ export default function ManualGrading() {
                 <div className="flex space-x-3 pt-4">
                   <Button
                     onClick={handleSubmit}
-                    disabled={isSubmitting}
+                    disabled={isSubmitting || isSaving}
+                    className="flex-1"
+                  >
+                    <CheckCircle className="h-4 w-4 mr-2" />
+                    {isSubmitting ? '저장 중...' : '채점 완료'}
+                  </Button>
+                  <Button
+                    variant="secondary"
+                    onClick={handleTempSave}
+                    disabled={isSubmitting || isSaving}
                     className="flex-1"
                   >
                     <Save className="h-4 w-4 mr-2" />
-                    {isSubmitting ? '저장 중...' : '채점 완료'}
+                    {isSaving ? '저장 중...' : '임시 저장'}
                   </Button>
                   <Button
                     variant="outline"
                     onClick={() => navigate('/teacher')}
+                    disabled={isSubmitting || isSaving}
                     className="flex-1"
                   >
                     취소
