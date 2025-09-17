@@ -12,6 +12,7 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { SubmitConfirmationModal } from '@/components/SubmitConfirmationModal';
 import { Clock, Play, Pause, BookOpen, PenTool, FileText, Mic } from 'lucide-react';
+import { SpeakingInterface } from '@/components/SpeakingInterface';
 
 // Mock exam content
 const examSections = {
@@ -361,52 +362,17 @@ export default function EnglishExam() {
     // Speaking Section
     if ('questions' in content && content.questions[0].section) {
       const currentQ = content.questions[currentQuestion];
+      const answerKey = `${currentSection}-${currentQuestion}`;
       
       return (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Video Interface */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Video Interface</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="aspect-video bg-muted rounded-lg flex items-center justify-center mb-4">
-                <p className="text-muted-foreground">Video feed would appear here</p>
-              </div>
-              <div className="flex justify-center space-x-2">
-                <Button variant="outline" size="sm">
-                  <Mic className="h-4 w-4" />
-                </Button>
-                <Button variant="outline" size="sm">
-                  Record
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-          
-          {/* Question Panel */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center space-x-2">
-                <Icon className="h-5 w-5" />
-                <span>{currentQ.section}</span>
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <Badge variant="outline">{currentQ.type}</Badge>
-                <div>
-                  <p className="font-medium mb-2">{currentQ.question}</p>
-                  <p className="text-sm text-muted-foreground">{currentQ.instruction}</p>
-                </div>
-                <div className="text-sm">
-                  <p>Preparation time: {currentQ.prepTime} seconds</p>
-                  <p>Response time: {currentQ.responseTime} seconds</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+        <SpeakingInterface 
+          question={currentQ}
+          onComplete={(recording) => {
+            if (recording) {
+              updateAnswer(currentSection, currentQuestion, recording);
+            }
+          }}
+        />
       );
     }
     
