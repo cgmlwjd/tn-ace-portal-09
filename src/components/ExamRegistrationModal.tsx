@@ -19,8 +19,8 @@ type ExamCategory = 'reading' | 'writing' | 'essay' | 'speaking';
 
 interface ExamFormData {
   title: string;
-  schoolSystem: string;
-  grade: string;
+  schoolSystem: string[];
+  grade: string[];
   examDate: string;
   description: string;
   categories: ExamCategory[];
@@ -37,8 +37,8 @@ export default function ExamRegistrationModal({ isOpen, onClose, onComplete }: E
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState<ExamFormData>({
     title: '',
-    schoolSystem: '',
-    grade: '',
+    schoolSystem: [],
+    grade: [],
     examDate: '',
     description: '',
     categories: []
@@ -48,6 +48,24 @@ export default function ExamRegistrationModal({ isOpen, onClose, onComplete }: E
     setFormData(prev => ({
       ...prev,
       [field]: value
+    }));
+  };
+
+  const handleSchoolSystemChange = (system: string, checked: boolean) => {
+    setFormData(prev => ({
+      ...prev,
+      schoolSystem: checked 
+        ? [...prev.schoolSystem, system]
+        : prev.schoolSystem.filter(s => s !== system)
+    }));
+  };
+
+  const handleGradeChange = (grade: string, checked: boolean) => {
+    setFormData(prev => ({
+      ...prev,
+      grade: checked 
+        ? [...prev.grade, grade]
+        : prev.grade.filter(g => g !== grade)
     }));
   };
 
@@ -83,8 +101,8 @@ export default function ExamRegistrationModal({ isOpen, onClose, onComplete }: E
     setCurrentStep(1);
     setFormData({
       title: '',
-      schoolSystem: '',
-      grade: '',
+      schoolSystem: [],
+      grade: [],
       examDate: '',
       description: '',
       categories: []
@@ -92,7 +110,7 @@ export default function ExamRegistrationModal({ isOpen, onClose, onComplete }: E
     onClose();
   };
 
-  const isStep1Valid = formData.title && formData.schoolSystem && formData.grade && formData.examDate && formData.categories.length > 0;
+  const isStep1Valid = formData.title && formData.schoolSystem.length > 0 && formData.grade.length > 0 && formData.examDate && formData.categories.length > 0;
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -132,97 +150,141 @@ export default function ExamRegistrationModal({ isOpen, onClose, onComplete }: E
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="schoolSystem">학제 *</Label>
-                      <Select onValueChange={(value) => handleInputChange('schoolSystem', value)}>
-                        <SelectTrigger>
-                          <SelectValue placeholder="학제 선택" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="korea">한국</SelectItem>
-                          <SelectItem value="usa">미국</SelectItem>
-                          <SelectItem value="uk">영국</SelectItem>
-                        </SelectContent>
-                      </Select>
+                      <Label htmlFor="examDate">시험 일시 *</Label>
+                      <Input 
+                        id="examDate" 
+                        type="datetime-local"
+                        value={formData.examDate}
+                        onChange={(e) => handleInputChange('examDate', e.target.value)}
+                      />
                     </div>
                   </div>
                   
-                  {formData.schoolSystem && (
-                    <div className="space-y-2">
-                      <Label htmlFor="grade">학년 *</Label>
-                      <Select onValueChange={(value) => handleInputChange('grade', value)}>
-                        <SelectTrigger>
-                          <SelectValue placeholder="학년 선택" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {formData.schoolSystem === 'korea' && (
-                            <>
-                              <SelectItem value="elementary-1">초등 1학년</SelectItem>
-                              <SelectItem value="elementary-2">초등 2학년</SelectItem>
-                              <SelectItem value="elementary-3">초등 3학년</SelectItem>
-                              <SelectItem value="elementary-4">초등 4학년</SelectItem>
-                              <SelectItem value="elementary-5">초등 5학년</SelectItem>
-                              <SelectItem value="elementary-6">초등 6학년</SelectItem>
-                              <SelectItem value="middle-1">중등 1학년</SelectItem>
-                              <SelectItem value="middle-2">중등 2학년</SelectItem>
-                              <SelectItem value="middle-3">중등 3학년</SelectItem>
-                              <SelectItem value="high-1">고등 1학년</SelectItem>
-                              <SelectItem value="high-2">고등 2학년</SelectItem>
-                              <SelectItem value="high-3">고등 3학년</SelectItem>
-                            </>
-                          )}
-                          {formData.schoolSystem === 'usa' && (
-                            <>
-                              <SelectItem value="grade-1">Grade 1</SelectItem>
-                              <SelectItem value="grade-2">Grade 2</SelectItem>
-                              <SelectItem value="grade-3">Grade 3</SelectItem>
-                              <SelectItem value="grade-4">Grade 4</SelectItem>
-                              <SelectItem value="grade-5">Grade 5</SelectItem>
-                              <SelectItem value="grade-6">Grade 6</SelectItem>
-                              <SelectItem value="grade-7">Grade 7</SelectItem>
-                              <SelectItem value="grade-8">Grade 8</SelectItem>
-                              <SelectItem value="grade-9">Grade 9</SelectItem>
-                              <SelectItem value="grade-10">Grade 10</SelectItem>
-                              <SelectItem value="grade-11">Grade 11</SelectItem>
-                              <SelectItem value="grade-12">Grade 12</SelectItem>
-                            </>
-                          )}
-                          {formData.schoolSystem === 'uk' && (
-                            <>
-                              <SelectItem value="year-1">Year 1</SelectItem>
-                              <SelectItem value="year-2">Year 2</SelectItem>
-                              <SelectItem value="year-3">Year 3</SelectItem>
-                              <SelectItem value="year-4">Year 4</SelectItem>
-                              <SelectItem value="year-5">Year 5</SelectItem>
-                              <SelectItem value="year-6">Year 6</SelectItem>
-                              <SelectItem value="year-7">Year 7</SelectItem>
-                              <SelectItem value="year-8">Year 8</SelectItem>
-                              <SelectItem value="year-9">Year 9</SelectItem>
-                              <SelectItem value="year-10">Year 10</SelectItem>
-                              <SelectItem value="year-11">Year 11</SelectItem>
-                              <SelectItem value="year-12">Year 12</SelectItem>
-                              <SelectItem value="year-13">Year 13</SelectItem>
-                            </>
-                          )}
-                        </SelectContent>
-                      </Select>
+                  {/* 학제 선택 */}
+                  <div className="space-y-3">
+                    <Label>학제 * (여러개 선택 가능)</Label>
+                    <div className="grid grid-cols-3 gap-3">
+                      {[
+                        { value: 'korea', label: '한국' },
+                        { value: 'usa', label: '미국' },
+                        { value: 'uk', label: '영국' }
+                      ].map(({ value, label }) => (
+                        <div key={value} className="flex items-center space-x-2 p-3 border border-border rounded-lg hover:bg-muted/50 transition-colors">
+                          <Checkbox
+                            id={`school-${value}`}
+                            checked={formData.schoolSystem.includes(value)}
+                            onCheckedChange={(checked) => handleSchoolSystemChange(value, checked as boolean)}
+                          />
+                          <Label htmlFor={`school-${value}`} className="font-medium cursor-pointer">
+                            {label}
+                          </Label>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* 학년 선택 */}
+                  {formData.schoolSystem.length > 0 && (
+                    <div className="space-y-3">
+                      <Label>학년 * (여러개 선택 가능)</Label>
+                      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 max-h-48 overflow-y-auto">
+                        {formData.schoolSystem.includes('korea') && (
+                          <>
+                            {[
+                              { value: 'elementary-1', label: '초등 1학년' },
+                              { value: 'elementary-2', label: '초등 2학년' },
+                              { value: 'elementary-3', label: '초등 3학년' },
+                              { value: 'elementary-4', label: '초등 4학년' },
+                              { value: 'elementary-5', label: '초등 5학년' },
+                              { value: 'elementary-6', label: '초등 6학년' },
+                              { value: 'middle-1', label: '중등 1학년' },
+                              { value: 'middle-2', label: '중등 2학년' },
+                              { value: 'middle-3', label: '중등 3학년' },
+                              { value: 'high-1', label: '고등 1학년' },
+                              { value: 'high-2', label: '고등 2학년' },
+                              { value: 'high-3', label: '고등 3학년' }
+                            ].map(({ value, label }) => (
+                              <div key={value} className="flex items-center space-x-2 p-2 border border-border rounded hover:bg-muted/50 transition-colors">
+                                <Checkbox
+                                  id={`grade-${value}`}
+                                  checked={formData.grade.includes(value)}
+                                  onCheckedChange={(checked) => handleGradeChange(value, checked as boolean)}
+                                />
+                                <Label htmlFor={`grade-${value}`} className="text-xs cursor-pointer">
+                                  {label}
+                                </Label>
+                              </div>
+                            ))}
+                          </>
+                        )}
+                        {formData.schoolSystem.includes('usa') && (
+                          <>
+                            {[
+                              { value: 'grade-1', label: 'Grade 1' },
+                              { value: 'grade-2', label: 'Grade 2' },
+                              { value: 'grade-3', label: 'Grade 3' },
+                              { value: 'grade-4', label: 'Grade 4' },
+                              { value: 'grade-5', label: 'Grade 5' },
+                              { value: 'grade-6', label: 'Grade 6' },
+                              { value: 'grade-7', label: 'Grade 7' },
+                              { value: 'grade-8', label: 'Grade 8' },
+                              { value: 'grade-9', label: 'Grade 9' },
+                              { value: 'grade-10', label: 'Grade 10' },
+                              { value: 'grade-11', label: 'Grade 11' },
+                              { value: 'grade-12', label: 'Grade 12' }
+                            ].map(({ value, label }) => (
+                              <div key={value} className="flex items-center space-x-2 p-2 border border-border rounded hover:bg-muted/50 transition-colors">
+                                <Checkbox
+                                  id={`grade-${value}`}
+                                  checked={formData.grade.includes(value)}
+                                  onCheckedChange={(checked) => handleGradeChange(value, checked as boolean)}
+                                />
+                                <Label htmlFor={`grade-${value}`} className="text-xs cursor-pointer">
+                                  {label}
+                                </Label>
+                              </div>
+                            ))}
+                          </>
+                        )}
+                        {formData.schoolSystem.includes('uk') && (
+                          <>
+                            {[
+                              { value: 'year-1', label: 'Year 1' },
+                              { value: 'year-2', label: 'Year 2' },
+                              { value: 'year-3', label: 'Year 3' },
+                              { value: 'year-4', label: 'Year 4' },
+                              { value: 'year-5', label: 'Year 5' },
+                              { value: 'year-6', label: 'Year 6' },
+                              { value: 'year-7', label: 'Year 7' },
+                              { value: 'year-8', label: 'Year 8' },
+                              { value: 'year-9', label: 'Year 9' },
+                              { value: 'year-10', label: 'Year 10' },
+                              { value: 'year-11', label: 'Year 11' },
+                              { value: 'year-12', label: 'Year 12' },
+                              { value: 'year-13', label: 'Year 13' }
+                            ].map(({ value, label }) => (
+                              <div key={value} className="flex items-center space-x-2 p-2 border border-border rounded hover:bg-muted/50 transition-colors">
+                                <Checkbox
+                                  id={`grade-${value}`}
+                                  checked={formData.grade.includes(value)}
+                                  onCheckedChange={(checked) => handleGradeChange(value, checked as boolean)}
+                                />
+                                <Label htmlFor={`grade-${value}`} className="text-xs cursor-pointer">
+                                  {label}
+                                </Label>
+                              </div>
+                            ))}
+                          </>
+                        )}
+                      </div>
                     </div>
                   )}
-
-                  <div className="space-y-2">
-                    <Label htmlFor="examDate">시험 일시 *</Label>
-                    <Input 
-                      id="examDate" 
-                      type="datetime-local"
-                      value={formData.examDate}
-                      onChange={(e) => handleInputChange('examDate', e.target.value)}
-                    />
-                  </div>
 
                   <div className="space-y-2">
                     <Label htmlFor="description">시험 설명</Label>
                     <Textarea 
                       id="description" 
-                      placeholder="시험에 대한 추가 설명을 입력하세요" 
+                      placeholder="시험에 대한 추가 설명을 입력하세요"
                       rows={3}
                       value={formData.description}
                       onChange={(e) => handleInputChange('description', e.target.value)}
