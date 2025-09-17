@@ -97,6 +97,106 @@ const mockQuestionDetails = {
       }
     ]
   },
+  5: { // examId - 기하 단원 평가
+    math: [
+      {
+        id: 1,
+        question: "한 변의 길이가 5cm인 정사각형의 넓이를 구하시오.",
+        studentAnswer: "25cm²",
+        correctAnswer: "25cm²",
+        aiScore: 10,
+        aiMaxScore: 10,
+        aiFeedback: "정답입니다! 정사각형의 넓이 공식 (한 변)²을 올바르게 적용했습니다.",
+        teacherScore: 10,
+        teacherMaxScore: 10,
+        teacherFeedback: "완벽합니다. 기본 공식을 정확히 활용했네요."
+      },
+      {
+        id: 2,
+        question: "반지름이 6cm인 원의 둘레를 구하시오. (π = 3.14)",
+        studentAnswer: "37.68cm",
+        correctAnswer: "37.68cm",
+        aiScore: 15,
+        aiMaxScore: 15,
+        aiFeedback: "정답입니다! 원의 둘레 공식 2πr을 정확히 적용하여 계산했습니다.",
+        teacherScore: 15,
+        teacherMaxScore: 15,
+        teacherFeedback: "훌륭해요! 원의 둘레 공식을 정확히 기억하고 계산했습니다."
+      },
+      {
+        id: 3,
+        question: "밑변이 8cm, 높이가 5cm인 삼각형의 넓이를 구하시오.",
+        studentAnswer: "20cm²",
+        correctAnswer: "20cm²",
+        aiScore: 12,
+        aiMaxScore: 12,
+        aiFeedback: "정답입니다! 삼각형의 넓이 공식 (밑변 × 높이) ÷ 2를 올바르게 적용했습니다.",
+        teacherScore: 12,
+        teacherMaxScore: 12,
+        teacherFeedback: "맞습니다! 삼각형 넓이 공식을 정확히 사용했어요."
+      },
+      {
+        id: 4,
+        question: "직각삼각형에서 두 직각을 낀 변의 길이가 각각 3cm, 4cm일 때, 빗변의 길이를 구하시오.",
+        studentAnswer: "5cm",
+        correctAnswer: "5cm",
+        aiScore: 15,
+        aiMaxScore: 15,
+        aiFeedback: "정답입니다! 피타고라스 정리 a² + b² = c²를 올바르게 적용했습니다. 3² + 4² = 9 + 16 = 25, √25 = 5",
+        teacherScore: 15,
+        teacherMaxScore: 15,
+        teacherFeedback: "완벽한 답변이에요! 피타고라스 정리를 정확히 활용했습니다."
+      },
+      {
+        id: 5,
+        question: "가로 12cm, 세로 8cm인 직사각형의 넓이와 둘레를 각각 구하시오.",
+        studentAnswer: "넓이: 96cm², 둘레: 40cm",
+        correctAnswer: "넓이: 96cm², 둘레: 40cm",
+        aiScore: 18,
+        aiMaxScore: 18,
+        aiFeedback: "정답입니다! 직사각형의 넓이(가로×세로)와 둘레(2×(가로+세로)) 공식을 모두 정확히 적용했습니다.",
+        teacherScore: 18,
+        teacherMaxScore: 18,
+        teacherFeedback: "훌륭합니다! 두 공식을 모두 정확히 사용했네요."
+      },
+      {
+        id: 6,
+        question: "한 내각이 60°인 정삼각형에서 나머지 두 내각의 크기를 구하시오.",
+        studentAnswer: "60°, 60°",
+        correctAnswer: "60°, 60°",
+        aiScore: 10,
+        aiMaxScore: 10,
+        aiFeedback: "정답입니다! 정삼각형의 모든 내각이 60°라는 성질을 정확히 알고 있습니다.",
+        teacherScore: 10,
+        teacherMaxScore: 10,
+        teacherFeedback: "맞아요! 정삼각형의 특성을 잘 이해하고 있네요."
+      },
+      {
+        id: 7,
+        question: "반지름이 4cm인 원의 넓이를 구하시오. (π = 3.14)",
+        studentAnswer: "50.24cm²",
+        correctAnswer: "50.24cm²",
+        aiScore: 12,
+        aiMaxScore: 12,
+        aiFeedback: "정답입니다! 원의 넓이 공식 πr²을 정확히 적용했습니다. π × 4² = 3.14 × 16 = 50.24",
+        teacherScore: 12,
+        teacherMaxScore: 12,
+        teacherFeedback: "완벽해요! 원의 넓이 공식을 정확히 계산했습니다."
+      },
+      {
+        id: 8,
+        question: "이등변삼각형에서 밑각이 50°일 때, 꼭지각의 크기를 구하시오.",
+        studentAnswer: "80°",
+        correctAnswer: "80°",
+        aiScore: 0,
+        aiMaxScore: 12,
+        aiFeedback: "틀렸습니다. 삼각형의 내각의 합이 180°이고, 이등변삼각형에서 두 밑각이 같다는 점을 고려해야 합니다. 50° + 50° + 꼭지각 = 180°이므로 꼭지각은 80°입니다.",
+        teacherScore: 2,
+        teacherMaxScore: 12,
+        teacherFeedback: "아쉽게도 틀렸어요. 이등변삼각형의 성질과 삼각형 내각의 합을 다시 생각해보세요."
+      }
+    ]
+  },
   6: { // examId - 영어 종합 평가
     reading: [
       {
