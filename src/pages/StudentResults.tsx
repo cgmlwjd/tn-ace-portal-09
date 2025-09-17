@@ -181,10 +181,6 @@ export default function StudentResults() {
               </div>
             </div>
             
-            <Button variant="outline" className="hidden sm:flex items-center space-x-2">
-              <Download className="h-4 w-4" />
-              <span>결과 다운로드</span>
-            </Button>
           </div>
 
           {/* Exam Overview Card */}
@@ -315,15 +311,16 @@ export default function StudentResults() {
                         ) : null}
                       </div>
 
-                      {/* Action Buttons */}
-                      <div className="flex flex-col sm:flex-row gap-2 pt-2">
-                        <Button variant="outline" size="sm" className="flex-1">
+                      {/* Action Button */}
+                      <div className="pt-2">
+                        <Button 
+                          variant="outline" 
+                          size="sm" 
+                          className="w-full"
+                          onClick={() => navigate(`/student/results/${examId}/section/${category}`)}
+                        >
                           <Eye className="h-4 w-4 mr-2" />
                           상세보기
-                        </Button>
-                        <Button variant="outline" size="sm" className="flex-1">
-                          <Download className="h-4 w-4 mr-2" />
-                          다운로드
                         </Button>
                       </div>
                     </CardContent>
