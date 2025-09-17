@@ -54,8 +54,8 @@ export default function AIGradingResult() {
                   processingTime: "3.2초"
                 },
                 studentAnswer: {
-                  content: "My future dream is to become a doctor. I have always been interested in helping people and making them feel better when they are sick...",
-                  wordCount: 142,
+                  content: "My future dream is to become a doctor. I have always been interested in helping people and making them feel better when they are sick. Ever since I was young, I enjoyed watching medical dramas and reading about different diseases and treatments. The idea of saving lives and making a positive impact on people's health really appeals to me.\n\nTo achieve this dream, I have several concrete plans. First, I need to study very hard in science subjects like biology and chemistry. I am already taking extra classes after school to improve my grades in these areas. Second, I plan to volunteer at the local hospital during summer vacation to gain hands-on experience and learn more about the medical field. This will help me understand what doctors actually do on a daily basis.\n\nI know there will be many difficulties on this path. Medical school is very competitive and expensive, requiring excellent grades and high test scores. Also, studying medicine takes many years - at least 8 years including undergraduate and medical school, plus residency training. The workload will be intense and demanding. However, I believe I can overcome these challenges by staying motivated and working consistently towards my goal. I am willing to make sacrifices now for my future career.\n\nI think helping people as a doctor would be incredibly rewarding, and this motivates me to work hard every day toward achieving my dream.",
+                  wordCount: 195,
                   submittedAt: "2024-01-16 14:30:25"
                 }
               }
@@ -90,7 +90,7 @@ export default function AIGradingResult() {
                   processingTime: "5.7초"
                 },
                 studentAnswer: {
-                  content: "음성 답변 (2분 35초) - 전사: Hello! I'm so excited to introduce my hometown to you...",
+                  content: "음성 답변 (2분 35초)\n\n전사된 내용:\n\"Hello! I'm so excited to introduce my hometown to you. I live in Busan, which is located in the southeastern part of Korea. It's the second largest city in Korea and it's famous for its beautiful beaches and delicious seafood.\n\nOne of the most popular places you should definitely visit is Haeundae Beach. The sand is really soft and clean, and the water is crystal clear. During summer, there are many festivals and events happening there. You can also try our famous local food called 'milmyeon' which is cold buckwheat noodles. It's perfect for hot summer days and very refreshing.\n\nAnother place I highly recommend is Gamcheon Culture Village. It's very colorful and artistic, with painted houses built on hillsides. You can take amazing photos there and buy unique souvenirs made by local artists. The view from the village is breathtaking, especially during sunset.\n\nI think you should visit Busan because it has both modern city life and traditional Korean culture. The people here are very friendly and welcoming to foreigners. The seafood is incredibly fresh since we're right by the ocean. My advice for you is to definitely try the local street food at Jagalchi Fish Market, and don't forget to watch the sunrise at the beach early in the morning. It's truly spectacular and worth waking up early for.\"",
                   audioLength: "2분 35초",
                   submittedAt: "2024-01-16 13:45:20"
                 }
@@ -124,8 +124,8 @@ export default function AIGradingResult() {
                   processingTime: "2.1초"
                 },
                 studentAnswer: {
-                  content: "1. The main cause is human activities. 2. Arctic ice melting, sea level rise, extreme weather...",
-                  wordCount: 68,
+                  content: "1. The main cause of climate change is human activities, especially burning fossil fuels like coal, oil, and gas. These activities release greenhouse gases into the atmosphere.\n\n2. Three effects of climate change mentioned in the passage are:\n   - Arctic ice melting at an alarming rate\n   - Sea levels rising due to melting ice\n   - Extreme weather events becoming more frequent and severe\n\n3. The passage suggests several solutions:\n   - Many countries are taking action to reduce greenhouse gas emissions\n   - Using renewable energy sources like solar and wind power which are becoming more affordable\n   - Individual actions such as using public transportation and reducing energy consumption can also make a difference\n\n4. In my opinion, the most effective way to combat climate change is transitioning to renewable energy sources on a global scale. This would address the root cause by reducing our dependence on fossil fuels that release greenhouse gases.",
+                  wordCount: 145,
                   submittedAt: "2024-01-16 12:15:30"
                 }
               },
@@ -144,8 +144,8 @@ export default function AIGradingResult() {
                   processingTime: "1.8초"
                 },
                 studentAnswer: {
-                  content: "정답: ④ However, we must consider the ethical implications...",
-                  wordCount: 35,
+                  content: "정답: ④ However, we must consider the ethical implications of AI development and ensure it benefits all of humanity.\n\n이 문제는 인공지능 기술의 발전과 관련된 빈칸추론 문제였습니다. 지문의 흐름을 보면 AI 기술의 긍정적인 측면들이 먼저 제시되었고, 빈칸 뒤에는 조심스럽고 신중한 접근이 필요하다는 내용이 이어집니다. 따라서 'However'로 시작하여 AI의 윤리적 측면을 강조하는 선택지가 가장 적절하다고 판단했습니다. AI 기술이 아무리 발전하더라도 인간의 가치와 윤리를 고려하는 것이 중요하다는 메시지를 담고 있습니다.",
+                  wordCount: 156,
                   submittedAt: "2024-01-16 12:18:45"
                 }
               }
@@ -198,8 +198,8 @@ export default function AIGradingResult() {
                   processingTime: "1.8초"
                 },
                 studentAnswer: {
-                  content: "정답: ③ However, recent developments have shown...",
-                  wordCount: 45,
+                  content: "정답: ③ However, recent developments have shown that artificial intelligence can significantly enhance educational outcomes when properly integrated into learning environments.\n\n이 문제에서는 AI와 교육의 관계에 대한 지문이었습니다. 앞 문장에서는 AI 기술의 일반적인 발전 상황을 언급했고, 빈칸 뒤에는 구체적인 교육 분야에서의 AI 활용 사례들이 나열되어 있었습니다. 따라서 'However'를 통해 전환을 표시하면서 AI가 교육 분야에서 실제로 긍정적인 성과를 보이고 있다는 내용이 가장 자연스럽게 연결된다고 생각했습니다.",
+                  wordCount: 98,
                   submittedAt: "2024-01-17 09:16:22"
                 }
               }
@@ -224,8 +224,8 @@ export default function AIGradingResult() {
                   processingTime: "3.5초"
                 },
                 studentAnswer: {
-                  content: "Learning a second language offers numerous benefits in today's globalized world. First, it enhances cognitive abilities by improving memory and problem-solving skills...",
-                  wordCount: 135,
+                  content: "Learning a second language offers numerous benefits in today's globalized world. First, it enhances cognitive abilities by improving memory and problem-solving skills. Research shows that bilingual individuals often perform better in multitasking and decision-making processes. The mental exercise of switching between languages strengthens brain functions and can even delay age-related cognitive decline.\n\nSecond, learning another language opens up significant career opportunities. Many companies highly value employees who can communicate effectively with international clients and partners. This skill can lead to promotions, higher salaries, and opportunities to work abroad. In our interconnected economy, multilingual professionals are increasingly in demand across various industries.\n\nFinally, language learning allows for deeper cultural understanding and personal growth. When you learn a language, you also learn about the culture, traditions, and perspectives of its speakers. This broadens your worldview, makes you more empathetic towards others, and helps you appreciate diversity in our global community.",
+                  wordCount: 148,
                   submittedAt: "2024-01-17 09:17:45"
                 }
               }
@@ -250,7 +250,7 @@ export default function AIGradingResult() {
                   processingTime: "5.7초"
                 },
                 studentAnswer: {
-                  content: "음성 답변 (2분 40초) - 전사: My ideal future career is to become a software engineer...",
+                  content: "음성 답변 (2분 40초)\n\n전사된 내용:\n\"My ideal future career is to become a software engineer. I have always been fascinated by technology and how it can solve real-world problems. Programming allows me to be creative while also being logical and analytical, which suits my personality perfectly.\n\nI want to work for a technology company that focuses on developing applications that can make people's lives easier and more efficient. For example, I'm particularly interested in creating educational apps that can help students learn more effectively, or healthcare applications that can assist doctors in providing better patient care. I believe technology should be used to benefit society and improve quality of life.\n\nThe reason I chose this career path is because it combines my passion for problem-solving with my desire to make a positive impact on society. Technology is constantly evolving and advancing, so there will always be new challenges and opportunities to learn and grow. I'm excited about the possibility of working on cutting-edge projects and being part of innovations that could change how people work, learn, and communicate.\n\nTo prepare for this career, I'm currently studying computer science and learning various programming languages like Python, Java, and JavaScript. I also participate in coding competitions and work on personal projects to build my portfolio.\"",
                   audioLength: "2분 40초",
                   submittedAt: "2024-01-17 09:19:30"
                 }
@@ -306,8 +306,8 @@ export default function AIGradingResult() {
                   processingTime: "3.8초"
                 },
                 studentAnswer: {
-                  content: "Technology has revolutionized education in numerous ways. Online learning platforms allow students to access courses from anywhere in the world. Interactive software makes learning more engaging through gamification...",
-                  wordCount: 115,
+                  content: "Technology has revolutionized education in numerous ways, transforming how students learn and teachers teach. Online learning platforms allow students to access courses from anywhere in the world, breaking down geographical barriers and making quality education more accessible. Interactive software makes learning more engaging through gamification, virtual simulations, and multimedia content that caters to different learning styles.\n\nMoreover, educational technology enables personalized learning experiences. Adaptive learning systems can adjust the pace and difficulty level based on individual student progress, ensuring that each learner receives appropriate challenges. Digital tools also facilitate collaboration among students through online discussion forums, group projects, and peer review systems.\n\nTeachers benefit from technology as well, as it provides them with powerful tools for creating interactive lessons, tracking student progress, and providing immediate feedback. Virtual reality and augmented reality are opening up new possibilities for immersive learning experiences that were previously impossible in traditional classrooms.\n\nHowever, we must ensure that technology complements rather than replaces human interaction in education, maintaining the essential role of teachers in guiding and inspiring students.",
+                  wordCount: 162,
                   submittedAt: "2024-01-17 10:32:18"
                 }
               }
@@ -612,13 +612,11 @@ export default function AIGradingResult() {
                             </div>
                           )}
                           
-                          <div className="bg-muted/30 p-3 rounded-lg">
-                            <div className="whitespace-pre-line text-foreground text-sm">
-                              {question.studentAnswer.content.length > 100 
-                                ? `${question.studentAnswer.content.substring(0, 100)}...` 
-                                : question.studentAnswer.content}
+                            <div className="bg-muted/30 p-3 rounded-lg">
+                              <div className="whitespace-pre-line text-foreground text-sm">
+                                {question.studentAnswer.content}
+                              </div>
                             </div>
-                          </div>
                         </div>
 
                         {/* AI Grading Breakdown */}
