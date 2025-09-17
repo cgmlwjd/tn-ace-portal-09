@@ -20,7 +20,7 @@ type ExamCategory = 'reading' | 'writing' | 'essay' | 'speaking';
 
 interface ExamFormData {
   title: string;
-  schoolSystem: string;
+  schoolSystem: string[];
   grade: string[];
   examDate: string;
   description: string;
@@ -84,7 +84,7 @@ export default function ExamRegistrationModal({ isOpen, onClose, onComplete }: E
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState<ExamFormData>({
     title: '',
-    schoolSystem: '',
+    schoolSystem: [],
     grade: [],
     examDate: '',
     description: '',
@@ -101,7 +101,9 @@ export default function ExamRegistrationModal({ isOpen, onClose, onComplete }: E
   const handleSchoolSystemChange = (system: string, checked: boolean) => {
     setFormData(prev => ({
       ...prev,
-      schoolSystem: checked ? system : '',
+      schoolSystem: checked 
+        ? [...prev.schoolSystem, system]
+        : prev.schoolSystem.filter(s => s !== system),
       grade: [] // 학제 변경 시 학년 초기화
     }));
   };
@@ -124,10 +126,10 @@ export default function ExamRegistrationModal({ isOpen, onClose, onComplete }: E
     }));
   };
 
-  const removeSchoolSystem = () => {
+  const removeSchoolSystem = (system: string) => {
     setFormData(prev => ({
       ...prev,
-      schoolSystem: '',
+      schoolSystem: prev.schoolSystem.filter(s => s !== system),
       grade: [] // 학제 제거 시 학년도 초기화
     }));
   };
@@ -162,7 +164,7 @@ export default function ExamRegistrationModal({ isOpen, onClose, onComplete }: E
     setCurrentStep(1);
     setFormData({
       title: '',
-      schoolSystem: '',
+      schoolSystem: [],
       grade: [],
       examDate: '',
       description: '',
@@ -171,7 +173,7 @@ export default function ExamRegistrationModal({ isOpen, onClose, onComplete }: E
     onClose();
   };
 
-  const isStep1Valid = formData.title && formData.schoolSystem && formData.grade.length > 0 && formData.examDate && formData.categories.length > 0;
+  const isStep1Valid = formData.title && formData.schoolSystem.length > 0 && formData.grade.length > 0 && formData.examDate && formData.categories.length > 0;
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -226,7 +228,7 @@ export default function ExamRegistrationModal({ isOpen, onClose, onComplete }: E
                   
                    {/* 학제 선택 */}
                    <div className="space-y-3">
-                     <Label>학제 * (하나만 선택 가능)</Label>
+                     <Label>학제 * (여러개 선택 가능)</Label>
                      <div className="grid grid-cols-3 gap-3">
                        {[
                          { value: 'korea', label: '한국' },
@@ -236,7 +238,7 @@ export default function ExamRegistrationModal({ isOpen, onClose, onComplete }: E
                          <div key={value} className="flex items-center space-x-2 p-3 border border-border rounded-lg hover:bg-muted/50 transition-colors">
                            <Checkbox
                              id={`school-${value}`}
-                             checked={formData.schoolSystem === value}
+                             checked={formData.schoolSystem.includes(value)}
                              onCheckedChange={(checked) => handleSchoolSystemChange(value, checked as boolean)}
                            />
                            <Label htmlFor={`school-${value}`} className="font-medium cursor-pointer">
@@ -250,27 +252,29 @@ export default function ExamRegistrationModal({ isOpen, onClose, onComplete }: E
                      <div className="space-y-2">
                        <Label className="text-sm text-muted-foreground">선택된 학제</Label>
                        <div className="min-h-[2rem] flex flex-wrap gap-2">
-                         {!formData.schoolSystem ? (
+                         {formData.schoolSystem.length === 0 ? (
                            <p className="text-sm text-muted-foreground">선택된 학제가 없습니다.</p>
                          ) : (
-                           <Badge variant="secondary" className="flex items-center gap-1">
-                             {schoolSystemLabels[formData.schoolSystem as keyof typeof schoolSystemLabels]}
-                             <X 
-                               className="h-3 w-3 cursor-pointer hover:text-destructive" 
-                               onClick={() => removeSchoolSystem()}
-                             />
-                           </Badge>
+                           formData.schoolSystem.map((system) => (
+                             <Badge key={system} variant="secondary" className="flex items-center gap-1">
+                               {schoolSystemLabels[system as keyof typeof schoolSystemLabels]}
+                               <X 
+                                 className="h-3 w-3 cursor-pointer hover:text-destructive" 
+                                 onClick={() => removeSchoolSystem(system)}
+                               />
+                             </Badge>
+                           ))
                          )}
                        </div>
                      </div>
                    </div>
 
                    {/* 학년 선택 */}
-                   {formData.schoolSystem && (
+                   {formData.schoolSystem.length > 0 && (
                     <div className="space-y-3">
                       <Label>학년 * (여러개 선택 가능)</Label>
                        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 max-h-48 overflow-y-auto">
-                         {formData.schoolSystem === 'korea' && (
+                         {formData.schoolSystem.includes('korea') && (
                           <>
                             {[
                               { value: 'elementary-1', label: '초등 1학년' },
@@ -299,7 +303,7 @@ export default function ExamRegistrationModal({ isOpen, onClose, onComplete }: E
                             ))}
                           </>
                         )}
-                        {formData.schoolSystem === 'usa' && (
+                        {formData.schoolSystem.includes('usa') && (
                           <>
                             {[
                               { value: 'grade-1', label: 'Grade 1' },
@@ -328,7 +332,7 @@ export default function ExamRegistrationModal({ isOpen, onClose, onComplete }: E
                             ))}
                           </>
                         )}
-                        {formData.schoolSystem === 'uk' && (
+                        {formData.schoolSystem.includes('uk') && (
                           <>
                             {[
                               { value: 'year-1', label: 'Year 1' },
@@ -360,22 +364,34 @@ export default function ExamRegistrationModal({ isOpen, onClose, onComplete }: E
                         )}
                       </div>
                       
-                      {/* 선택된 학년 태그 표시 */}
+                      {/* 선택된 학년 태그 표시 - [학제 - 학년] 형태로 표시 */}
                       <div className="space-y-2">
                         <Label className="text-sm text-muted-foreground">선택된 학년</Label>
                         <div className="min-h-[2rem] flex flex-wrap gap-2">
                           {formData.grade.length === 0 ? (
                             <p className="text-sm text-muted-foreground">선택된 학년이 없습니다.</p>
                           ) : (
-                            formData.grade.map((grade) => (
-                              <Badge key={grade} variant="secondary" className="flex items-center gap-1">
-                                {gradeLabels[grade]}
-                                <X 
-                                  className="h-3 w-3 cursor-pointer hover:text-destructive" 
-                                  onClick={() => removeGrade(grade)}
-                                />
-                              </Badge>
-                            ))
+                            formData.grade.map((grade) => {
+                              // 학년에 따라 해당 학제 찾기
+                              let schoolSystemName = '';
+                              if (grade.startsWith('elementary-') || grade.startsWith('middle-') || grade.startsWith('high-')) {
+                                schoolSystemName = '한국';
+                              } else if (grade.startsWith('grade-')) {
+                                schoolSystemName = '미국';
+                              } else if (grade.startsWith('year-')) {
+                                schoolSystemName = '영국';
+                              }
+                              
+                              return (
+                                <Badge key={grade} variant="secondary" className="flex items-center gap-1">
+                                  [{schoolSystemName} - {gradeLabels[grade]}]
+                                  <X 
+                                    className="h-3 w-3 cursor-pointer hover:text-destructive" 
+                                    onClick={() => removeGrade(grade)}
+                                  />
+                                </Badge>
+                              );
+                            })
                           )}
                         </div>
                       </div>
