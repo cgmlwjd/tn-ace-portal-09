@@ -207,7 +207,7 @@ export default function TeacherDashboard() {
 
             {/* 채점 관리 탭 */}
             <TabsContent value="grading" className="space-y-6">
-              <div className="grid lg:grid-cols-2 gap-6">
+              <div className="grid lg:grid-cols-1 gap-6">
                 {/* 채점 대기 목록 */}
                 <Card className="shadow-bronze">
                   <CardHeader>
@@ -240,55 +240,6 @@ export default function TeacherDashboard() {
                             </Button>
                           </div>
                         </div>)}
-                    </div>
-                  </CardContent>
-                </Card>
-
-                {/* 채점 도구 */}
-                <Card className="shadow-bronze">
-                  <CardHeader>
-                    <CardTitle className="flex items-center space-x-2">
-                      <FileText className="h-5 w-5" />
-                      <span>채점 도구</span>
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div className="space-y-3">
-                      <Button className="w-full justify-start">
-                        <CheckCircle className="h-4 w-4 mr-2" />
-                        AI 자동 채점 시작
-                      </Button>
-                      <Button variant="outline" className="w-full justify-start">
-                        <Edit className="h-4 w-4 mr-2" />
-                        수동 채점 모드
-                      </Button>
-                      <Button variant="outline" className="w-full justify-start">
-                        <BarChart3 className="h-4 w-4 mr-2" />
-                        채점 현황 보기
-                      </Button>
-                    </div>
-
-                    <div className="border-t border-border pt-4">
-                      <h4 className="font-medium text-sm mb-3">채점 설정</h4>
-                      <div className="space-y-2">
-                        <div className="flex items-center justify-between text-sm">
-                          <span>자동 채점 기준</span>
-                          <Select>
-                            <SelectTrigger className="w-24 h-8">
-                              <SelectValue placeholder="엄격" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="strict">엄격</SelectItem>
-                              <SelectItem value="normal">보통</SelectItem>
-                              <SelectItem value="lenient">관대</SelectItem>
-                            </SelectContent>
-                          </Select>
-                        </div>
-                        <div className="flex items-center justify-between text-sm">
-                          <span>피드백 자동 생성</span>
-                          <input type="checkbox" defaultChecked className="rounded" />
-                        </div>
-                      </div>
                     </div>
                   </CardContent>
                 </Card>
