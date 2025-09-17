@@ -670,7 +670,7 @@ export default function ManualGrading() {
                   </CardTitle>
                 </CardHeader>
                 
-                {(isSingleCategory || expandedCategories[categoryName] ?? true) && (
+                {(isSingleCategory || (expandedCategories[categoryName] ?? true)) && (
                   <CardContent>
                   <div className="space-y-8">
                     {categoryData.questions.map((question, questionIndex) => {
