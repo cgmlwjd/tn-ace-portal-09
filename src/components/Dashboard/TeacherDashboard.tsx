@@ -43,9 +43,13 @@ const recentExams = [
 ];
 
 const pendingGrading = [
-  { student: '김민수', test: 'Essay Writing', submitted: '2시간 전' },
-  { student: '이지현', test: 'Speaking Test', submitted: '4시간 전' },
-  { student: '박준호', test: 'Reading Test', submitted: '1일 전' },
+  { student: '김민수', test: 'Essay Writing', submitted: '2시간 전', gradingType: 'AI' },
+  { student: '이지현', test: 'Speaking Test', submitted: '4시간 전', gradingType: 'Manual' },
+  { student: '박준호', test: 'Reading Test', submitted: '1일 전', gradingType: 'AI' },
+  { student: '최서연', test: 'Math - Algebra', submitted: '3시간 전', gradingType: 'AI' },
+  { student: '강도현', test: 'Math - Geometry', submitted: '5시간 전', gradingType: 'Manual' },
+  { student: '정유진', test: 'Math - Calculus', submitted: '1일 전', gradingType: 'AI' },
+  { student: '신우빈', test: 'Math - Statistics', submitted: '2일 전', gradingType: 'Manual' },
 ];
 
 export const TeacherDashboard: React.FC = () => {
@@ -131,7 +135,15 @@ export const TeacherDashboard: React.FC = () => {
                 <div key={index} className="p-4 border-b border-border last:border-b-0">
                   <div className="flex items-center justify-between mb-2">
                     <h4 className="font-medium text-sm">{item.student}</h4>
-                    <GraduationCap className="h-4 w-4 text-brand-bronze" />
+                    <div className="flex items-center space-x-2">
+                      <Badge 
+                        variant={item.gradingType === 'AI' ? 'default' : 'secondary'}
+                        className="text-xs"
+                      >
+                        {item.gradingType}
+                      </Badge>
+                      <GraduationCap className="h-4 w-4 text-brand-bronze" />
+                    </div>
                   </div>
                   <p className="text-sm text-muted-foreground mb-1">{item.test}</p>
                   <p className="text-xs text-muted-foreground">{item.submitted}</p>
