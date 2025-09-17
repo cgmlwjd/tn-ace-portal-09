@@ -14,6 +14,7 @@ import StudentDashboard from "./pages/StudentDashboard";
 import StudentResults from "./pages/StudentResults";
 import StudentQuestionDetail from "./pages/StudentQuestionDetail";
 import ManualGrading from "./pages/ManualGrading";
+import AIGradingResult from "./pages/AIGradingResult";
 
 const queryClient = new QueryClient();
 
@@ -30,6 +31,7 @@ const App = () => (
             <Route path="/student/exam/math/:examId" element={<MathExam />} />
             <Route path="/teacher" element={<TeacherDashboard />} />
             <Route path="/teacher/grading/:gradeId" element={<ManualGrading />} />
+            <Route path="/teacher/ai-result/:gradeId" element={<AIGradingResult />} />
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/student" element={<StudentDashboard />} />
           <Route path="/student/results/:examId" element={<StudentResults />} />

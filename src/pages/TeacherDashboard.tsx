@@ -12,6 +12,7 @@ import { Header } from '@/components/Layout/Header';
 import { Footer } from '@/components/Layout/Footer';
 import ExamRegistrationModal from '@/components/ExamRegistrationModal';
 import { BookOpen, Users, ClipboardCheck, FileText, Upload, Download, Calendar, Clock, GraduationCap, BarChart3, CheckCircle, AlertCircle, PlusCircle, Edit, Trash2 } from 'lucide-react';
+import { toast } from '@/hooks/use-toast';
 export default function TeacherDashboard() {
   // Mock data - declare before using in state
   const examStats = {
@@ -79,6 +80,27 @@ export default function TeacherDashboard() {
 
   const handleExamRegistration = (examData: any) => {
     setRecentExamsList(prev => [examData, ...prev]);
+  };
+
+  const handleAIGrading = async (gradeId: number) => {
+    // 첫 번째 토스트: AI 채점 시작
+    toast({
+      title: "AI 채점 중입니다",
+      description: "잠시만 기다려주세요...",
+    });
+
+    // 3초 후 두 번째 토스트: 채점 완료
+    setTimeout(() => {
+      toast({
+        title: "채점 완료 되었습니다!",
+        description: "AI 채점 결과를 확인해보세요.",
+      });
+      
+      // 1초 후 결과 페이지로 이동
+      setTimeout(() => {
+        navigate(`/teacher/ai-result/${gradeId}`);
+      }, 1000);
+    }, 3000);
   };
   const pendingGrades = [{
     id: 1,
@@ -322,9 +344,15 @@ export default function TeacherDashboard() {
                           </div>
                           
                           <div className="flex space-x-2 pt-3 border-t border-border">
-                            <Button variant="outline" size="sm" className="flex-1">
-                              AI 채점
-                            </Button>
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="flex-1"
+              onClick={() => handleAIGrading(grade.id)}
+              disabled={grade.aiGradingTime ? false : false}
+            >
+              AI 채점
+            </Button>
                             <Button 
                               size="sm" 
                               className="flex-1"
