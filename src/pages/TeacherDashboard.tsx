@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -67,6 +68,7 @@ export default function TeacherDashboard() {
   }];
 
   // State declarations
+  const navigate = useNavigate();
   const [currentLanguage, setCurrentLanguage] = useState<'ko' | 'en'>('ko');
   const [isExamModalOpen, setIsExamModalOpen] = useState(false);
   const [recentExamsList, setRecentExamsList] = useState(recentExams);
@@ -317,7 +319,11 @@ export default function TeacherDashboard() {
                             <Button variant="outline" size="sm" className="flex-1">
                               AI 채점
                             </Button>
-                            <Button size="sm" className="flex-1">
+                            <Button 
+                              size="sm" 
+                              className="flex-1"
+                              onClick={() => navigate(`/teacher/grading/${grade.id}`)}
+                            >
                               수동 채점
                             </Button>
                           </div>
