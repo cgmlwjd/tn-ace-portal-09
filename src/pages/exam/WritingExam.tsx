@@ -272,43 +272,47 @@ export default function WritingExam() {
                   Save Answer
                 </Button>
                 
-                <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
+                <div className="flex flex-wrap items-center justify-center gap-1 sm:gap-2">
                   <Button 
                     variant="outline" 
                     disabled={currentQuestion === 1}
                     onClick={() => setCurrentQuestion(Math.max(1, currentQuestion - 1))}
-                    className="min-w-fit shrink text-sm px-3 py-2 sm:px-4 sm:py-2 lg:text-base"
+                    className="min-w-fit shrink text-xs px-2 py-1 sm:text-sm sm:px-3 sm:py-2 lg:text-base lg:px-4 lg:py-2"
                   >
-                    <ArrowLeft className="h-4 w-4 mr-2" />
+                    <ArrowLeft className="h-3 w-3 mr-1 sm:h-4 sm:w-4 sm:mr-2" />
                     Previous
                   </Button>
 
-                  <Button
-                    variant="outline"
-                    onClick={() => setIsPaused(!isPaused)}
-                    className="min-w-fit shrink text-sm px-3 py-2 sm:px-4 sm:py-2 lg:text-base sm:hidden"
-                  >
-                    {isPaused ? (
-                      <>
-                        <Play className="h-4 w-4 mr-2" />
-                        재개
-                      </>
-                    ) : (
-                      <>
-                        <Pause className="h-4 w-4 mr-2" />
-                        일시정지
-                      </>
-                    )}
+                  <Button variant="outline" className="min-w-fit shrink text-xs px-2 py-1 sm:text-sm sm:px-3 sm:py-2 lg:text-base lg:px-4 lg:py-2">
+                    Save Answer
                   </Button>
 
                   <Button 
                     variant="outline"
                     disabled={currentQuestion === totalQuestions}
                     onClick={() => setCurrentQuestion(Math.min(totalQuestions, currentQuestion + 1))}
-                    className="min-w-fit shrink text-sm px-3 py-2 sm:px-4 sm:py-2 lg:text-base"
+                    className="min-w-fit shrink text-xs px-2 py-1 sm:text-sm sm:px-3 sm:py-2 lg:text-base lg:px-4 lg:py-2"
                   >
                     Next
-                    <ArrowRight className="h-4 w-4 ml-2" />
+                    <ArrowRight className="h-3 w-3 ml-1 sm:h-4 sm:w-4 sm:ml-2" />
+                  </Button>
+
+                  <Button
+                    variant="outline"
+                    onClick={() => setIsPaused(!isPaused)}
+                    className="min-w-fit shrink text-xs px-2 py-1 sm:text-sm sm:px-3 sm:py-2 lg:text-base lg:px-4 lg:py-2 sm:hidden w-full mt-2"
+                  >
+                    {isPaused ? (
+                      <>
+                        <Play className="h-3 w-3 mr-1 sm:h-4 sm:w-4 sm:mr-2" />
+                        재개
+                      </>
+                    ) : (
+                      <>
+                        <Pause className="h-3 w-3 mr-1 sm:h-4 sm:w-4 sm:mr-2" />
+                        일시정지
+                      </>
+                    )}
                   </Button>
                 </div>
               </div>
