@@ -18,6 +18,7 @@ interface StudentFormData {
   birthDate: string;
   gender: 'male' | 'female';
   studentId: string;
+  password: string;
   educationSystem: 'korean' | 'american' | 'british';
   grade: string;
   contact: string;
@@ -53,6 +54,7 @@ export const StudentRegistrationModal: React.FC<StudentRegistrationModalProps> =
     birthDate: '',
     gender: 'male',
     studentId: '',
+    password: '',
     educationSystem: 'korean',
     grade: '',
     contact: '',
@@ -67,6 +69,7 @@ export const StudentRegistrationModal: React.FC<StudentRegistrationModalProps> =
       birthDate: '',
       gender: 'male',
       studentId: '',
+      password: '',
       educationSystem: 'korean',
       grade: '',
       contact: '',
@@ -135,16 +138,30 @@ export const StudentRegistrationModal: React.FC<StudentRegistrationModalProps> =
             </RadioGroup>
           </div>
 
-          {/* 아이디 */}
-          <div className="space-y-2">
-            <Label htmlFor="studentId">아이디 *</Label>
-            <Input
-              id="studentId"
-              value={formData.studentId}
-              onChange={(e) => handleInputChange('studentId', e.target.value)}
-              placeholder="로그인에 사용할 아이디를 입력하세요"
-              required
-            />
+          {/* 아이디 및 비밀번호 */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="studentId">아이디 *</Label>
+              <Input
+                id="studentId"
+                value={formData.studentId}
+                onChange={(e) => handleInputChange('studentId', e.target.value)}
+                placeholder="로그인에 사용할 아이디를 입력하세요"
+                required
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="password">비밀번호 *</Label>
+              <Input
+                id="password"
+                type="password"
+                value={formData.password}
+                onChange={(e) => handleInputChange('password', e.target.value)}
+                placeholder="비밀번호를 입력하세요"
+                required
+              />
+            </div>
           </div>
 
           {/* 학제 및 학년 */}
@@ -233,7 +250,7 @@ export const StudentRegistrationModal: React.FC<StudentRegistrationModalProps> =
           </Button>
           <Button 
             onClick={handleSubmit}
-            disabled={!formData.name || !formData.birthDate || !formData.studentId || !formData.educationSystem || !formData.grade}
+            disabled={!formData.name || !formData.birthDate || !formData.studentId || !formData.password || !formData.educationSystem || !formData.grade}
             className="bg-brand-bronze hover:bg-brand-bronze/90 text-primary-foreground"
           >
             등록
