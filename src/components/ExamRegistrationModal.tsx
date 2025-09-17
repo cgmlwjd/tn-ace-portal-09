@@ -7,7 +7,8 @@ import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { ChevronLeft, ChevronRight, Upload, Download, BookOpen, FileText, Mic, PenTool } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { ChevronLeft, ChevronRight, Upload, Download, BookOpen, FileText, Mic, PenTool, X } from 'lucide-react';
 
 interface ExamRegistrationModalProps {
   isOpen: boolean;
@@ -31,6 +32,52 @@ const categoryLabels = {
   writing: { name: 'Writing', icon: FileText, color: 'text-green-500' },
   essay: { name: 'Essay', icon: PenTool, color: 'text-purple-500' },
   speaking: { name: 'Speaking', icon: Mic, color: 'text-orange-500' }
+};
+
+const schoolSystemLabels = {
+  korea: '한국',
+  usa: '미국',
+  uk: '영국'
+};
+
+const gradeLabels: Record<string, string> = {
+  'elementary-1': '초등 1학년',
+  'elementary-2': '초등 2학년',
+  'elementary-3': '초등 3학년',
+  'elementary-4': '초등 4학년',
+  'elementary-5': '초등 5학년',
+  'elementary-6': '초등 6학년',
+  'middle-1': '중등 1학년',
+  'middle-2': '중등 2학년',
+  'middle-3': '중등 3학년',
+  'high-1': '고등 1학년',
+  'high-2': '고등 2학년',
+  'high-3': '고등 3학년',
+  'grade-1': 'Grade 1',
+  'grade-2': 'Grade 2',
+  'grade-3': 'Grade 3',
+  'grade-4': 'Grade 4',
+  'grade-5': 'Grade 5',
+  'grade-6': 'Grade 6',
+  'grade-7': 'Grade 7',
+  'grade-8': 'Grade 8',
+  'grade-9': 'Grade 9',
+  'grade-10': 'Grade 10',
+  'grade-11': 'Grade 11',
+  'grade-12': 'Grade 12',
+  'year-1': 'Year 1',
+  'year-2': 'Year 2',
+  'year-3': 'Year 3',
+  'year-4': 'Year 4',
+  'year-5': 'Year 5',
+  'year-6': 'Year 6',
+  'year-7': 'Year 7',
+  'year-8': 'Year 8',
+  'year-9': 'Year 9',
+  'year-10': 'Year 10',
+  'year-11': 'Year 11',
+  'year-12': 'Year 12',
+  'year-13': 'Year 13'
 };
 
 export default function ExamRegistrationModal({ isOpen, onClose, onComplete }: ExamRegistrationModalProps) {
@@ -75,6 +122,20 @@ export default function ExamRegistrationModal({ isOpen, onClose, onComplete }: E
       categories: checked 
         ? [...prev.categories, category]
         : prev.categories.filter(c => c !== category)
+    }));
+  };
+
+  const removeSchoolSystem = (system: string) => {
+    setFormData(prev => ({
+      ...prev,
+      schoolSystem: prev.schoolSystem.filter(s => s !== system)
+    }));
+  };
+
+  const removeGrade = (grade: string) => {
+    setFormData(prev => ({
+      ...prev,
+      grade: prev.grade.filter(g => g !== grade)
     }));
   };
 
@@ -181,6 +242,26 @@ export default function ExamRegistrationModal({ isOpen, onClose, onComplete }: E
                         </div>
                       ))}
                     </div>
+                    
+                    {/* 선택된 학제 태그 표시 */}
+                    <div className="space-y-2">
+                      <Label className="text-sm text-muted-foreground">선택된 학제</Label>
+                      <div className="min-h-[2rem] flex flex-wrap gap-2">
+                        {formData.schoolSystem.length === 0 ? (
+                          <p className="text-sm text-muted-foreground">선택된 학제가 없습니다.</p>
+                        ) : (
+                          formData.schoolSystem.map((system) => (
+                            <Badge key={system} variant="secondary" className="flex items-center gap-1">
+                              {schoolSystemLabels[system as keyof typeof schoolSystemLabels]}
+                              <X 
+                                className="h-3 w-3 cursor-pointer hover:text-destructive" 
+                                onClick={() => removeSchoolSystem(system)}
+                              />
+                            </Badge>
+                          ))
+                        )}
+                      </div>
+                    </div>
                   </div>
 
                   {/* 학년 선택 */}
@@ -276,6 +357,26 @@ export default function ExamRegistrationModal({ isOpen, onClose, onComplete }: E
                             ))}
                           </>
                         )}
+                      </div>
+                      
+                      {/* 선택된 학년 태그 표시 */}
+                      <div className="space-y-2">
+                        <Label className="text-sm text-muted-foreground">선택된 학년</Label>
+                        <div className="min-h-[2rem] flex flex-wrap gap-2">
+                          {formData.grade.length === 0 ? (
+                            <p className="text-sm text-muted-foreground">선택된 학년이 없습니다.</p>
+                          ) : (
+                            formData.grade.map((grade) => (
+                              <Badge key={grade} variant="secondary" className="flex items-center gap-1">
+                                {gradeLabels[grade]}
+                                <X 
+                                  className="h-3 w-3 cursor-pointer hover:text-destructive" 
+                                  onClick={() => removeGrade(grade)}
+                                />
+                              </Badge>
+                            ))
+                          )}
+                        </div>
                       </div>
                     </div>
                   )}
