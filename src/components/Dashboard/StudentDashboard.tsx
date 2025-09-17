@@ -129,6 +129,12 @@ export const StudentDashboard: React.FC = () => {
   const englishExams = mockExams.filter(exam => exam.type === 'english');
   const mathExams = mockExams.filter(exam => exam.type === 'math');
 
+  // Calculate statistics
+  const totalExams = mockExams.length;
+  const availableExams = mockExams.filter(exam => exam.status === 'available').length;
+  const gradingExams = mockExams.filter(exam => exam.status === 'grading').length;
+  const completedExams = mockExams.filter(exam => exam.status === 'completed').length;
+
   const handleStartExam = (exam: any) => {
     if (exam.status !== 'available') return;
     
@@ -258,6 +264,65 @@ export const StudentDashboard: React.FC = () => {
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-brand-dark mb-2">학생 대시보드</h1>
         <p className="text-muted-foreground">배정된 시험을 확인하고 응시하세요.</p>
+      </div>
+
+      {/* Statistics Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <Card className="shadow-bronze hover:shadow-lg transition-shadow">
+          <CardContent className="p-6">
+            <div className="flex items-center space-x-3">
+              <div className="p-3 rounded-full bg-blue-50">
+                <BookOpen className="h-6 w-6 text-blue-600" />
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground">전체 시험</p>
+                <p className="text-2xl font-bold text-foreground">{totalExams}</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="shadow-bronze hover:shadow-lg transition-shadow">
+          <CardContent className="p-6">
+            <div className="flex items-center space-x-3">
+              <div className="p-3 rounded-full bg-red-50">
+                <AlertTriangle className="h-6 w-6 text-red-600" />
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground">미응시</p>
+                <p className="text-2xl font-bold text-red-600">{availableExams}</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="shadow-bronze hover:shadow-lg transition-shadow">
+          <CardContent className="p-6">
+            <div className="flex items-center space-x-3">
+              <div className="p-3 rounded-full bg-yellow-50">
+                <Clock2 className="h-6 w-6 text-yellow-600" />
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground">채점 중</p>
+                <p className="text-2xl font-bold text-yellow-600">{gradingExams}</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="shadow-bronze hover:shadow-lg transition-shadow">
+          <CardContent className="p-6">
+            <div className="flex items-center space-x-3">
+              <div className="p-3 rounded-full bg-green-50">
+                <CheckCircle className="h-6 w-6 text-green-600" />
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground">완료</p>
+                <p className="text-2xl font-bold text-green-600">{completedExams}</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
       </div>
 
       <div className="space-y-8">
