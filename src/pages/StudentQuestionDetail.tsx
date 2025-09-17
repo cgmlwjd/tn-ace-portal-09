@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Header } from '@/components/Layout/Header';
 import { Footer } from '@/components/Layout/Footer';
-import { ArrowLeft, User, Bot, GraduationCap, MessageSquare } from 'lucide-react';
+import { ArrowLeft, User, Bot, GraduationCap, MessageSquare, Play, Video, Mic } from 'lucide-react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 
 // Mock detailed question data
@@ -59,7 +59,9 @@ const mockQuestionDetails = {
       {
         id: 1,
         question: "자신의 취미에 대해 1분간 이야기해 주세요.",
-        studentAnswer: "[음성 파일] - 학생이 독서와 영화 감상에 대해 이야기함",
+        studentAnswer: "학생이 독서와 영화 감상에 대해 이야기함",
+        videoUrl: "https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4", // Mock video URL
+        audioUrl: "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav", // Mock audio URL
         aiScore: 35,
         aiMaxScore: 40,
         aiFeedback: "발음이 명확하고 유창하게 말했습니다. 내용도 충실하네요. 다만 'actually'를 너무 자주 사용한 점이 아쉽습니다.",
@@ -241,19 +243,21 @@ const mockQuestionDetails = {
         teacherFeedback: "탁월한 작문입니다. 논리적 구성과 균형 잡힌 관점이 인상적이에요. 결론 부분도 매우 효과적입니다."
       }
     ],
-    speaking: [
-      {
-        id: 4,
-        question: "최근에 본 영화에 대해 2분간 이야기해 주세요. (줄거리, 감상, 추천 이유)",
-        studentAnswer: "[음성 파일] - 학생이 '기생충' 영화에 대해 상세히 설명하며 사회적 메시지와 영화적 기법에 대해 논의함",
-        aiScore: 88,
-        aiMaxScore: 100,
-        aiFeedback: "매우 유창하고 체계적인 발표였습니다. 발음이 명확하고 내용이 구체적이며 개인적 견해가 잘 표현되었습니다. 약간의 문법적 실수가 있었지만 전체적으로 훌륭합니다.",
-        teacherScore: 90,
-        teacherMaxScore: 100,
-        teacherFeedback: "정말 인상적인 발표였어요! 영화에 대한 깊이 있는 이해와 비판적 사고가 잘 드러났습니다. 자신감 있는 발표 태도도 좋았어요."
-      }
-    ],
+     speaking: [
+       {
+         id: 4,
+         question: "최근에 본 영화에 대해 2분간 이야기해 주세요. (줄거리, 감상, 추천 이유)",
+         studentAnswer: "학생이 '기생충' 영화에 대해 상세히 설명하며 사회적 메시지와 영화적 기법에 대해 논의함",
+         videoUrl: "https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_2mb.mp4", // Mock video URL
+         audioUrl: "https://www.soundjay.com/misc/sounds/bell-ringing-04.wav", // Mock audio URL
+         aiScore: 88,
+         aiMaxScore: 100,
+         aiFeedback: "매우 유창하고 체계적인 발표였습니다. 발음이 명확하고 내용이 구체적이며 개인적 견해가 잘 표현되었습니다. 약간의 문법적 실수가 있었지만 전체적으로 훌륭합니다.",
+         teacherScore: 90,
+         teacherMaxScore: 100,
+         teacherFeedback: "정말 인상적인 발표였어요! 영화에 대한 깊이 있는 이해와 비판적 사고가 잘 드러났습니다. 자신감 있는 발표 태도도 좋았어요."
+       }
+     ],
     essay: [
       {
         id: 5,
@@ -397,13 +401,58 @@ export default function StudentQuestionDetail() {
                       <h3 className="font-semibold text-foreground">내 답변</h3>
                     </div>
                     <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
-                      <p className="whitespace-pre-wrap">{question.studentAnswer}</p>
-                      {question.correctAnswer && (
-                        <div className="mt-2 pt-2 border-t border-blue-200">
-                          <p className="text-sm text-muted-foreground">
-                            정답: <span className="font-semibold text-green-600">{question.correctAnswer}</span>
-                          </p>
+                      {sectionName === 'speaking' ? (
+                        <div className="space-y-4">
+                          <p className="text-sm text-muted-foreground mb-3">{question.studentAnswer}</p>
+                          
+                          {/* Video Player */}
+                          {question.videoUrl && (
+                            <div className="space-y-2">
+                              <div className="flex items-center space-x-2 text-sm font-medium text-foreground">
+                                <Video className="h-4 w-4" />
+                                <span>녹화 영상</span>
+                              </div>
+                              <video 
+                                controls 
+                                className="w-full max-w-md h-48 bg-black rounded-lg"
+                                preload="metadata"
+                              >
+                                <source src={question.videoUrl} type="video/mp4" />
+                                브라우저에서 비디오를 지원하지 않습니다.
+                              </video>
+                            </div>
+                          )}
+                          
+                          {/* Audio Player */}
+                          {question.audioUrl && (
+                            <div className="space-y-2">
+                              <div className="flex items-center space-x-2 text-sm font-medium text-foreground">
+                                <Mic className="h-4 w-4" />
+                                <span>녹음 파일</span>
+                              </div>
+                              <audio 
+                                controls 
+                                className="w-full max-w-md"
+                                preload="metadata"
+                              >
+                                <source src={question.audioUrl} type="audio/wav" />
+                                <source src={question.audioUrl} type="audio/mpeg" />
+                                브라우저에서 오디오를 지원하지 않습니다.
+                              </audio>
+                            </div>
+                          )}
                         </div>
+                      ) : (
+                        <>
+                          <p className="whitespace-pre-wrap">{question.studentAnswer}</p>
+                          {question.correctAnswer && (
+                            <div className="mt-2 pt-2 border-t border-blue-200">
+                              <p className="text-sm text-muted-foreground">
+                                정답: <span className="font-semibold text-green-600">{question.correctAnswer}</span>
+                              </p>
+                            </div>
+                          )}
+                        </>
                       )}
                     </div>
                   </div>
