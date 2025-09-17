@@ -27,7 +27,133 @@ export default function AIGradingResult() {
   // AI 채점 결과 더미 데이터 (카테고리별 문제별 구조)
   const getAIResultByType = (id: string) => {
     const aiResults = {
-      "4": {
+      "1": { // 단일 카테고리, 단일 문제
+        student: { name: "김민수", grade: "중2", schoolSystem: "korea" },
+        exam: { 
+          title: "영어 에세이 평가", 
+          category: "Essay",
+          totalMaxScore: 100
+        },
+        categories: {
+          "Essay": {
+            questions: [
+              {
+                number: 1,
+                text: "다음 주제에 대해 150-200단어로 영어 에세이를 작성하시오.\n\n주제: \"My Future Dream and How to Achieve It\"\n\n- 자신의 미래 꿈이 무엇인지 명확히 서술하시오\n- 그 꿈을 이루기 위한 구체적인 계획을 제시하시오\n- 과정에서 예상되는 어려움과 극복 방법을 언급하시오",
+                maxScore: 100,
+                aiGrading: {
+                  score: 78,
+                  breakdown: {
+                    content: { score: 20, maxScore: 25, comment: "주제에 적합하고 개인적인 경험이 잘 반영됨" },
+                    organization: { score: 18, maxScore: 25, comment: "논리적 구성이 좋으나 결론 부분이 약함" },
+                    vocabulary: { score: 20, maxScore: 25, comment: "적절한 어휘 사용, 다양성 부족" },
+                    grammar: { score: 20, maxScore: 25, comment: "문법적 오류 몇 개 발견, 전반적으로 양호" }
+                  },
+                  feedback: "전반적으로 잘 작성된 에세이입니다. 주제에 대한 이해도가 높고 개인적인 목표가 명확하게 드러납니다.",
+                  gradedAt: "2024-01-16 14:35:12",
+                  processingTime: "3.2초"
+                },
+                studentAnswer: {
+                  content: "My future dream is to become a doctor. I have always been interested in helping people and making them feel better when they are sick...",
+                  wordCount: 142,
+                  submittedAt: "2024-01-16 14:30:25"
+                }
+              }
+            ]
+          }
+        }
+      },
+      "2": { // 단일 카테고리, 단일 문제 (Speaking)
+        student: { name: "이지은", grade: "고1", schoolSystem: "korea" },
+        exam: { 
+          title: "영어 말하기 평가", 
+          category: "Speaking",
+          totalMaxScore: 100
+        },
+        categories: {
+          "Speaking": {
+            questions: [
+              {
+                number: 1,
+                text: "다음 상황에 대해 2-3분간 영어로 말해보세요.\n\n상황: You are introducing your hometown to a foreign friend who is visiting Korea for the first time.\n\n포함할 내용:\n- 고향의 위치와 특징\n- 유명한 장소나 음식\n- 방문을 추천하는 이유",
+                maxScore: 100,
+                aiGrading: {
+                  score: 85,
+                  breakdown: {
+                    pronunciation: { score: 20, maxScore: 25, comment: "발음이 명확하고 이해하기 쉬움" },
+                    fluency: { score: 22, maxScore: 25, comment: "자연스러운 발화, 약간의 망설임 있음" },
+                    vocabulary: { score: 21, maxScore: 25, comment: "적절하고 다양한 어휘 사용" },
+                    grammar: { score: 22, maxScore: 25, comment: "문법적으로 정확하고 구조가 좋음" }
+                  },
+                  feedback: "전반적으로 우수한 스피킹 실력을 보여줍니다. 주제에 대해 체계적으로 설명했습니다.",
+                  gradedAt: "2024-01-16 14:10:15",
+                  processingTime: "5.7초"
+                },
+                studentAnswer: {
+                  content: "음성 답변 (2분 35초) - 전사: Hello! I'm so excited to introduce my hometown to you...",
+                  audioLength: "2분 35초",
+                  submittedAt: "2024-01-16 13:45:20"
+                }
+              }
+            ]
+          }
+        }
+      },
+      "3": { // 단일 카테고리, 여러 문제 (Reading)
+        student: { name: "박상현", grade: "중3", schoolSystem: "korea" },
+        exam: { 
+          title: "영어 독해 평가", 
+          category: "Reading",
+          totalMaxScore: 100
+        },
+        categories: {
+          "Reading": {
+            questions: [
+              {
+                number: 1,
+                text: "다음 글을 읽고 물음에 답하시오.\n\n[Reading Passage 1]\nClimate change is one of the most pressing issues of our time...",
+                maxScore: 50,
+                aiGrading: {
+                  score: 44,
+                  breakdown: {
+                    comprehension: { score: 23, maxScore: 25, comment: "지문 내용을 정확히 이해함" },
+                    accuracy: { score: 21, maxScore: 25, comment: "질문에 대한 정확한 답변" }
+                  },
+                  feedback: "독해 능력이 우수합니다. 주요 내용을 정확히 파악했습니다.",
+                  gradedAt: "2024-01-16 12:20:45",
+                  processingTime: "2.1초"
+                },
+                studentAnswer: {
+                  content: "1. The main cause is human activities. 2. Arctic ice melting, sea level rise, extreme weather...",
+                  wordCount: 68,
+                  submittedAt: "2024-01-16 12:15:30"
+                }
+              },
+              {
+                number: 2,
+                text: "다음 빈칸에 들어갈 가장 적절한 것을 고르시오.\n\n[Reading Passage 2]\nArtificial intelligence has revolutionized...",
+                maxScore: 50,
+                aiGrading: {
+                  score: 42,
+                  breakdown: {
+                    comprehension: { score: 21, maxScore: 25, comment: "문맥 파악이 우수함" },
+                    accuracy: { score: 21, maxScore: 25, comment: "논리적 추론 능력 좋음" }
+                  },
+                  feedback: "문맥을 잘 이해하고 적절한 선택을 했습니다.",
+                  gradedAt: "2024-01-16 12:22:18",
+                  processingTime: "1.8초"
+                },
+                studentAnswer: {
+                  content: "정답: ④ However, we must consider the ethical implications...",
+                  wordCount: 35,
+                  submittedAt: "2024-01-16 12:18:45"
+                }
+              }
+            ]
+          }
+        }
+      },
+      "4": { // 여러 카테고리, 여러 문제
         student: { name: "최수빈", grade: "고2", schoolSystem: "korea" },
         exam: { 
           title: "영어 종합 평가", 
@@ -127,6 +253,62 @@ export default function AIGradingResult() {
                   content: "음성 답변 (2분 40초) - 전사: My ideal future career is to become a software engineer...",
                   audioLength: "2분 40초",
                   submittedAt: "2024-01-17 09:19:30"
+                }
+              }
+            ]
+          }
+        }
+      },
+      "5": { // 단일 카테고리, 여러 문제 (Writing)
+        student: { name: "정하늘", grade: "고1", schoolSystem: "korea" },
+        exam: { 
+          title: "영어 쓰기 평가", 
+          category: "Writing",
+          totalMaxScore: 200
+        },
+        categories: {
+          "Writing": {
+            questions: [
+              {
+                number: 1,
+                text: "다음 빈칸을 적절한 단어로 채우시오.\n\n1. I _____ been studying English for three years.\n2. She _____ have come if she had known.\n3. The book _____ I read was interesting.",
+                maxScore: 50,
+                aiGrading: {
+                  score: 45,
+                  breakdown: {
+                    accuracy: { score: 23, maxScore: 25, comment: "대부분 정확한 답변" },
+                    grammar: { score: 22, maxScore: 25, comment: "문법 이해도 우수" }
+                  },
+                  feedback: "문법 지식이 탄탄합니다. 시제와 관계사를 잘 이해하고 있습니다.",
+                  gradedAt: "2024-01-17 10:33:22",
+                  processingTime: "1.2초"
+                },
+                studentAnswer: {
+                  content: "1. have 2. would 3. that",
+                  wordCount: 6,
+                  submittedAt: "2024-01-17 10:30:45"
+                }
+              },
+              {
+                number: 2,
+                text: "다음 주제로 100-120단어의 글을 작성하시오.\n\n주제: 'The Role of Technology in Education'",
+                maxScore: 150,
+                aiGrading: {
+                  score: 123,
+                  breakdown: {
+                    content: { score: 32, maxScore: 37, comment: "주제를 잘 이해하고 구체적 예시 제시" },
+                    organization: { score: 30, maxScore: 38, comment: "논리적 구성이 우수함" },
+                    vocabulary: { score: 31, maxScore: 37, comment: "적절하고 다양한 어휘 사용" },
+                    grammar: { score: 30, maxScore: 38, comment: "문법적으로 정확함" }
+                  },
+                  feedback: "기술과 교육의 관계를 잘 분석했습니다. 구체적인 예시와 함께 설득력 있게 작성했습니다.",
+                  gradedAt: "2024-01-17 10:35:22",
+                  processingTime: "3.8초"
+                },
+                studentAnswer: {
+                  content: "Technology has revolutionized education in numerous ways. Online learning platforms allow students to access courses from anywhere in the world. Interactive software makes learning more engaging through gamification...",
+                  wordCount: 115,
+                  submittedAt: "2024-01-17 10:32:18"
                 }
               }
             ]
@@ -242,12 +424,17 @@ export default function AIGradingResult() {
     return aiResults[id as keyof typeof aiResults] || aiResults["4"];
   };
 
-  const resultData = getAIResultByType(gradeId || "4");
+  const resultData = getAIResultByType(gradeId || "1");
   
   // Calculate total AI score
   const totalAIScore = Object.values(resultData.categories).reduce((total, category) => {
     return total + category.questions.reduce((catTotal, question) => catTotal + question.aiGrading.score, 0);
   }, 0);
+
+  // Check if it's a single category
+  const isSingleCategory = Object.keys(resultData.categories).length === 1;
+  const categoryEntries = Object.entries(resultData.categories);
+  const singleCategoryData = isSingleCategory ? categoryEntries[0] : null;
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
@@ -270,7 +457,11 @@ export default function AIGradingResult() {
               <Brain className="h-8 w-8 text-primary" />
               <div>
                 <h1 className="text-3xl font-bold text-foreground">AI 채점 결과</h1>
-                <p className="text-muted-foreground">카테고리별 문제별 자동 채점 완료</p>
+                <p className="text-muted-foreground">
+                  {isSingleCategory ? 
+                    `${singleCategoryData![0]} 영역 자동 채점 완료` : 
+                    '카테고리별 문제별 자동 채점 완료'}
+                </p>
               </div>
             </div>
           </div>
