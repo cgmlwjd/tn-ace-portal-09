@@ -319,10 +319,6 @@ export default function MathExam() {
                     이전 문제
                   </Button>
                   
-                  <div className="text-sm text-muted-foreground">
-                    문제 {currentQuestion + 1} / {totalQuestions}
-                  </div>
-                  
                   {currentQuestion === totalQuestions - 1 ? (
                     <Button
                       onClick={() => setShowSubmitModal(true)}
