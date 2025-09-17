@@ -288,11 +288,60 @@ export default function AIGradingResult() {
           <Card className="shadow-bronze mb-6">
             <CardHeader>
               <CardTitle className="flex items-center space-x-2">
-                {resultData.exam.category === 'Speaking' ? <Mic className="h-5 w-5" /> : <FileText className="h-5 w-5" />}
+                {resultData.exam.category.includes('Speaking') ? <Mic className="h-5 w-5" /> : <FileText className="h-5 w-5" />}
                 <span>학생 답안 미리보기</span>
               </CardTitle>
             </CardHeader>
             <CardContent>
+              {/* Speaking 카테고리가 포함된 경우 미디어 플레이어 추가 */}
+              {resultData.exam.category.includes('Speaking') && (
+                <div className="space-y-4 mb-6">
+                  {/* Audio Player */}
+                  <div className="bg-muted/50 p-4 rounded-lg">
+                    <div className="flex items-center justify-between mb-3">
+                      <div className="flex items-center space-x-2">
+                        <Mic className="h-5 w-5 text-primary" />
+                        <span className="font-medium">음성 녹음</span>
+                        <Badge variant="outline" className="text-xs">
+                          {(resultData.studentAnswer as any).audioLength || "2분 35초"}
+                        </Badge>
+                      </div>
+                    </div>
+                    
+                    <audio 
+                      controls 
+                      className="w-full"
+                      src="https://www.soundjay.com/misc/sounds/bell-ringing-05.wav"
+                    >
+                      브라우저가 오디오를 지원하지 않습니다.
+                    </audio>
+                  </div>
+
+                  {/* Video Player */}
+                  <div className="bg-muted/50 p-4 rounded-lg">
+                    <div className="flex items-center justify-between mb-3">
+                      <div className="flex items-center space-x-2">
+                        <Video className="h-5 w-5 text-primary" />
+                        <span className="font-medium">영상 녹화</span>
+                        <Badge variant="outline" className="text-xs">
+                          {(resultData.studentAnswer as any).audioLength || "2분 35초"}
+                        </Badge>
+                      </div>
+                    </div>
+                    
+                    <video 
+                      controls 
+                      className="w-full rounded-lg"
+                      style={{ maxHeight: '300px' }}
+                      poster="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjIyNSIgdmlld0JveD0iMCAwIDQwMCAyMjUiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMjI1IiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik0xODUgODBWMTQ1TDIzMCAxMTIuNUwxODUgODBaIiBmaWxsPSIjNkI3Mjg0Ii8+Cjx0ZXh0IHg9IjIwMCIgeT0iMTY1IiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM2QjcyODQiIHRleHQtYW5jaG9yPSJtaWRkbGUiPuuwmOuLueqwkOuPheuztOq4sDwvdGV4dD4KPHN2Zz4="
+                    >
+                      <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4" />
+                      브라우저가 비디오를 지원하지 않습니다.
+                    </video>
+                  </div>
+                </div>
+              )}
+              
               <div className="bg-muted/50 p-4 rounded-lg mb-4">
                 <div className="whitespace-pre-line text-foreground text-sm">
                   {resultData.studentAnswer.content.length > 200 
@@ -301,10 +350,10 @@ export default function AIGradingResult() {
                 </div>
               </div>
               <div className="flex items-center space-x-4 text-sm text-muted-foreground">
-                {resultData.exam.category === 'Speaking' ? (
+                {resultData.exam.category.includes('Speaking') ? (
                   <div className="flex items-center space-x-1">
                     <Clock className="h-4 w-4" />
-                    <span>음성 길이: {(resultData.studentAnswer as any).audioLength}</span>
+                    <span>음성 길이: {(resultData.studentAnswer as any).audioLength || "2분 35초"}</span>
                   </div>
                 ) : (
                   <div className="flex items-center space-x-1">

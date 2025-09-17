@@ -16,17 +16,11 @@ export default function ManualGrading() {
   const { gradeId } = useParams();
   const navigate = useNavigate();
   const [currentLanguage, setCurrentLanguage] = useState<'ko' | 'en'>('ko');
-  const [manualScore, setManualScore] = useState('');
-  const [feedback, setFeedback] = useState('');
+  const [manualScores, setManualScores] = useState<{[key: string]: string}>({});
+  const [feedbacks, setFeedbacks] = useState<{[key: string]: string}>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [showSubmitDialog, setShowSubmitDialog] = useState(false);
-  const [isAudioPlaying, setIsAudioPlaying] = useState(false);
-  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
-  const [audioCurrentTime, setAudioCurrentTime] = useState(0);
-  const [videCurrentTime, setVideoCurrentTime] = useState(0);
-  const [audioVolume, setAudioVolume] = useState(1);
-  const [videoVolume, setVideoVolume] = useState(1);
 
   const handleLanguageToggle = () => {
     setCurrentLanguage(currentLanguage === 'ko' ? 'en' : 'ko');
@@ -248,23 +242,29 @@ export default function ManualGrading() {
   const gradingData = getGradingDataByType(gradeId || "1");
 
   const handleSubmit = async () => {
-    if (!manualScore) {
-      toast({
-        title: "점수를 입력해주세요",
-        description: "수동 채점 점수는 필수 입력 항목입니다.",
-        variant: "destructive"
-      });
-      return;
-    }
-
-    const score = parseInt(manualScore);
-    if (isNaN(score) || score < 0 || score > gradingData.question.maxScore) {
-      toast({
-        title: "점수 범위 오류",
-        description: `점수는 0-${gradingData.question.maxScore} 범위 내에서 입력해주세요.`,
-        variant: "destructive"
-      });
-      return;
+    const categories = gradingData.exam.category.split('+');
+    
+    // Check if all categories have scores
+    for (const category of categories) {
+      if (!manualScores[category]) {
+        toast({
+          title: "점수를 입력해주세요",
+          description: `${category} 카테고리의 점수를 입력해주세요.`,
+          variant: "destructive"
+        });
+        return;
+      }
+      
+      const score = parseInt(manualScores[category]);
+      const maxScore = Math.floor(gradingData.question.maxScore / categories.length);
+      if (isNaN(score) || score < 0 || score > maxScore) {
+        toast({
+          title: "점수 범위 오류",
+          description: `${category} 카테고리 점수는 0-${maxScore} 범위 내에서 입력해주세요.`,
+          variant: "destructive"
+        });
+        return;
+      }
     }
 
     // Show confirmation dialog
@@ -299,21 +299,6 @@ export default function ManualGrading() {
     }, 500);
   };
 
-  const handleAudioPlayPause = () => {
-    setIsAudioPlaying(!isAudioPlaying);
-    // In real implementation, this would control actual audio element
-  };
-
-  const handleVideoPlayPause = () => {
-    setIsVideoPlaying(!isVideoPlaying);
-    // In real implementation, this would control actual video element
-  };
-
-  const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
-  };
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
@@ -399,8 +384,8 @@ export default function ManualGrading() {
               <CardTitle>학생 답안</CardTitle>
             </CardHeader>
             <CardContent>
-              {/* Speaking 카테고리일 때 미디어 플레이어 추가 */}
-              {gradingData.exam.category === 'Speaking' && (
+              {/* Speaking 카테고리가 포함된 경우 미디어 플레이어 추가 */}
+              {gradingData.exam.category.includes('Speaking') && (
                 <div className="space-y-4 mb-6">
                   {/* Audio Player */}
                   <div className="bg-muted/50 p-4 rounded-lg">
@@ -409,52 +394,18 @@ export default function ManualGrading() {
                         <Mic className="h-5 w-5 text-primary" />
                         <span className="font-medium">음성 녹음</span>
                         <Badge variant="outline" className="text-xs">
-                          {(gradingData.studentAnswer as any).audioLength}
+                          {(gradingData.studentAnswer as any).audioLength || "2분 35초"}
                         </Badge>
                       </div>
                     </div>
                     
-                    <div className="flex items-center space-x-3">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={handleAudioPlayPause}
-                        className="flex items-center space-x-1"
-                      >
-                        {isAudioPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
-                        <span>{isAudioPlaying ? '일시정지' : '재생'}</span>
-                      </Button>
-                      
-                      <div className="flex-1 bg-muted rounded-full h-2 relative">
-                        <div 
-                          className="bg-primary h-2 rounded-full transition-all duration-300" 
-                          style={{ width: `${(audioCurrentTime / 155) * 100}%` }}
-                        />
-                      </div>
-                      
-                      <span className="text-sm text-muted-foreground min-w-[60px]">
-                        {formatTime(audioCurrentTime)} / 2:35
-                      </span>
-                      
-                      <div className="flex items-center space-x-2">
-                        <Volume2 className="h-4 w-4 text-muted-foreground" />
-                        <div className="w-16 bg-muted rounded-full h-2 relative">
-                          <div 
-                            className="bg-primary h-2 rounded-full" 
-                            style={{ width: `${audioVolume * 100}%` }}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    
-                    <div className="flex items-center space-x-2 mt-3">
-                      <Button variant="ghost" size="sm">
-                        <SkipBack className="h-4 w-4" />
-                      </Button>
-                      <Button variant="ghost" size="sm">
-                        <SkipForward className="h-4 w-4" />
-                      </Button>
-                    </div>
+                    <audio 
+                      controls 
+                      className="w-full"
+                      src="https://www.soundjay.com/misc/sounds/bell-ringing-05.wav"
+                    >
+                      브라우저가 오디오를 지원하지 않습니다.
+                    </audio>
                   </div>
 
                   {/* Video Player */}
@@ -464,52 +415,20 @@ export default function ManualGrading() {
                         <Video className="h-5 w-5 text-primary" />
                         <span className="font-medium">영상 녹화</span>
                         <Badge variant="outline" className="text-xs">
-                          {(gradingData.studentAnswer as any).audioLength}
+                          {(gradingData.studentAnswer as any).audioLength || "2분 35초"}
                         </Badge>
                       </div>
                     </div>
                     
-                    {/* Video Preview Area */}
-                    <div className="bg-black/10 border-2 border-dashed border-muted-foreground/30 rounded-lg h-48 flex items-center justify-center mb-3">
-                      <div className="text-center">
-                        <Video className="h-12 w-12 text-muted-foreground mx-auto mb-2" />
-                        <p className="text-muted-foreground text-sm">영상 미리보기</p>
-                        <p className="text-xs text-muted-foreground">화질: 720p | 크기: 15.2MB</p>
-                      </div>
-                    </div>
-                    
-                    <div className="flex items-center space-x-3">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={handleVideoPlayPause}
-                        className="flex items-center space-x-1"
-                      >
-                        {isVideoPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
-                        <span>{isVideoPlaying ? '일시정지' : '재생'}</span>
-                      </Button>
-                      
-                      <div className="flex-1 bg-muted rounded-full h-2 relative">
-                        <div 
-                          className="bg-primary h-2 rounded-full transition-all duration-300" 
-                          style={{ width: `${(videCurrentTime / 155) * 100}%` }}
-                        />
-                      </div>
-                      
-                      <span className="text-sm text-muted-foreground min-w-[60px]">
-                        {formatTime(videCurrentTime)} / 2:35
-                      </span>
-                      
-                      <div className="flex items-center space-x-2">
-                        <Volume2 className="h-4 w-4 text-muted-foreground" />
-                        <div className="w-16 bg-muted rounded-full h-2 relative">
-                          <div 
-                            className="bg-primary h-2 rounded-full" 
-                            style={{ width: `${videoVolume * 100}%` }}
-                          />
-                        </div>
-                      </div>
-                    </div>
+                    <video 
+                      controls 
+                      className="w-full rounded-lg"
+                      style={{ maxHeight: '300px' }}
+                      poster="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjIyNSIgdmlld0JveD0iMCAwIDQwMCAyMjUiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMjI1IiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik0xODUgODBWMTQ1TDIzMCAxMTIuNUwxODUgODBaIiBmaWxsPSIjNkI3Mjg0Ii8+Cjx0ZXh0IHg9IjIwMCIgeT0iMTY1IiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM2QjcyODQiIHRleHQtYW5jaG9yPSJtaWRkbGUiPuuwmOuLueqwgOuPheuztOq4sDwvdGV4dD4KPHN2Zz4="
+                    >
+                      <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4" />
+                      브라우저가 비디오를 지원하지 않습니다.
+                    </video>
                   </div>
                 </div>
               )}
@@ -589,35 +508,76 @@ export default function ManualGrading() {
             </CardHeader>
             <CardContent>
               <div className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <Label htmlFor="manual-score">점수 (0-{gradingData.question.maxScore})</Label>
-                    <Input
-                      id="manual-score"
-                      type="number"
-                      min="0"
-                      max={gradingData.question.maxScore}
-                      value={manualScore}
-                      onChange={(e) => setManualScore(e.target.value)}
-                      placeholder={`점수를 입력하세요 (최대 ${gradingData.question.maxScore}점)`}
-                    />
-                  </div>
-                  <div className="flex items-end">
-                    <div className="text-sm text-muted-foreground">
-                      <p>AI 채점: {gradingData.aiGrading.totalScore}점</p>
-                      <p>차이: {manualScore ? Math.abs(parseInt(manualScore) - gradingData.aiGrading.totalScore) : 0}점</p>
-                    </div>
-                  </div>
-                </div>
+                {(() => {
+                  const categories = gradingData.exam.category.split('+');
+                  const maxScorePerCategory = Math.floor(gradingData.question.maxScore / categories.length);
+                  
+                  return categories.map((category, index) => (
+                    <div key={category} className="border border-border rounded-lg p-4">
+                      <div className="mb-4">
+                        <h3 className="text-lg font-semibold mb-2 flex items-center space-x-2">
+                          <span>{category} 카테고리 채점</span>
+                          <Badge variant="outline">{maxScorePerCategory}점</Badge>
+                        </h3>
+                      </div>
+                      
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
+                        <div>
+                          <Label htmlFor={`manual-score-${category}`}>
+                            {category} 점수 (0-{maxScorePerCategory})
+                          </Label>
+                          <Input
+                            id={`manual-score-${category}`}
+                            type="number"
+                            min="0"
+                            max={maxScorePerCategory}
+                            value={manualScores[category] || ''}
+                            onChange={(e) => setManualScores(prev => ({
+                              ...prev,
+                              [category]: e.target.value
+                            }))}
+                            placeholder={`점수를 입력하세요 (최대 ${maxScorePerCategory}점)`}
+                          />
+                        </div>
+                        <div className="flex items-end">
+                          <div className="text-sm text-muted-foreground">
+                            <p>AI 채점: {(gradingData.aiGrading.breakdown as any)[category.toLowerCase()]?.score || 'N/A'}점</p>
+                            <p>차이: {manualScores[category] ? 
+                              Math.abs(parseInt(manualScores[category]) - ((gradingData.aiGrading.breakdown as any)[category.toLowerCase()]?.score || 0)) : 0}점
+                            </p>
+                          </div>
+                        </div>
+                      </div>
 
-                <div>
-                  <Label htmlFor="feedback">선생님 피드백</Label>
+                      <div>
+                        <Label htmlFor={`feedback-${category}`}>{category} 피드백</Label>
+                        <Textarea
+                          id={`feedback-${category}`}
+                          value={feedbacks[category] || ''}
+                          onChange={(e) => setFeedbacks(prev => ({
+                            ...prev,
+                            [category]: e.target.value
+                          }))}
+                          placeholder={`${category} 영역에 대한 피드백을 작성해주세요...`}
+                          rows={3}
+                        />
+                      </div>
+                    </div>
+                  ));
+                })()}
+
+                {/* 전체 종합 피드백 */}
+                <div className="border border-border rounded-lg p-4 bg-primary/5">
+                  <Label htmlFor="general-feedback">종합 피드백</Label>
                   <Textarea
-                    id="feedback"
-                    value={feedback}
-                    onChange={(e) => setFeedback(e.target.value)}
-                    placeholder="학생에게 전달할 피드백을 작성해주세요..."
-                    rows={5}
+                    id="general-feedback"
+                    value={feedbacks['general'] || ''}
+                    onChange={(e) => setFeedbacks(prev => ({
+                      ...prev,
+                      ['general']: e.target.value
+                    }))}
+                    placeholder="전체적인 종합 피드백을 작성해주세요..."
+                    rows={4}
                   />
                 </div>
 
