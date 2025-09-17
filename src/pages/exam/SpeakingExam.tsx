@@ -314,28 +314,28 @@ export default function SpeakingExam() {
               {/* Navigation */}
               <Card className="shadow-bronze">
                 <CardContent className="pt-6">
-                  <div className="flex flex-col space-y-3 lg:space-y-0 lg:flex-row lg:items-center lg:justify-between">
+                  <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 lg:justify-between">
                     <Button 
                       variant="outline" 
                       disabled={currentQuestion === 1}
                       onClick={() => setCurrentQuestion(Math.max(1, currentQuestion - 1))}
-                      className="w-full lg:w-auto order-1 lg:order-1"
+                      className="min-w-fit shrink text-sm px-3 py-2 sm:px-4 sm:py-2 lg:text-base"
                     >
                       <ArrowLeft className="h-4 w-4 mr-2" />
                       Previous
                     </Button>
 
-                    <div className="flex flex-col sm:flex-row gap-2 w-full lg:w-auto order-3 lg:order-2">
-                      <Button variant="outline" className="w-full sm:w-auto">
+                    <div className="flex flex-wrap items-center gap-2 justify-center">
+                      <Button variant="outline" className="min-w-fit shrink text-sm px-3 py-2 sm:px-4 sm:py-2 lg:text-base">
                         Skip Question
                       </Button>
-                      <Button variant="default" className="w-full sm:w-auto">
+                      <Button variant="default" className="min-w-fit shrink text-sm px-3 py-2 sm:px-4 sm:py-2 lg:text-base">
                         Save Response
                       </Button>
                       <Button
                         variant="outline"
                         onClick={() => setIsPaused(!isPaused)}
-                        className="w-full sm:w-auto sm:hidden"
+                        className="min-w-fit shrink text-sm px-3 py-2 sm:px-4 sm:py-2 lg:text-base sm:hidden"
                       >
                         {isPaused ? (
                           <>
@@ -355,7 +355,7 @@ export default function SpeakingExam() {
                       variant="outline"
                       disabled={currentQuestion === totalQuestions}
                       onClick={() => setCurrentQuestion(Math.min(totalQuestions, currentQuestion + 1))}
-                      className="w-full lg:w-auto order-2 lg:order-3"
+                      className="min-w-fit shrink text-sm px-3 py-2 sm:px-4 sm:py-2 lg:text-base"
                     >
                       Next
                       <ArrowRight className="h-4 w-4 ml-2" />
