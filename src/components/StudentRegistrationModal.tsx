@@ -33,7 +33,7 @@ const gradeOptions = {
     '고1', '고2', '고3'
   ],
   american: [
-    'K', 'grade 1', 'grade 2', 'grade 3', 'grade 4', 'grade 5',
+    'grade 1', 'grade 2', 'grade 3', 'grade 4', 'grade 5',
     'grade 6', 'grade 7', 'grade 8',
     'grade 9', 'grade 10', 'grade 11', 'grade 12'
   ],
