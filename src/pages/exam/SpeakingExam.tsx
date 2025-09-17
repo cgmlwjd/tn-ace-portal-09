@@ -303,8 +303,8 @@ export default function SpeakingExam() {
                     
                     <div className="flex items-center justify-center space-x-2">
                       <Button variant="outline" size="sm">
-                        <RotateCcw className="h-4 w-4 mr-2" />
-                        Reset Timer
+                        <Play className="h-4 w-4 mr-2" />
+                        타이머 시작
                       </Button>
                     </div>
                   </div>
