@@ -357,37 +357,65 @@ export default function MathExam() {
             
             {/* Question Overview */}
             <Card>
-              <CardHeader>
-                <CardTitle className="text-sm">문제 개요</CardTitle>
+              <CardHeader className="pb-4">
+                <CardTitle className="text-base font-medium">문제 현황</CardTitle>
               </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-3 gap-2">
-                  {mockMathQuestions.map((_, index) => (
-                    <Button
-                      key={index}
-                      variant={index === currentQuestion ? "default" : answers[mockMathQuestions[index].id] ? "secondary" : "outline"}
-                      size="sm"
-                      className="aspect-square p-0"
-                      onClick={() => goToQuestion(index)}
-                      disabled={isPaused}
-                    >
-                      {index + 1}
-                    </Button>
-                  ))}
+              <CardContent className="space-y-4">
+                <div className="grid grid-cols-4 gap-3">
+                  {mockMathQuestions.map((_, index) => {
+                    const isCurrentQuestion = index === currentQuestion;
+                    const isAnswered = answers[mockMathQuestions[index].id];
+                    
+                    return (
+                      <button
+                        key={index}
+                        onClick={() => goToQuestion(index)}
+                        disabled={isPaused}
+                        className={`
+                          relative h-12 w-12 rounded-xl font-medium text-sm
+                          transition-all duration-200 hover:scale-105 disabled:hover:scale-100
+                          flex items-center justify-center
+                          ${isCurrentQuestion 
+                            ? 'bg-primary text-primary-foreground shadow-lg ring-2 ring-primary/20' 
+                            : isAnswered
+                            ? 'bg-secondary/80 text-secondary-foreground border-2 border-secondary'
+                            : 'bg-background border-2 border-border hover:border-muted-foreground/30 text-muted-foreground hover:text-foreground'
+                          }
+                          ${isPaused ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
+                        `}
+                      >
+                        {index + 1}
+                        {isAnswered && !isCurrentQuestion && (
+                          <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-background" />
+                        )}
+                      </button>
+                    );
+                  })}
                 </div>
                 
-                <div className="mt-4 space-y-2 text-xs">
-                  <div className="flex items-center space-x-2">
-                    <div className="w-3 h-3 bg-primary rounded-sm"></div>
-                    <span>현재 문제</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <div className="w-3 h-3 bg-secondary rounded-sm"></div>
-                    <span>답안 작성</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <div className="w-3 h-3 bg-background border border-border rounded-sm"></div>
-                    <span>미작성</span>
+                <div className="pt-2 border-t border-border">
+                  <div className="grid grid-cols-1 gap-2 text-xs">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-2">
+                        <div className="w-4 h-4 rounded bg-primary"></div>
+                        <span className="text-muted-foreground">현재 문제</span>
+                      </div>
+                      <span className="font-medium">{currentQuestion + 1}번</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-2">
+                        <div className="w-4 h-4 rounded bg-secondary/80 border border-secondary"></div>
+                        <span className="text-muted-foreground">답안 완료</span>
+                      </div>
+                      <span className="font-medium">{Object.keys(answers).length}개</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-2">
+                        <div className="w-4 h-4 rounded bg-background border-2 border-border"></div>
+                        <span className="text-muted-foreground">미완료</span>
+                      </div>
+                      <span className="font-medium">{totalQuestions - Object.keys(answers).length}개</span>
+                    </div>
                   </div>
                 </div>
               </CardContent>
