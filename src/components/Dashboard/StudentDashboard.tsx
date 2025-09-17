@@ -87,6 +87,32 @@ const mockExams = [
     status: 'completed',
     type: 'english',
     score: 88
+  },
+  {
+    id: 7,
+    title: "Speaking 실력 평가 - 고급",
+    categories: ["speaking"],
+    selectedCombinations: [
+      { schoolSystem: "korea", grade: "중2" }
+    ],
+    created: "2024-01-25",
+    duration: 25,
+    questions: 6,
+    status: 'grading',
+    type: 'english'
+  },
+  {
+    id: 8,
+    title: "Speaking 면접 시험",
+    categories: ["speaking"],
+    selectedCombinations: [
+      { schoolSystem: "korea", grade: "중2" }
+    ],
+    created: "2024-01-28",
+    duration: 20,
+    questions: 5,
+    status: 'available',
+    type: 'english'
   }
 ];
 
