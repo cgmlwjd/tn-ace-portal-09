@@ -261,10 +261,10 @@ export default function AdminDashboard() {
                               </Badge>
                               <Badge variant="outline">{student.grade}</Badge>
                             </div>
-                            <p className="text-sm text-muted-foreground mb-1">{student.email}</p>
-                            <div className="grid grid-cols-2 gap-4 text-xs text-muted-foreground">
-                              <div>최근 로그인: {student.lastLogin}</div>
-                              <div>응시한 시험: {student.examsTaken}회</div>
+                            <div className="flex items-center space-x-4 text-sm text-muted-foreground">
+                              <span>{student.email}</span>
+                              <span>최근 로그인: {student.lastLogin}</span>
+                              <span>응시한 시험: {student.examsTaken}회</span>
                             </div>
                           </div>
                           <div className="flex items-center space-x-2">
