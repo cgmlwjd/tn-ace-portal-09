@@ -15,7 +15,7 @@ interface ExamRegistrationModalProps {
   onComplete: (examData: any) => void;
 }
 
-type ExamCategory = 'reading' | 'writing' | 'essay' | 'speaking' | 'math';
+type ExamCategory = 'reading' | 'writing' | 'essay' | 'speaking' | 'mcq' | 'short' | 'math-essay';
 
 interface SchoolGradeCombination {
   schoolSystem: string;
@@ -36,7 +36,9 @@ const categoryLabels = {
   writing: { name: 'Writing (영어)', icon: FileText, color: 'text-green-500' },
   essay: { name: 'Essay (영어)', icon: PenTool, color: 'text-purple-500' },
   speaking: { name: 'Speaking (영어)', icon: Mic, color: 'text-orange-500' },
-  math: { name: 'Math (수학)', icon: Calculator, color: 'text-red-500' }
+  mcq: { name: '객관식 (수학)', icon: Calculator, color: 'text-red-500' },
+  short: { name: '주관식 (수학)', icon: PenTool, color: 'text-blue-600' },
+  'math-essay': { name: '서술형 (수학)', icon: FileText, color: 'text-green-600' }
 };
 
 const schoolSystemLabels = {
@@ -408,7 +410,7 @@ export default function ExamRegistrationModal({ isOpen, onClose, onComplete }: E
                             </div>
 
                             {/* Math 카테고리 이미지 업로드 */}
-                            {category === 'math' && (
+                            {(category === 'mcq' || category === 'short' || category === 'math-essay') && (
                               <div className="space-y-2">
                                 <Label>이미지 파일 업로드 (수학 문제)</Label>
                                 <div className="border-2 border-dashed border-border rounded-lg p-4 text-center hover:bg-muted/50 transition-colors cursor-pointer">

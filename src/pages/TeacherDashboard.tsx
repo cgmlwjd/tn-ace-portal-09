@@ -69,7 +69,7 @@ export default function TeacherDashboard() {
   }, {
     id: 5,
     title: "수학 중간고사 - 대수",
-    categories: ["math"],
+    categories: ["mcq", "short", "math-essay"],
     selectedCombinations: [
       { schoolSystem: "korea", grade: "중2" },
       { schoolSystem: "korea", grade: "중3" }
@@ -80,7 +80,7 @@ export default function TeacherDashboard() {
   }, {
     id: 6,
     title: "Math Test - Geometry",
-    categories: ["math"],
+    categories: ["mcq", "short"],
     selectedCombinations: [
       { schoolSystem: "usa", grade: "Grade 9" },
       { schoolSystem: "usa", grade: "Grade 10" }
@@ -203,7 +203,7 @@ export default function TeacherDashboard() {
     submittedAt: "2024-01-18 10:15",
     aiGradingTime: "2024-01-18 10:20",
     manualGradingTime: null,
-    categories: ["math"]
+    categories: ["mcq", "short", "math-essay"]
   }, {
     id: 9,
     studentName: "박지호",
@@ -213,7 +213,7 @@ export default function TeacherDashboard() {
     submittedAt: "2024-01-18 11:30",
     aiGradingTime: null,
     manualGradingTime: null,
-    categories: ["math"]
+    categories: ["mcq", "short"]
   }, {
     id: 10,
     studentName: "최예린",
@@ -223,7 +223,7 @@ export default function TeacherDashboard() {
     submittedAt: "2024-01-18 14:45",
     aiGradingTime: "2024-01-18 14:50",
     manualGradingTime: "2024-01-18 16:10",
-    categories: ["math"]
+    categories: ["mcq", "short", "math-essay"]
   }];
   return <div className="min-h-screen flex flex-col bg-background">
       <Header onLanguageToggle={handleLanguageToggle} currentLanguage={currentLanguage} />
@@ -305,14 +305,16 @@ export default function TeacherDashboard() {
                         </div>
                         
                         <div className="flex flex-wrap gap-2 mb-3">
-                          {exam.categories?.map((category: string) => (
-                            <Badge key={category} variant="outline" className="text-xs">
-                               {category === 'reading' ? 'Reading (영어)' : 
-                                category === 'writing' ? 'Writing (영어)' : 
-                                category === 'essay' ? 'Essay (영어)' : 
-                                category === 'speaking' ? 'Speaking (영어)' :
-                                category === 'math' ? 'Math (수학)' : category}
-                            </Badge>
+                           {exam.categories?.map((category: string) => (
+                             <Badge key={category} variant="outline" className="text-xs">
+                                {category === 'reading' ? 'Reading (영어)' : 
+                                 category === 'writing' ? 'Writing (영어)' : 
+                                 category === 'essay' ? 'Essay (영어)' : 
+                                 category === 'speaking' ? 'Speaking (영어)' :
+                                 category === 'mcq' ? '객관식 (수학)' : 
+                                 category === 'short' ? '주관식 (수학)' : 
+                                 category === 'math-essay' ? '서술형 (수학)' : category}
+                             </Badge>
                           ))}
                         </div>
 
@@ -376,7 +378,9 @@ export default function TeacherDashboard() {
                                         category === 'writing' ? 'Writing' : 
                                         category === 'essay' ? 'Essay' : 
                                         category === 'speaking' ? 'Speaking' : 
-                                        category === 'math' ? 'Math' : category}
+                                        category === 'mcq' ? '객관식' : 
+                                        category === 'short' ? '주관식' : 
+                                        category === 'math-essay' ? '서술형' : category}
                                      </Badge>
                                    ))}
                                 </div>

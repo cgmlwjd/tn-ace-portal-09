@@ -61,7 +61,7 @@ const mockExams = [
   {
     id: 4,
     title: "수학 중간고사",
-    categories: ["math"],
+    categories: ["mcq", "short", "math-essay"],
     selectedCombinations: [
       { schoolSystem: "korea", grade: "중2" }
     ],
@@ -72,13 +72,15 @@ const mockExams = [
     type: 'math',
     score: 92,
     results: {
-      math: { score: 92, maxScore: 100, timeSpent: '110분', correctAnswers: 14, totalQuestions: 15 }
+      mcq: { score: 35, maxScore: 40, timeSpent: '25분', correctAnswers: 7, totalQuestions: 8 },
+      short: { score: 28, maxScore: 30, timeSpent: '35분', correctAnswers: 4, totalQuestions: 4 },
+      'math-essay': { score: 29, maxScore: 30, timeSpent: '50분', questionsAnswered: 2, totalQuestions: 2 }
     }
   },
   {
     id: 5,
     title: "기하 단원 평가",
-    categories: ["math"],
+    categories: ["mcq", "short"],
     selectedCombinations: [
       { schoolSystem: "korea", grade: "중2" }
     ],
@@ -87,9 +89,10 @@ const mockExams = [
     questions: 12,
     status: 'completed',
     type: 'math',
-    score: 92,
+    score: 88,
     results: {
-      math: { score: 92, maxScore: 100, timeSpent: '75분', correctAnswers: 11, totalQuestions: 12 }
+      mcq: { score: 32, maxScore: 40, timeSpent: '20분', correctAnswers: 6, totalQuestions: 8 },
+      short: { score: 24, maxScore: 30, timeSpent: '45분', correctAnswers: 3, totalQuestions: 4 }
     }
   },
   {
@@ -155,7 +158,9 @@ export default function StudentResults() {
       case 'writing': return 'bg-green-50 text-green-700 border-green-200';
       case 'essay': return 'bg-purple-50 text-purple-700 border-purple-200';
       case 'speaking': return 'bg-orange-50 text-orange-700 border-orange-200';
-      case 'math': return 'bg-indigo-50 text-indigo-700 border-indigo-200';
+      case 'mcq': return 'bg-red-50 text-red-700 border-red-200';
+      case 'short': return 'bg-blue-50 text-blue-700 border-blue-200';
+      case 'math-essay': return 'bg-green-50 text-green-700 border-green-200';
       default: return 'bg-gray-50 text-gray-700 border-gray-200';
     }
   };
@@ -166,7 +171,9 @@ export default function StudentResults() {
       writing: 'Writing (영어)',
       essay: 'Essay (영어)',
       speaking: 'Speaking (영어)',
-      math: 'Math (수학)'
+      mcq: '객관식 (수학)',
+      short: '주관식 (수학)',
+      'math-essay': '서술형 (수학)'
     };
     return labels[category] || category;
   };
@@ -295,7 +302,7 @@ export default function StudentResults() {
 
                       {/* Details based on category */}
                       <div className="grid grid-cols-2 gap-4 text-sm">
-                        {category === 'reading' || category === 'writing' || category === 'math' ? (
+                        {category === 'reading' || category === 'writing' || category === 'mcq' || category === 'short' ? (
                           <>
                             <div>
                               <span className="text-muted-foreground">정답률:</span>
@@ -308,17 +315,17 @@ export default function StudentResults() {
                               <span className="ml-1 font-medium">{sectionResult.timeSpent}</span>
                             </div>
                           </>
-                        ) : category === 'essay' ? (
-                          <>
-                            <div>
-                              <span className="text-muted-foreground">단어수:</span>
-                              <span className="ml-1 font-medium">{sectionResult.wordCount}</span>
-                            </div>
-                            <div>
-                              <span className="text-muted-foreground">목표:</span>
-                              <span className="ml-1 font-medium">{sectionResult.targetWords}</span>
-                            </div>
-                          </>
+                        ) : category === 'essay' || category === 'math-essay' ? (
+                           <>
+                             <div>
+                               <span className="text-muted-foreground">{category === 'math-essay' ? '응답:' : '단어수:'}</span>
+                               <span className="ml-1 font-medium">{category === 'math-essay' ? `${sectionResult.questionsAnswered}/${sectionResult.totalQuestions}` : sectionResult.wordCount}</span>
+                             </div>
+                             <div>
+                               <span className="text-muted-foreground">{category === 'math-essay' ? '소요시간:' : '목표:'}</span>
+                               <span className="ml-1 font-medium">{category === 'math-essay' ? sectionResult.timeSpent : sectionResult.targetWords}</span>
+                             </div>
+                           </>
                         ) : category === 'speaking' ? (
                           <>
                             <div>

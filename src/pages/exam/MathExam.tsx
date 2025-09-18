@@ -7,50 +7,108 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Textarea } from '@/components/ui/textarea';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { SubmitConfirmationModal } from '@/components/SubmitConfirmationModal';
-import { Clock, Play, Pause, Calculator, Image as ImageIcon } from 'lucide-react';
+import { Clock, Play, Pause, Calculator, PenTool, FileText } from 'lucide-react';
 
-// Mock math exam content
-const mockMathQuestions = [
-  {
-    id: 1,
-    type: 'multiple-choice',
-    question: '다음 식의 값을 구하시오: 3x + 5 = 14',
-    options: ['x = 2', 'x = 3', 'x = 4', 'x = 5'],
-    correctAnswer: 'x = 3',
-    images: []
+// Mock math exam content with sections
+const examSections = {
+  mcq: {
+    title: '객관식 (MCQ)',
+    icon: Calculator,
+    color: 'bg-red-50 text-red-700 border-red-200',
+    content: {
+      questions: [
+        {
+          id: 1,
+          question: '다음 식의 값을 구하시오: 3x + 5 = 14',
+          options: ['x = 2', 'x = 3', 'x = 4', 'x = 5'],
+          correctAnswer: 'x = 3'
+        },
+        {
+          id: 2,
+          question: '다음 중 소수가 아닌 것은?',
+          options: ['7', '9', '11', '13'],
+          correctAnswer: '9'
+        },
+        {
+          id: 3,
+          question: '삼각형의 내각의 합은?',
+          options: ['90도', '120도', '180도', '360도'],
+          correctAnswer: '180도'
+        },
+        {
+          id: 4,
+          question: '2³ × 2² = ?',
+          options: ['2⁵', '2⁶', '4⁵', '4⁶'],
+          correctAnswer: '2⁵'
+        },
+        {
+          id: 5,
+          question: '원의 넓이 공식은?',
+          options: ['πr', '2πr', 'πr²', '2πr²'],
+          correctAnswer: 'πr²'
+        }
+      ]
+    }
   },
-  {
-    id: 2,
-    type: 'short-answer',
-    question: '다음 도형의 넓이를 구하시오.',
-    instruction: '계산 과정을 포함하여 답하시오.',
-    images: ['/api/placeholder/300/200'] // Placeholder for math diagram
+  short: {
+    title: '주관식 (Short Answer)',
+    icon: PenTool,
+    color: 'bg-blue-50 text-blue-700 border-blue-200',
+    content: {
+      questions: [
+        {
+          id: 1,
+          question: '다음 연립방정식을 풀어 x, y의 값을 구하시오.\n2x + 3y = 7\nx - y = 1',
+          instruction: '계산 과정을 포함하여 답하시오.'
+        },
+        {
+          id: 2,
+          question: '직각삼각형에서 빗변이 5cm, 한 변이 3cm일 때 나머지 한 변의 길이를 구하시오.',
+          instruction: '피타고라스 정리를 이용하여 계산하시오.'
+        },
+        {
+          id: 3,
+          question: '다음 이차방정식의 해를 구하시오: x² - 5x + 6 = 0',
+          instruction: '인수분해 또는 근의 공식을 사용하시오.'
+        },
+        {
+          id: 4,
+          question: '함수 f(x) = 2x² - 4x + 1에서 x = 2일 때 함수값을 구하시오.',
+          instruction: '단계별로 계산 과정을 보이시오.'
+        }
+      ]
+    }
   },
-  {
-    id: 3,
-    type: 'problem-solving',
-    question: '철수는 사과 12개를 가지고 있었습니다. 친구들에게 3개씩 나누어 주었을 때, 몇 명의 친구에게 나누어 줄 수 있는지 구하시오.',
-    instruction: '풀이 과정을 자세히 작성하시오.',
-    images: []
-  },
-  {
-    id: 4,
-    type: 'multiple-choice',
-    question: '다음 그래프에서 함수의 최댓값은?',
-    options: ['2', '4', '6', '8'],
-    correctAnswer: '6',
-    images: ['/api/placeholder/400/300'] // Placeholder for graph
-  },
-  {
-    id: 5,
-    type: 'calculation',
-    question: '다음 계산을 하시오: 2.5 × 4.8 + 1.2 ÷ 0.3',
-    instruction: '소수점 둘째 자리까지 구하시오.',
-    images: []
+  essay: {
+    title: '서술형 (Essay)',
+    icon: FileText,
+    color: 'bg-green-50 text-green-700 border-green-200',
+    content: {
+      questions: [
+        {
+          id: 1,
+          question: '확률과 통계 문제 해결',
+          prompt: '한 학급에 남학생 15명, 여학생 10명이 있습니다. 이 중에서 임의로 3명을 선택할 때, 남학생 2명과 여학생 1명이 선택될 확률을 구하고, 이를 구하는 과정을 자세히 설명하시오.',
+          instruction: '조합의 개념을 사용하여 단계별로 해결 과정을 서술하고, 최종 답을 분수와 소수로 모두 표현하시오.',
+          minWords: 150,
+          maxWords: 300
+        },
+        {
+          id: 2,
+          question: '함수의 그래프와 최댓값 문제',
+          prompt: '이차함수 y = -x² + 4x + 5의 그래프의 성질을 분석하고, 이 함수의 최댓값과 그때의 x값을 구하시오. 또한 이 함수가 x축과 만나는 점의 좌표를 구하시오.',
+          instruction: '완전제곱식으로 변형하는 과정, 꼭짓점 좌표 구하기, 판별식 이용한 교점 구하기 등의 방법을 모두 활용하여 단계적으로 해결하시오.',
+          minWords: 200,
+          maxWords: 400
+        }
+      ]
+    }
   }
-];
+};
 
 export default function MathExam() {
   const location = useLocation();
@@ -59,13 +117,19 @@ export default function MathExam() {
   const totalTime = location.state?.totalTime || 4800; // Default 80 minutes
 
   const [currentLanguage, setCurrentLanguage] = useState<'ko' | 'en'>('ko');
+  const [currentSection, setCurrentSection] = useState(0);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [timeRemaining, setTimeRemaining] = useState(totalTime);
   const [isPaused, setIsPaused] = useState(false);
   const [showSubmitModal, setShowSubmitModal] = useState(false);
-  const [answers, setAnswers] = useState<Record<number, any>>({});
+  const [answers, setAnswers] = useState<Record<string, any>>({});
   
-  const totalQuestions = mockMathQuestions.length;
+  // Get sections based on exam categories (mcq, short, math-essay -> essay)
+  const sections = examData?.categories?.map((cat: string) => {
+    const sectionKey = cat === 'math-essay' ? 'essay' : cat;
+    return examSections[sectionKey as keyof typeof examSections];
+  }).filter(Boolean) || [];
+  const currentSectionData = sections[currentSection];
   
   // Timer effect
   useEffect(() => {
@@ -103,133 +167,198 @@ export default function MathExam() {
     setIsPaused(!isPaused);
   };
 
+  const nextSection = () => {
+    if (currentSection < sections.length - 1) {
+      setCurrentSection(currentSection + 1);
+      setCurrentQuestion(0);
+    }
+  };
+
+  const prevSection = () => {
+    if (currentSection > 0) {
+      setCurrentSection(currentSection - 1);
+      setCurrentQuestion(0);
+    }
+  };
+
   const nextQuestion = () => {
+    const currentContent = currentSectionData?.content;
+    let totalQuestions = 0;
+    
+    if (currentContent && 'questions' in currentContent) {
+      totalQuestions = currentContent.questions.length;
+    }
+    
     if (currentQuestion < totalQuestions - 1) {
       setCurrentQuestion(currentQuestion + 1);
+    } else {
+      nextSection();
     }
   };
 
   const prevQuestion = () => {
     if (currentQuestion > 0) {
       setCurrentQuestion(currentQuestion - 1);
+    } else {
+      prevSection();
     }
   };
 
-  const goToQuestion = (index: number) => {
-    if (!isPaused) {
-      setCurrentQuestion(index);
-    }
+  const updateAnswer = (sectionIndex: number, questionIndex: number, answer: any) => {
+    const key = `${sectionIndex}-${questionIndex}`;
+    setAnswers(prev => ({ ...prev, [key]: answer }));
   };
 
-  const updateAnswer = (questionId: number, answer: any) => {
-    setAnswers(prev => ({ ...prev, [questionId]: answer }));
-  };
-
-  const currentQ = mockMathQuestions[currentQuestion];
-  const progress = ((currentQuestion + 1) / totalQuestions) * 100;
-
-  const renderQuestion = () => {
-    if (!currentQ) return null;
-
-    return (
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center space-x-2">
-            <Calculator className="h-5 w-5" />
-            <span>문제 {currentQuestion + 1} / {totalQuestions}</span>
-            <Badge variant="outline">{currentQ.type}</Badge>
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-6">
-            {/* Question Text */}
-            <div>
-              <p className="text-lg font-medium mb-2">{currentQ.question}</p>
-              {currentQ.instruction && (
-                <p className="text-sm text-muted-foreground">{currentQ.instruction}</p>
-              )}
-            </div>
-
-            {/* Question Images */}
-            {currentQ.images && currentQ.images.length > 0 && (
-              <div className="space-y-4">
-                {currentQ.images.map((image, index) => (
-                  <div key={index} className="border border-border rounded-lg p-4 bg-muted/50">
-                    <div className="flex items-center space-x-2 mb-2">
-                      <ImageIcon className="h-4 w-4 text-muted-foreground" />
-                      <span className="text-sm text-muted-foreground">문제 도표 {index + 1}</span>
-                    </div>
-                    <div className="aspect-video bg-background rounded border-2 border-dashed border-muted-foreground/25 flex items-center justify-center">
-                      <p className="text-muted-foreground">수학 문제 이미지가 여기에 표시됩니다</p>
-                    </div>
+  const renderSectionContent = () => {
+    if (!currentSectionData) return null;
+    
+    const Icon = currentSectionData.icon;
+    const content = currentSectionData.content;
+    
+    // MCQ Section (객관식)
+    if (currentSectionData.title === '객관식 (MCQ)' && 'questions' in content) {
+      const currentQ = content.questions[currentQuestion];
+      const answerKey = `${currentSection}-${currentQuestion}`;
+      
+      return (
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center space-x-2">
+              <Icon className="h-5 w-5" />
+              <span>{currentSectionData.title} - 문제 {currentQuestion + 1}</span>
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-6">
+              <div>
+                <p className="text-lg font-medium mb-4">{currentQ.question}</p>
+              </div>
+              
+              <RadioGroup
+                value={answers[answerKey] || ''}
+                onValueChange={(value) => updateAnswer(currentSection, currentQuestion, value)}
+                disabled={isPaused}
+                className="space-y-3"
+              >
+                {currentQ.options.map((option: string, index: number) => (
+                  <div key={index} className="flex items-center space-x-3">
+                    <RadioGroupItem value={option} id={`option-${index}`} />
+                    <Label htmlFor={`option-${index}`} className="cursor-pointer font-medium">
+                      {option}
+                    </Label>
                   </div>
                 ))}
+              </RadioGroup>
+            </div>
+          </CardContent>
+        </Card>
+      );
+    }
+    
+    // Short Answer Section (주관식)
+    if (currentSectionData.title === '주관식 (Short Answer)' && 'questions' in content) {
+      const currentQ = content.questions[currentQuestion];
+      const answerKey = `${currentSection}-${currentQuestion}`;
+      
+      return (
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center space-x-2">
+              <Icon className="h-5 w-5" />
+              <span>{currentSectionData.title} - 문제 {currentQuestion + 1}</span>
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              <div>
+                <p className="font-medium text-lg mb-2">{currentQ.question}</p>
+                <p className="text-sm text-muted-foreground">{currentQ.instruction}</p>
               </div>
-            )}
-          </div>
-        </CardContent>
-      </Card>
-    );
+              
+              <Textarea
+                placeholder="계산 과정과 답을 작성하세요..."
+                value={answers[answerKey] || ''}
+                onChange={(e) => updateAnswer(currentSection, currentQuestion, e.target.value)}
+                disabled={isPaused}
+                rows={8}
+                className="resize-none"
+              />
+            </div>
+          </CardContent>
+        </Card>
+      );
+    }
+    
+    // Essay Section (서술형)
+    if (currentSectionData.title === '서술형 (Essay)' && 'questions' in content) {
+      const currentQ = content.questions[currentQuestion];
+      const answerKey = `${currentSection}-${currentQuestion}`;
+      const text = answers[answerKey] || '';
+      const wordCount = text.trim().split(/\s+/).filter(word => word.length > 0).length;
+      
+      return (
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center space-x-2">
+              <Icon className="h-5 w-5" />
+              <span>{currentQ.question}</span>
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              <div>
+                <h4 className="font-medium text-lg">{currentQ.prompt}</h4>
+                <p className="text-sm text-muted-foreground mt-2">{currentQ.instruction}</p>
+                <div className="flex items-center space-x-4 mt-2 text-xs text-muted-foreground">
+                  <span>권장 단어 수: {currentQ.minWords}-{currentQ.maxWords} 단어</span>
+                  <span className={wordCount < currentQ.minWords ? 'text-red-600' : wordCount > currentQ.maxWords ? 'text-orange-600' : 'text-green-600'}>
+                    현재: {wordCount} 단어
+                  </span>
+                </div>
+              </div>
+              
+              <Textarea
+                placeholder="자세한 해결 과정과 답안을 작성하세요..."
+                value={text}
+                onChange={(e) => updateAnswer(currentSection, currentQuestion, e.target.value)}
+                disabled={isPaused}
+                rows={15}
+                className="resize-none"
+              />
+            </div>
+          </CardContent>
+        </Card>
+      );
+    }
+    
+    return null;
   };
 
-  const renderAnswerSection = () => {
-    if (!currentQ) return null;
-
-    return (
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-sm">정답 선택</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            {currentQ.type === 'multiple-choice' ? (
-              <div className="space-y-3">
-                <p className="font-medium text-sm">정답을 선택하세요:</p>
-                {currentQ.options?.map((option, index) => (
-                  <label key={index} className="flex items-center space-x-3 cursor-pointer">
-                    <input
-                      type="radio"
-                      name={`question-${currentQ.id}`}
-                      value={option}
-                      checked={answers[currentQ.id] === option}
-                      onChange={(e) => updateAnswer(currentQ.id, e.target.value)}
-                      disabled={isPaused}
-                      className="text-brand-bronze focus:ring-brand-bronze"
-                    />
-                    <span className="text-sm">{option}</span>
-                  </label>
-                ))}
-              </div>
-            ) : currentQ.type === 'calculation' || currentQ.type === 'short-answer' ? (
-              <div className="space-y-3">
-                <label className="block text-sm font-medium">답:</label>
-                <Input
-                  placeholder="답을 입력하세요..."
-                  value={answers[currentQ.id] || ''}
-                  onChange={(e) => updateAnswer(currentQ.id, e.target.value)}
-                  disabled={isPaused}
-                />
-              </div>
-            ) : (
-              <div className="space-y-3">
-                <label className="block text-sm font-medium">풀이 과정 및 답:</label>
-                <Textarea
-                  placeholder="계산 과정을 포함하여 답을 작성하세요..."
-                  value={answers[currentQ.id] || ''}
-                  onChange={(e) => updateAnswer(currentQ.id, e.target.value)}
-                  disabled={isPaused}
-                  rows={8}
-                  className="resize-none"
-                />
-              </div>
-            )}
-          </div>
-        </CardContent>
-      </Card>
-    );
+  const getTotalProgress = () => {
+    let totalQuestions = 0;
+    let currentPos = 0;
+    
+    sections.forEach((section, sIdx) => {
+      const content = section.content;
+      let sectionQuestions = 0;
+      
+      if ('questions' in content) {
+        sectionQuestions = content.questions.length;
+      }
+      
+      if (sIdx < currentSection) {
+        currentPos += sectionQuestions;
+      } else if (sIdx === currentSection) {
+        currentPos += currentQuestion;
+      }
+      
+      totalQuestions += sectionQuestions;
+    });
+    
+    return (currentPos / totalQuestions) * 100;
   };
 
-  if (!examData) {
+  if (!examData || sections.length === 0) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <Card className="p-8">
@@ -253,7 +382,7 @@ export default function MathExam() {
             <div>
               <h1 className="text-2xl font-bold">{examData.title}</h1>
               <p className="text-muted-foreground">
-                수학 시험 ({currentQuestion + 1}/{totalQuestions})
+                {currentSectionData?.title} ({currentSection + 1}/{sections.length})
               </p>
             </div>
             
@@ -289,7 +418,7 @@ export default function MathExam() {
           
           {/* Progress Bar */}
           <div className="mt-4">
-            <Progress value={progress} className="h-2" />
+            <Progress value={getTotalProgress()} className="h-2" />
           </div>
         </div>
       </div>
@@ -313,10 +442,54 @@ export default function MathExam() {
       )}
 
       <main className="flex-1 container mx-auto px-4 py-6">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Main Question Area */}
-          <div className="lg:col-span-2">
-            {renderQuestion()}
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+          {/* Section Navigation */}
+          <div className="lg:col-span-1">
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-base">시험 섹션</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                {sections.map((section, index) => {
+                  const Icon = section.icon;
+                  const isActive = currentSection === index;
+                  const content = section.content;
+                  let questionCount = 0;
+                  
+                  if ('questions' in content) {
+                    questionCount = content.questions.length;
+                  }
+                  
+                  return (
+                    <Button
+                      key={index}
+                      variant={isActive ? "default" : "outline"}
+                      className="w-full justify-start h-auto p-3"
+                      onClick={() => {
+                        if (!isPaused) {
+                          setCurrentSection(index);
+                          setCurrentQuestion(0);
+                        }
+                      }}
+                      disabled={isPaused}
+                    >
+                      <div className="flex items-start space-x-3 text-left">
+                        <Icon className="h-5 w-5 mt-0.5 flex-shrink-0" />
+                        <div>
+                          <div className="font-medium">{section.title}</div>
+                          <div className="text-xs opacity-70">{questionCount}개 문제</div>
+                        </div>
+                      </div>
+                    </Button>
+                  );
+                })}
+              </CardContent>
+            </Card>
+          </div>
+          
+          {/* Main Content */}
+          <div className="lg:col-span-3">
+            {renderSectionContent()}
             
             {/* Navigation */}
             <Card className="mt-6">
@@ -325,12 +498,22 @@ export default function MathExam() {
                   <Button
                     variant="outline"
                     onClick={prevQuestion}
-                    disabled={isPaused || currentQuestion === 0}
+                    disabled={isPaused || (currentSection === 0 && currentQuestion === 0)}
                   >
                     이전 문제
                   </Button>
                   
-                  {currentQuestion === totalQuestions - 1 ? (
+                  <div className="flex items-center space-x-2">
+                    <Badge variant="outline">
+                      섹션 {currentSection + 1}/{sections.length}
+                    </Badge>
+                    <Badge variant="outline">
+                      문제 {currentQuestion + 1}/{currentSectionData?.content && 'questions' in currentSectionData.content ? currentSectionData.content.questions.length : 0}
+                    </Badge>
+                  </div>
+                  
+                  {currentSection === sections.length - 1 && 
+                   currentQuestion === (currentSectionData?.content && 'questions' in currentSectionData.content ? currentSectionData.content.questions.length - 1 : 0) ? (
                     <Button
                       onClick={() => setShowSubmitModal(true)}
                       disabled={isPaused}
@@ -346,80 +529,6 @@ export default function MathExam() {
                       다음 문제
                     </Button>
                   )}
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Answer Section */}
-          <div className="space-y-6">
-            {renderAnswerSection()}
-            
-            {/* Question Overview */}
-            <Card>
-              <CardHeader className="pb-4">
-                <CardTitle className="text-base font-medium">문제 현황</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="flex flex-wrap gap-3">
-                  {mockMathQuestions.map((_, index) => {
-                    const isCurrentQuestion = index === currentQuestion;
-                    const isAnswered = answers[mockMathQuestions[index].id];
-                    
-                    return (
-                      <>
-                        <button
-                          key={index}
-                          onClick={() => goToQuestion(index)}
-                          disabled={isPaused}
-                          className={`
-                            relative h-12 w-12 rounded-xl font-medium text-sm
-                            transition-all duration-200 hover:scale-105 disabled:hover:scale-100
-                            flex items-center justify-center
-                            ${isCurrentQuestion 
-                              ? 'bg-primary text-primary-foreground shadow-lg ring-2 ring-primary/20' 
-                              : isAnswered
-                              ? 'bg-secondary/80 text-secondary-foreground border-2 border-secondary'
-                              : 'bg-background border-2 border-border hover:border-muted-foreground/30 text-muted-foreground hover:text-foreground'
-                            }
-                            ${isPaused ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
-                          `}
-                        >
-                          {index + 1}
-                          {isAnswered && !isCurrentQuestion && (
-                            <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-background" />
-                          )}
-                        </button>
-                        {(index + 1) % 5 === 0 && <div className="w-full" />}
-                      </>
-                    );
-                  })}
-                </div>
-                
-                <div className="pt-2 border-t border-border">
-                  <div className="grid grid-cols-1 gap-2 text-xs">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-2">
-                        <div className="w-4 h-4 rounded bg-primary"></div>
-                        <span className="text-muted-foreground">현재 문제</span>
-                      </div>
-                      <span className="font-medium">{currentQuestion + 1}번</span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-2">
-                        <div className="w-4 h-4 rounded bg-secondary/80 border border-secondary"></div>
-                        <span className="text-muted-foreground">답안 완료</span>
-                      </div>
-                      <span className="font-medium">{Object.keys(answers).length}개</span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-2">
-                        <div className="w-4 h-4 rounded bg-background border-2 border-border"></div>
-                        <span className="text-muted-foreground">미완료</span>
-                      </div>
-                      <span className="font-medium">{totalQuestions - Object.keys(answers).length}개</span>
-                    </div>
-                  </div>
                 </div>
               </CardContent>
             </Card>
