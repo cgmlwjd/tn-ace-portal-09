@@ -196,125 +196,109 @@ export function TeacherRegistrationModal({
           </DialogTitle>
         </DialogHeader>
 
-        <div className="space-y-6">
-          {/* 기본 정보 */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">기본 정보</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="teacherId">교사 아이디 *</Label>
-                  <Input 
-                    id="teacherId" 
-                    value={formData.teacherId} 
-                    onChange={e => handleInputChange('teacherId', e.target.value)} 
-                    placeholder="예: T001" 
-                    required 
-                    className={formErrors.teacherId ? "border-red-500" : ""}
-                  />
-                  {formErrors.teacherId && (
-                    <p className="text-sm text-red-500">{formErrors.teacherId}</p>
-                  )}
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="teacherName">교사 이름 *</Label>
-                  <Input 
-                    id="teacherName" 
-                    value={formData.teacherName} 
-                    onChange={e => handleInputChange('teacherName', e.target.value)} 
-                    placeholder="예: 김선생" 
-                    required 
-                    className={formErrors.teacherName ? "border-red-500" : ""}
-                  />
-                  {formErrors.teacherName && (
-                    <p className="text-sm text-red-500">{formErrors.teacherName}</p>
-                  )}
-                </div>
-              </div>
-              
-              <div className="grid md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="password">비밀번호 *</Label>
-                  <Input 
-                    id="password" 
-                    type="password" 
-                    value={formData.password} 
-                    onChange={e => handleInputChange('password', e.target.value)} 
-                    placeholder="초기 비밀번호 설정" 
-                    required 
-                    className={formErrors.password ? "border-red-500" : ""}
-                  />
-                  {formErrors.password && (
-                    <p className="text-sm text-red-500">{formErrors.password}</p>
-                  )}
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="contact">연락처</Label>
-                  <Input id="contact" value={formData.contact} onChange={e => handleInputChange('contact', e.target.value)} placeholder="예: 010-1234-5678" />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+        <div className="space-y-6 p-6">
+          <div className="grid md:grid-cols-2 gap-6">
+            <div className="space-y-2">
+              <Label htmlFor="teacherId">교사 아이디 *</Label>
+              <Input 
+                id="teacherId" 
+                value={formData.teacherId} 
+                onChange={e => handleInputChange('teacherId', e.target.value)} 
+                placeholder="예: T001" 
+                required 
+                className={formErrors.teacherId ? "border-red-500" : ""}
+              />
+              {formErrors.teacherId && (
+                <p className="text-sm text-red-500">{formErrors.teacherId}</p>
+              )}
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="teacherName">교사 이름 *</Label>
+              <Input 
+                id="teacherName" 
+                value={formData.teacherName} 
+                onChange={e => handleInputChange('teacherName', e.target.value)} 
+                placeholder="예: 김선생" 
+                required 
+                className={formErrors.teacherName ? "border-red-500" : ""}
+              />
+              {formErrors.teacherName && (
+                <p className="text-sm text-red-500">{formErrors.teacherName}</p>
+              )}
+            </div>
 
-          {/* 담당 과목 */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">담당 과목</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-3">
-                <Label htmlFor="subject">담당 과목 *</Label>
-                <Select
-                  value={formData.subject}
-                  onValueChange={(value: '영어' | '수학') => {
-                    setFormData(prev => ({
-                      ...prev,
-                      subject: value
-                    }));
-                  }}
-                >
-                  <SelectTrigger className="bg-background">
-                    <SelectValue placeholder="담당 과목을 선택하세요" />
-                  </SelectTrigger>
-                  <SelectContent className="bg-background z-50">
-                    <SelectItem value="영어">영어</SelectItem>
-                    <SelectItem value="수학">수학</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            </CardContent>
-          </Card>
+            <div className="space-y-2">
+              <Label htmlFor="password">비밀번호 *</Label>
+              <Input 
+                id="password" 
+                type="password" 
+                value={formData.password} 
+                onChange={e => handleInputChange('password', e.target.value)} 
+                placeholder="초기 비밀번호 설정" 
+                required 
+                className={formErrors.password ? "border-red-500" : ""}
+              />
+              {formErrors.password && (
+                <p className="text-sm text-red-500">{formErrors.password}</p>
+              )}
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="contact">연락처</Label>
+              <Input 
+                id="contact" 
+                value={formData.contact} 
+                onChange={e => handleInputChange('contact', e.target.value)} 
+                placeholder="예: 010-1234-5678" 
+              />
+            </div>
 
-          {/* 상태 관리 */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">상태 관리</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-3">
-                <Label>교사 상태 *</Label>
-                <Select
-                  value={formData.status}
-                  onValueChange={(value: '활성' | '비활성') => {
-                    setFormData(prev => ({
-                      ...prev,
-                      status: value
-                    }));
-                  }}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="상태를 선택하세요" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="활성">활성</SelectItem>
-                    <SelectItem value="비활성">비활성</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            </CardContent>
-          </Card>
+            <div className="space-y-2">
+              <Label htmlFor="subject">담당 과목 *</Label>
+              <Select
+                value={formData.subject}
+                onValueChange={(value: '영어' | '수학') => {
+                  setFormData(prev => ({
+                    ...prev,
+                    subject: value
+                  }));
+                }}
+              >
+                <SelectTrigger className="bg-background">
+                  <SelectValue placeholder="담당 과목을 선택하세요" />
+                </SelectTrigger>
+                <SelectContent className="bg-background z-50">
+                  <SelectItem value="영어">영어</SelectItem>
+                  <SelectItem value="수학">수학</SelectItem>
+                </SelectContent>
+              </Select>
+              {formErrors.subject && (
+                <p className="text-sm text-red-500">{formErrors.subject}</p>
+              )}
+            </div>
+
+            <div className="space-y-2">
+              <Label>교사 상태 *</Label>
+              <Select
+                value={formData.status}
+                onValueChange={(value: '활성' | '비활성') => {
+                  setFormData(prev => ({
+                    ...prev,
+                    status: value
+                  }));
+                }}
+              >
+                <SelectTrigger className="bg-background">
+                  <SelectValue placeholder="상태를 선택하세요" />
+                </SelectTrigger>
+                <SelectContent className="bg-background z-50">
+                  <SelectItem value="활성">활성</SelectItem>
+                  <SelectItem value="비활성">비활성</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
 
 
           {/* 버튼 */}
