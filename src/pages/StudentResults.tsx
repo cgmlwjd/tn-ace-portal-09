@@ -5,7 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Header } from '@/components/Layout/Header';
 import { Footer } from '@/components/Layout/Footer';
-import { ArrowLeft, Calendar, Trophy, Target, Download, Eye } from 'lucide-react';
+import { ArrowLeft, Calendar, Trophy, Target, Download, Eye, MessageSquare } from 'lucide-react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 
 // Mock exam data - matches the structure from StudentDashboard
@@ -23,6 +23,7 @@ const mockExams = [
     status: 'completed',
     type: 'english',
     score: 85,
+    teacherFeedback: "전반적으로 독해 실력이 향상되었습니다. 특히 문맥 파악 능력이 우수합니다. 쓰기에서는 문법적 정확성을 더 신경 쓰면 좋을 것 같습니다.",
     results: {
       reading: { score: 80, maxScore: 50, timeSpent: '25분', correctAnswers: 16, totalQuestions: 20 },
       writing: { score: 90, maxScore: 50, timeSpent: '35분', wordCount: 387, targetWords: '300-400' }
@@ -41,6 +42,7 @@ const mockExams = [
     status: 'completed',
     type: 'english',
     score: 85,
+    teacherFeedback: "발음과 유창성이 많이 향상되었습니다. 다양한 표현을 사용하려는 노력이 보입니다. 앞으로는 문법적 정확성에 조금 더 신경 쓰시기 바랍니다.",
     results: {
       speaking: { score: 85, maxScore: 100, timeSpent: '28분', questionsAnswered: 5, totalQuestions: 5 }
     }
@@ -71,6 +73,7 @@ const mockExams = [
     status: 'completed',
     type: 'math',
     score: 92,
+    teacherFeedback: "수학적 사고력이 뛰어나며, 특히 서술형 문제에서 논리적으로 풀이 과정을 잘 설명했습니다. 객관식에서 실수를 줄이면 더 좋은 성적을 얻을 수 있을 것입니다.",
     results: {
       mcq: { score: 35, maxScore: 40, timeSpent: '25분', correctAnswers: 7, totalQuestions: 8 },
       short: { score: 28, maxScore: 30, timeSpent: '35분', correctAnswers: 4, totalQuestions: 4 },
@@ -90,6 +93,7 @@ const mockExams = [
     status: 'completed',
     type: 'math',
     score: 88,
+    teacherFeedback: "기하 개념을 잘 이해하고 있으며, 도형의 성질을 정확히 파악하여 문제를 해결했습니다. 계산 과정에서 약간의 실수가 있었지만 전반적으로 우수합니다.",
     results: {
       mcq: { score: 32, maxScore: 40, timeSpent: '20분', correctAnswers: 6, totalQuestions: 8 },
       short: { score: 24, maxScore: 30, timeSpent: '45분', correctAnswers: 3, totalQuestions: 4 }
@@ -108,6 +112,7 @@ const mockExams = [
     status: 'completed',
     type: 'english',
     score: 88,
+    teacherFeedback: "모든 영역에서 균형 잡힌 실력을 보여주었습니다. 특히 에세이 작성 능력이 향상되었고, 스피킹에서 자신감 있는 모습이 인상적이었습니다. 지속적인 노력으로 더 발전할 수 있을 것입니다.",
     results: {
       reading: { score: 85, maxScore: 100, timeSpent: '35분', correctAnswers: 17, totalQuestions: 20 },
       writing: { score: 90, maxScore: 100, timeSpent: '40분', wordCount: 425, targetWords: '400-500' },
@@ -257,6 +262,23 @@ export default function StudentResults() {
 
           {/* Section Results */}
           <div className="space-y-6">
+            {/* Teacher Feedback Section */}
+            {exam.teacherFeedback && (
+              <Card className="bg-gradient-to-r from-blue-50 to-indigo-50 border-blue-200">
+                <CardHeader>
+                  <CardTitle className="text-lg flex items-center space-x-2">
+                    <MessageSquare className="h-5 w-5 text-blue-600" />
+                    <span>선생님 종합 피드백</span>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-muted-foreground leading-relaxed">
+                    {exam.teacherFeedback}
+                  </p>
+                </CardContent>
+              </Card>
+            )}
+
             <h2 className="text-xl font-semibold">섹션별 상세 결과</h2>
             
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
