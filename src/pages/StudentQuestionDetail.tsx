@@ -72,40 +72,68 @@ const mockQuestionDetails = {
     ]
   },
   4: { // examId
-    math: [
+    mcq: [
       {
         id: 1,
-        question: "다음 방정식을 풀어라: 2x + 5 = 15",
-        studentAnswer: "x = 5",
-        correctAnswer: "x = 5",
+        question: "다음 방정식의 해는? 2x + 3 = 11\n\n① x = 2\n② x = 3\n③ x = 4\n④ x = 5",
+        studentAnswer: "③ x = 4",
+        correctAnswer: "③ x = 4",
         aiScore: 10,
         aiMaxScore: 10,
-        aiFeedback: "정답입니다! 올바른 풀이 과정을 거쳐 정확한 답을 구했습니다.",
+        aiFeedback: "정답입니다! 방정식을 올바르게 풀어 정확한 답을 선택했습니다.",
         teacherScore: 10,
         teacherMaxScore: 10,
         teacherFeedback: "완벽합니다. 계산 과정이 정확해요."
       },
       {
         id: 2,
-        question: "직각삼각형에서 빗변의 길이가 10, 한 변의 길이가 6일 때, 다른 한 변의 길이를 구하시오.",
-        studentAnswer: "8",
-        correctAnswer: "8",
-        aiScore: 15,
+        question: "다음 중 일차방정식이 아닌 것은?\n\n① 3x + 5 = 0\n② x² + 2x = 1\n③ 2x - 7 = 3x\n④ 5x = 10",
+        studentAnswer: "② x² + 2x = 1",
+        correctAnswer: "② x² + 2x = 1",
+        aiScore: 10,
+        aiMaxScore: 10,
+        aiFeedback: "정답입니다! 이차방정식을 올바르게 구분했습니다.",
+        teacherScore: 10,
+        teacherMaxScore: 10,
+        teacherFeedback: "좋습니다! 일차방정식과 이차방정식을 정확히 구분했네요."
+      }
+    ],
+    short: [
+      {
+        id: 1,
+        question: "방정식 3x - 7 = 2x + 5를 풀어라.",
+        studentAnswer: "3x - 7 = 2x + 5\n3x - 2x = 5 + 7\nx = 12",
+        correctAnswer: "x = 12",
+        aiScore: 13,
         aiMaxScore: 15,
-        aiFeedback: "피타고라스 정리를 올바르게 적용하여 정답을 구했습니다.",
-        teacherScore: 15,
+        aiFeedback: "답은 정확하지만 각 단계에 대한 설명을 더 자세히 써주면 좋겠습니다.",
+        teacherScore: 14,
         teacherMaxScore: 15,
-        teacherFeedback: "훌륭합니다! 피타고라스 정리를 정확히 활용했네요."
+        teacherFeedback: "답이 맞습니다. 풀이 과정을 조금 더 상세히 쓰면 완벽할 것 같아요."
+      }
+    ],
+    essay: [
+      {
+        id: 1,
+        question: "일차방정식 ax + b = 0 (a ≠ 0)의 해가 x = 3일 때, a와 b 사이의 관계를 구하고, 이를 이용하여 구체적인 예를 들어 설명하시오.",
+        studentAnswer: "주어진 조건: ax + b = 0에서 x = 3이 해\n\n해 구하기:\nx = 3을 방정식에 대입하면\na(3) + b = 0\n3a + b = 0\n따라서 b = -3a\n\n관계식: b = -3a\n\n구체적인 예:\na = 2일 때, b = -6\n방정식: 2x - 6 = 0, 해: x = 3\n\na = -1일 때, b = 3\n방정식: -x + 3 = 0, 해: x = 3",
+        correctAnswer: "b = -3a 관계 유도 및 구체적 예시",
+        aiScore: 20,
+        aiMaxScore: 25,
+        aiFeedback: "개념을 잘 이해하고 있으며 예시도 적절합니다. 설명을 더 체계적으로 정리하면 완벽할 것 같습니다.",
+        teacherScore: 22,
+        teacherMaxScore: 25,
+        teacherFeedback: "훌륭한 답변입니다! 논리적 사고와 구체적인 예시가 매우 좋아요."
       }
     ]
   },
   5: { // examId - 기하 단원 평가
-    math: [
+    mcq: [
       {
         id: 1,
-        question: "한 변의 길이가 5cm인 정사각형의 넓이를 구하시오.",
-        studentAnswer: "25cm²",
-        correctAnswer: "25cm²",
+        question: "한 변의 길이가 5cm인 정사각형의 넓이는?\n\n① 20cm²\n② 25cm²\n③ 30cm²\n④ 35cm²",
+        studentAnswer: "② 25cm²",
+        correctAnswer: "② 25cm²",
         aiScore: 10,
         aiMaxScore: 10,
         aiFeedback: "정답입니다! 정사각형의 넓이 공식 (한 변)²을 올바르게 적용했습니다.",
@@ -115,87 +143,65 @@ const mockQuestionDetails = {
       },
       {
         id: 2,
-        question: "반지름이 6cm인 원의 둘레를 구하시오. (π = 3.14)",
-        studentAnswer: "37.68cm",
-        correctAnswer: "37.68cm",
-        aiScore: 15,
-        aiMaxScore: 15,
+        question: "반지름이 6cm인 원의 둘레는? (π = 3.14)\n\n① 36.84cm\n② 37.68cm\n③ 38.52cm\n④ 39.36cm",
+        studentAnswer: "② 37.68cm",
+        correctAnswer: "② 37.68cm",
+        aiScore: 10,
+        aiMaxScore: 10,
         aiFeedback: "정답입니다! 원의 둘레 공식 2πr을 정확히 적용하여 계산했습니다.",
-        teacherScore: 15,
-        teacherMaxScore: 15,
+        teacherScore: 10,
+        teacherMaxScore: 10,
         teacherFeedback: "훌륭해요! 원의 둘레 공식을 정확히 기억하고 계산했습니다."
       },
       {
         id: 3,
-        question: "밑변이 8cm, 높이가 5cm인 삼각형의 넓이를 구하시오.",
-        studentAnswer: "20cm²",
-        correctAnswer: "20cm²",
-        aiScore: 12,
-        aiMaxScore: 12,
-        aiFeedback: "정답입니다! 삼각형의 넓이 공식 (밑변 × 높이) ÷ 2를 올바르게 적용했습니다.",
-        teacherScore: 12,
-        teacherMaxScore: 12,
-        teacherFeedback: "맞습니다! 삼각형 넓이 공식을 정확히 사용했어요."
-      },
-      {
-        id: 4,
-        question: "직각삼각형에서 두 직각을 낀 변의 길이가 각각 3cm, 4cm일 때, 빗변의 길이를 구하시오.",
-        studentAnswer: "5cm",
-        correctAnswer: "5cm",
-        aiScore: 15,
-        aiMaxScore: 15,
-        aiFeedback: "정답입니다! 피타고라스 정리 a² + b² = c²를 올바르게 적용했습니다. 3² + 4² = 9 + 16 = 25, √25 = 5",
-        teacherScore: 15,
-        teacherMaxScore: 15,
-        teacherFeedback: "완벽한 답변이에요! 피타고라스 정리를 정확히 활용했습니다."
-      },
-      {
-        id: 5,
-        question: "가로 12cm, 세로 8cm인 직사각형의 넓이와 둘레를 각각 구하시오.",
-        studentAnswer: "넓이: 96cm², 둘레: 40cm",
-        correctAnswer: "넓이: 96cm², 둘레: 40cm",
-        aiScore: 18,
-        aiMaxScore: 18,
-        aiFeedback: "정답입니다! 직사각형의 넓이(가로×세로)와 둘레(2×(가로+세로)) 공식을 모두 정확히 적용했습니다.",
-        teacherScore: 18,
-        teacherMaxScore: 18,
-        teacherFeedback: "훌륭합니다! 두 공식을 모두 정확히 사용했네요."
-      },
-      {
-        id: 6,
-        question: "한 내각이 60°인 정삼각형에서 나머지 두 내각의 크기를 구하시오.",
-        studentAnswer: "60°, 60°",
-        correctAnswer: "60°, 60°",
+        question: "정삼각형에서 한 내각의 크기는?\n\n① 60°\n② 90°\n③ 120°\n④ 180°",
+        studentAnswer: "① 60°",
+        correctAnswer: "① 60°",
         aiScore: 10,
         aiMaxScore: 10,
         aiFeedback: "정답입니다! 정삼각형의 모든 내각이 60°라는 성질을 정확히 알고 있습니다.",
         teacherScore: 10,
         teacherMaxScore: 10,
         teacherFeedback: "맞아요! 정삼각형의 특성을 잘 이해하고 있네요."
-      },
+      }
+    ],
+    short: [
       {
-        id: 7,
-        question: "반지름이 4cm인 원의 넓이를 구하시오. (π = 3.14)",
-        studentAnswer: "50.24cm²",
-        correctAnswer: "50.24cm²",
+        id: 1,
+        question: "밑변이 8cm, 높이가 5cm인 삼각형의 넓이를 구하시오.",
+        studentAnswer: "삼각형의 넓이 = (밑변 × 높이) ÷ 2\n= (8 × 5) ÷ 2\n= 40 ÷ 2\n= 20cm²",
+        correctAnswer: "20cm²",
         aiScore: 12,
         aiMaxScore: 12,
-        aiFeedback: "정답입니다! 원의 넓이 공식 πr²을 정확히 적용했습니다. π × 4² = 3.14 × 16 = 50.24",
+        aiFeedback: "정답입니다! 삼각형의 넓이 공식을 올바르게 적용했습니다.",
         teacherScore: 12,
         teacherMaxScore: 12,
-        teacherFeedback: "완벽해요! 원의 넓이 공식을 정확히 계산했습니다."
+        teacherFeedback: "맞습니다! 삼각형 넓이 공식을 정확히 사용했어요."
       },
       {
-        id: 8,
+        id: 2,
+        question: "직각삼각형에서 두 직각을 낀 변의 길이가 각각 3cm, 4cm일 때, 빗변의 길이를 구하시오.",
+        studentAnswer: "피타고라스 정리: a² + b² = c²\n3² + 4² = c²\n9 + 16 = c²\n25 = c²\nc = 5cm",
+        correctAnswer: "5cm",
+        aiScore: 15,
+        aiMaxScore: 15,
+        aiFeedback: "정답입니다! 피타고라스 정리를 올바르게 적용했습니다.",
+        teacherScore: 15,
+        teacherMaxScore: 15,
+        teacherFeedback: "완벽한 답변이에요! 피타고라스 정리를 정확히 활용했습니다."
+      },
+      {
+        id: 3,
         question: "이등변삼각형에서 밑각이 50°일 때, 꼭지각의 크기를 구하시오.",
-        studentAnswer: "80°",
+        studentAnswer: "이등변삼각형에서 두 밑각은 같음\n삼각형 내각의 합 = 180°\n50° + 50° + 꼭지각 = 180°\n꼭지각 = 180° - 100° = 80°",
         correctAnswer: "80°",
-        aiScore: 0,
+        aiScore: 12,
         aiMaxScore: 12,
-        aiFeedback: "틀렸습니다. 삼각형의 내각의 합이 180°이고, 이등변삼각형에서 두 밑각이 같다는 점을 고려해야 합니다. 50° + 50° + 꼭지각 = 180°이므로 꼭지각은 80°입니다.",
-        teacherScore: 2,
+        aiFeedback: "정답입니다! 이등변삼각형의 성질과 삼각형 내각의 합을 정확히 적용했습니다.",
+        teacherScore: 12,
         teacherMaxScore: 12,
-        teacherFeedback: "아쉽게도 틀렸어요. 이등변삼각형의 성질과 삼각형 내각의 합을 다시 생각해보세요."
+        teacherFeedback: "좋습니다! 이등변삼각형의 성질을 잘 활용했네요."
       }
     ]
   },
@@ -304,6 +310,8 @@ export default function StudentQuestionDetail() {
       case 'writing': return 'bg-green-50 text-green-700 border-green-200';
       case 'essay': return 'bg-purple-50 text-purple-700 border-purple-200';
       case 'speaking': return 'bg-orange-50 text-orange-700 border-orange-200';
+      case 'mcq': return 'bg-red-50 text-red-700 border-red-200';
+      case 'short': return 'bg-blue-50 text-blue-700 border-blue-200';
       case 'math': return 'bg-indigo-50 text-indigo-700 border-indigo-200';
       default: return 'bg-gray-50 text-gray-700 border-gray-200';
     }
@@ -315,6 +323,8 @@ export default function StudentQuestionDetail() {
       writing: 'Writing (영어)',
       essay: 'Essay (영어)',
       speaking: 'Speaking (영어)',
+      mcq: '객관식 (수학)',
+      short: '주관식 (수학)',
       math: 'Math (수학)'
     };
     return labels[category] || category;

@@ -50,7 +50,7 @@ const mockExams = [
   {
     id: 4,
     title: "수학 중간고사",
-    categories: ["math"],
+    categories: ["mcq", "short", "essay"],
     selectedCombinations: [
       { schoolSystem: "korea", grade: "중2" }
     ],
@@ -63,7 +63,7 @@ const mockExams = [
   {
     id: 5,
     title: "기하 단원 평가",
-    categories: ["math"],
+    categories: ["mcq", "short"],
     selectedCombinations: [
       { schoolSystem: "korea", grade: "중2" }
     ],
@@ -144,6 +144,8 @@ const getCategoryLabel = (category: string) => {
     writing: 'Writing (영어)',
     essay: 'Essay (영어)',
     speaking: 'Speaking (영어)',
+    mcq: '객관식 (수학)',
+    short: '주관식 (수학)',
     math: 'Math (수학)'
   };
   return labels[category] || category;

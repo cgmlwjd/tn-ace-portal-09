@@ -290,86 +290,97 @@ export default function ManualGrading() {
           }
         }
       },
-      "8": { // Math 단일 카테고리, 여러 문제 (대수)
+      "8": { // 수학 중간고사 - 대수 (다중 섹션)
         id: id,
         student: { name: "이수현", grade: "중2", schoolSystem: "korea", studentId: "2024008" },
-        exam: { title: "수학 중간고사 - 대수", category: "Math", totalMaxScore: 100, timeLimit: "80분" },
+        exam: { title: "수학 중간고사 - 대수", category: "MCQ+Short+Essay", totalMaxScore: 100, timeLimit: "80분" },
         categories: {
-          "Math": {
+          "MCQ": {
             questions: [
               {
                 number: 1,
-                text: "다음 연립방정식을 풀어보시오.\n\n2x + 3y = 7\n4x - y = 5\n\n풀이 과정을 자세히 써주시오.",
-                maxScore: 25,
+                text: "다음 방정식의 해는? 2x + 3 = 11\n\n① x = 2\n② x = 3\n③ x = 4\n④ x = 5",
+                maxScore: 10,
                 aiGrading: {
-                  score: 22,
+                  score: 10,
                   breakdown: {
-                    process: { score: 12, maxScore: 15, comment: "풀이 과정이 명확함" },
-                    accuracy: { score: 10, maxScore: 10, comment: "정답이 정확함" }
+                    accuracy: { score: 10, maxScore: 10, comment: "정답을 올바르게 선택함" }
                   },
-                  feedback: "연립방정식 해법을 정확히 이해하고 있습니다. 풀이 과정이 체계적입니다.",
+                  feedback: "정확한 답을 선택했습니다.",
                   gradedAt: "2024-01-18 10:20:15"
                 },
                 studentAnswer: {
-                  content: "주어진 연립방정식:\n2x + 3y = 7 ... ①\n4x - y = 5 ... ②\n\n②에서 y = 4x - 5 ... ③\n③을 ①에 대입:\n2x + 3(4x - 5) = 7\n2x + 12x - 15 = 7\n14x = 22\nx = 11/7\n\n③에 x = 11/7 대입:\ny = 4(11/7) - 5 = 44/7 - 35/7 = 9/7\n\n따라서 x = 11/7, y = 9/7",
-                  submittedAt: "2024-01-18 10:15:30",
-                  timeSpent: "8분"
+                  content: "정답: ③ x = 4\n\n풀이: 2x + 3 = 11 → 2x = 8 → x = 4",
+                  wordCount: 18,
+                  submittedAt: "2024-01-18 10:15:10",
+                  timeSpent: "3분"
                 }
               },
               {
                 number: 2,
-                text: "다음 이차방정식의 해를 구하시오.\n\nx² - 5x + 6 = 0\n\n인수분해와 근의 공식 두 가지 방법으로 풀어보시오.",
-                maxScore: 25,
+                text: "다음 중 일차방정식이 아닌 것은?\n\n① 3x + 5 = 0\n② x² + 2x = 1\n③ 2x - 7 = 3x\n④ 5x = 10",
+                maxScore: 10,
                 aiGrading: {
-                  score: 23,
+                  score: 10,
                   breakdown: {
-                    factoring: { score: 12, maxScore: 12, comment: "인수분해 완벽" },
-                    formula: { score: 11, maxScore: 13, comment: "근의 공식 적용 정확, 계산 과정 약간 부족" }
+                    accuracy: { score: 10, maxScore: 10, comment: "이차방정식을 올바르게 구분함" }
                   },
-                  feedback: "두 가지 방법을 모두 정확히 사용했습니다. 근의 공식 과정을 더 자세히 쓰면 좋겠습니다.",
-                  gradedAt: "2024-01-18 10:21:45"
+                  feedback: "일차방정식과 이차방정식을 정확히 구분했습니다.",
+                  gradedAt: "2024-01-18 10:20:20"
                 },
                 studentAnswer: {
-                  content: "방법 1) 인수분해:\nx² - 5x + 6 = 0\n(x - 2)(x - 3) = 0\n따라서 x = 2 또는 x = 3\n\n방법 2) 근의 공식:\na = 1, b = -5, c = 6\nx = (5 ± √(25 - 24))/2 = (5 ± 1)/2\nx = 3 또는 x = 2\n\n두 방법 모두 같은 답: x = 2, 3",
-                  submittedAt: "2024-01-18 10:17:20",
-                  timeSpent: "12분"
+                  content: "정답: ② x² + 2x = 1\n\n이유: x²이 있어서 이차방정식입니다.",
+                  wordCount: 20,
+                  submittedAt: "2024-01-18 10:15:25",
+                  timeSpent: "2분"
                 }
-              },
+              }
+            ]
+          },
+          "Short": {
+            questions: [
               {
-                number: 3,
-                text: "함수 f(x) = 2x + 3에 대해 다음을 구하시오.\n\n(1) f(5)의 값\n(2) f(x) = 11일 때 x의 값\n(3) 이 함수의 그래프의 기울기와 y절편",
-                maxScore: 25,
+                number: 1,
+                text: "방정식 3x - 7 = 2x + 5를 풀어라.",
+                maxScore: 15,
                 aiGrading: {
-                  score: 21,
+                  score: 13,
                   breakdown: {
-                    calculation: { score: 15, maxScore: 15, comment: "모든 계산이 정확함" },
-                    concept: { score: 6, maxScore: 10, comment: "개념 이해는 좋으나 설명 부족" }
+                    accuracy: { score: 8, maxScore: 8, comment: "계산 과정이 정확함" },
+                    method: { score: 5, maxScore: 7, comment: "풀이 방법이 적절하나 설명이 부족" }
                   },
-                  feedback: "계산은 완벽하지만 일차함수의 기울기와 절편에 대한 설명을 더 자세히 하면 좋겠습니다.",
-                  gradedAt: "2024-01-18 10:22:30"
+                  feedback: "답은 정확하지만 각 단계에 대한 설명을 더 자세히 써주면 좋겠습니다.",
+                  gradedAt: "2024-01-18 10:20:25"
                 },
                 studentAnswer: {
-                  content: "(1) f(5) = 2(5) + 3 = 10 + 3 = 13\n\n(2) f(x) = 11에서\n2x + 3 = 11\n2x = 8\nx = 4\n\n(3) f(x) = 2x + 3에서\n기울기 = 2\ny절편 = 3\n그래프는 (0, 3)을 지나고 기울기가 2인 직선",
-                  submittedAt: "2024-01-18 10:18:15",
-                  timeSpent: "10분"
+                  content: "3x - 7 = 2x + 5\n3x - 2x = 5 + 7\nx = 12",
+                  wordCount: 15,
+                  submittedAt: "2024-01-18 10:18:30",
+                  timeSpent: "5분"
                 }
-              },
+              }
+            ]
+          },
+          "Essay": {
+            questions: [
               {
-                number: 4,
-                text: "부등식을 풀고 수직선 위에 나타내시오.\n\n3x - 7 ≥ 2x + 1",
+                number: 1,
+                text: "일차방정식 ax + b = 0 (a ≠ 0)의 해가 x = 3일 때, a와 b 사이의 관계를 구하고, 이를 이용하여 구체적인 예를 들어 설명하시오.",
                 maxScore: 25,
                 aiGrading: {
                   score: 20,
                   breakdown: {
-                    solution: { score: 15, maxScore: 15, comment: "부등식 풀이가 정확함" },
-                    graph: { score: 5, maxScore: 10, comment: "수직선 그래프 표현이 부족함" }
+                    concept: { score: 8, maxScore: 10, comment: "개념 이해가 좋음" },
+                    reasoning: { score: 7, maxScore: 8, comment: "논리적 사고가 우수함" },
+                    presentation: { score: 5, maxScore: 7, comment: "설명이 명확하나 더 체계적일 수 있음" }
                   },
-                  feedback: "부등식 풀이는 완벽하지만 수직선 표현을 더 명확히 그려주세요.",
-                  gradedAt: "2024-01-18 10:23:15"
+                  feedback: "개념을 잘 이해하고 있으며 예시도 적절합니다. 설명을 더 체계적으로 정리하면 완벽할 것 같습니다.",
+                  gradedAt: "2024-01-18 10:20:30"
                 },
                 studentAnswer: {
-                  content: "3x - 7 ≥ 2x + 1\n3x - 2x ≥ 1 + 7\nx ≥ 8\n\n수직선 표현: \n------|●━━━━━━━━━━→\n      8\n(8 이상의 모든 실수)",
-                  submittedAt: "2024-01-18 10:19:45",
+                  content: "주어진 조건: ax + b = 0에서 x = 3이 해\n\n해 구하기:\nx = 3을 방정식에 대입하면\na(3) + b = 0\n3a + b = 0\n따라서 b = -3a\n\n관계식: b = -3a\n\n구체적인 예:\na = 2일 때, b = -3(2) = -6\n방정식: 2x - 6 = 0\n확인: 2(3) - 6 = 6 - 6 = 0 ✓\n\na = -1일 때, b = -3(-1) = 3  \n방정식: -x + 3 = 0\n확인: -(3) + 3 = -3 + 3 = 0 ✓\n\n결론: 일차방정식의 해가 주어졌을 때, 계수들 사이의 관계를 구할 수 있고, 이를 통해 다양한 형태의 방정식을 만들 수 있습니다.",
+                  wordCount: 185,
+                  submittedAt: "2024-01-18 10:25:40",
                   timeSpent: "15분"
                 }
               }
