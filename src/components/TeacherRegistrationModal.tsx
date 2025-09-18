@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Badge } from '@/components/ui/badge';
 import { UserPlus, Shield } from 'lucide-react';
 interface TeacherData {
   teacherId: string;
@@ -17,16 +19,21 @@ interface TeacherData {
     examManagement: boolean;
     analyticsView: boolean;
   };
+  status?: '예비' | '활성' | '휴직' | '계약종료';
 }
 interface TeacherRegistrationModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSubmit: (teacherData: TeacherData) => void;
+  editData?: any;
+  isEditMode?: boolean;
 }
 export function TeacherRegistrationModal({
   isOpen,
   onClose,
-  onSubmit
+  onSubmit,
+  editData,
+  isEditMode = false
 }: TeacherRegistrationModalProps) {
   const [formData, setFormData] = useState<TeacherData>({
     teacherId: '',
@@ -38,8 +45,41 @@ export function TeacherRegistrationModal({
       accountManagement: false,
       examManagement: false,
       analyticsView: false
-    }
+    },
+    status: '예비'
   });
+
+  useEffect(() => {
+    if (isEditMode && editData) {
+      setFormData({
+        teacherId: editData.email || '',
+        teacherName: editData.name || '',
+        password: '',
+        contact: editData.contact || '',
+        permissions: {
+          questionBankEdit: false,
+          accountManagement: false,
+          examManagement: false,
+          analyticsView: false
+        },
+        status: editData.status || '활성'
+      });
+    } else {
+      setFormData({
+        teacherId: '',
+        teacherName: '',
+        password: '',
+        contact: '',
+        permissions: {
+          questionBankEdit: false,
+          accountManagement: false,
+          examManagement: false,
+          analyticsView: false
+        },
+        status: '예비'
+      });
+    }
+  }, [isEditMode, editData, isOpen]);
   const handleInputChange = (field: keyof Omit<TeacherData, 'permissions'>, value: string) => {
     setFormData(prev => ({
       ...prev,
@@ -58,19 +98,22 @@ export function TeacherRegistrationModal({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSubmit(formData);
-    // Reset form
-    setFormData({
-      teacherId: '',
-      teacherName: '',
-      password: '',
-      contact: '',
-      permissions: {
-        questionBankEdit: false,
-        accountManagement: false,
-        examManagement: false,
-        analyticsView: false
-      }
-    });
+    if (!isEditMode) {
+      // Reset form only for new registration
+      setFormData({
+        teacherId: '',
+        teacherName: '',
+        password: '',
+        contact: '',
+        permissions: {
+          questionBankEdit: false,
+          accountManagement: false,
+          examManagement: false,
+          analyticsView: false
+        },
+        status: '예비'
+      });
+    }
     onClose();
   };
   const handleClose = () => {
@@ -85,7 +128,8 @@ export function TeacherRegistrationModal({
         accountManagement: false,
         examManagement: false,
         analyticsView: false
-      }
+      },
+      status: '예비'
     });
     onClose();
   };
@@ -94,7 +138,7 @@ export function TeacherRegistrationModal({
         <DialogHeader>
           <DialogTitle className="flex items-center space-x-2 text-xl">
             <UserPlus className="h-6 w-6 text-primary" />
-            <span>새 교사 등록</span>
+            <span>{isEditMode ? '교사 정보 수정' : '새 교사 등록'}</span>
           </DialogTitle>
         </DialogHeader>
 
@@ -129,15 +173,64 @@ export function TeacherRegistrationModal({
             </CardContent>
           </Card>
 
+          {/* 상태 선택 */}
+          {isEditMode && (
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg">상태 관리</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3">
+                  <Label>교사 상태 *</Label>
+                  <Select
+                    value={formData.status}
+                    onValueChange={(value: '예비' | '활성' | '휴직' | '계약종료') => {
+                      setFormData(prev => ({
+                        ...prev,
+                        status: value
+                      }));
+                    }}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="상태를 선택하세요" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="예비">
+                        <div className="flex items-center space-x-2">
+                          <Badge variant="secondary">예비</Badge>
+                        </div>
+                      </SelectItem>
+                      <SelectItem value="활성">
+                        <div className="flex items-center space-x-2">
+                          <Badge variant="default">활성</Badge>
+                        </div>
+                      </SelectItem>
+                      <SelectItem value="휴직">
+                        <div className="flex items-center space-x-2">
+                          <Badge variant="outline">휴직</Badge>
+                        </div>
+                      </SelectItem>
+                      <SelectItem value="계약종료">
+                        <div className="flex items-center space-x-2">
+                          <Badge variant="destructive">계약종료</Badge>
+                        </div>
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
 
           {/* 버튼 */}
           <div className="flex justify-end space-x-3 pt-4">
             <Button type="button" variant="outline" onClick={handleClose}>
               취소
             </Button>
-            <Button type="submit">
+            <Button type="submit" disabled={!formData.teacherName || !formData.teacherId || (!isEditMode && !formData.password)}>
               <UserPlus className="h-4 w-4 mr-2" />
-              교사 등록
+              {isEditMode ? '교사 수정' : '교사 등록'}
             </Button>
           </div>
         </form>

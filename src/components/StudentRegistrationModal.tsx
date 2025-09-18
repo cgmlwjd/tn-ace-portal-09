@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -6,11 +6,14 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Badge } from '@/components/ui/badge';
 
 interface StudentRegistrationModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSubmit: (studentData: StudentFormData) => void;
+  editData?: any;
+  isEditMode?: boolean;
 }
 
 interface StudentFormData {
@@ -24,6 +27,7 @@ interface StudentFormData {
   contact: string;
   classNumber: string;
   memo: string;
+  status?: '대기' | '활성' | '휴학(일시중지)' | '비활성';
 }
 
 const gradeOptions = {
@@ -47,7 +51,9 @@ const gradeOptions = {
 export const StudentRegistrationModal: React.FC<StudentRegistrationModalProps> = ({
   isOpen,
   onClose,
-  onSubmit
+  onSubmit,
+  editData,
+  isEditMode = false
 }) => {
   const [formData, setFormData] = useState<StudentFormData>({
     name: '',
@@ -59,8 +65,41 @@ export const StudentRegistrationModal: React.FC<StudentRegistrationModalProps> =
     grade: '',
     contact: '',
     classNumber: '',
-    memo: ''
+    memo: '',
+    status: '대기'
   });
+
+  useEffect(() => {
+    if (isEditMode && editData) {
+      setFormData({
+        name: editData.name || '',
+        birthDate: editData.birthDate || '',
+        gender: editData.gender || 'male',
+        studentId: editData.email || '',
+        password: '',
+        educationSystem: 'korean',
+        grade: editData.grade || '',
+        contact: editData.contact || '',
+        classNumber: editData.classNumber || '',
+        memo: editData.memo || '',
+        status: editData.status || '활성'
+      });
+    } else {
+      setFormData({
+        name: '',
+        birthDate: '',
+        gender: 'male',
+        studentId: '',
+        password: '',
+        educationSystem: 'korean',
+        grade: '',
+        contact: '',
+        classNumber: '',
+        memo: '',
+        status: '대기'
+      });
+    }
+  }, [isEditMode, editData, isOpen]);
 
   const handleSubmit = () => {
     onSubmit(formData);
@@ -90,7 +129,7 @@ export const StudentRegistrationModal: React.FC<StudentRegistrationModalProps> =
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>새 학생 등록</DialogTitle>
+          <DialogTitle>{isEditMode ? '학생 정보 수정' : '새 학생 등록'}</DialogTitle>
         </DialogHeader>
         
         <div className="grid gap-6 py-4">
@@ -241,6 +280,45 @@ export const StudentRegistrationModal: React.FC<StudentRegistrationModalProps> =
               rows={3}
             />
           </div>
+
+          {/* 상태 선택 */}
+          {isEditMode && (
+            <div className="space-y-3">
+              <Label>상태 *</Label>
+              <Select
+                value={formData.status}
+                onValueChange={(value: '대기' | '활성' | '휴학(일시중지)' | '비활성') => {
+                  handleInputChange('status', value);
+                }}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="상태를 선택하세요" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="대기">
+                    <div className="flex items-center space-x-2">
+                      <Badge variant="secondary">대기</Badge>
+                    </div>
+                  </SelectItem>
+                  <SelectItem value="활성">
+                    <div className="flex items-center space-x-2">
+                      <Badge variant="default">활성</Badge>
+                    </div>
+                  </SelectItem>
+                  <SelectItem value="휴학(일시중지)">
+                    <div className="flex items-center space-x-2">
+                      <Badge variant="outline">휴학(일시중지)</Badge>
+                    </div>
+                  </SelectItem>
+                  <SelectItem value="비활성">
+                    <div className="flex items-center space-x-2">
+                      <Badge variant="destructive">비활성</Badge>
+                    </div>
+                  </SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          )}
         </div>
 
         {/* 버튼 */}
@@ -250,10 +328,10 @@ export const StudentRegistrationModal: React.FC<StudentRegistrationModalProps> =
           </Button>
           <Button 
             onClick={handleSubmit}
-            disabled={!formData.name || !formData.birthDate || !formData.studentId || !formData.password || !formData.educationSystem || !formData.grade}
+            disabled={!formData.name || !formData.birthDate || !formData.studentId || (!isEditMode && !formData.password) || !formData.educationSystem || !formData.grade}
             className="bg-brand-bronze hover:bg-brand-bronze/90 text-primary-foreground"
           >
-            등록
+            {isEditMode ? '수정' : '등록'}
           </Button>
         </div>
       </DialogContent>

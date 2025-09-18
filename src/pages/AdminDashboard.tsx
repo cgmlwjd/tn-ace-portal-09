@@ -24,6 +24,8 @@ import {
 } from 'lucide-react';
 import { StudentRegistrationModal } from '@/components/StudentRegistrationModal';
 import { TeacherRegistrationModal } from '@/components/TeacherRegistrationModal';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
+import { useToast } from '@/hooks/use-toast';
 
 export default function AdminDashboard() {
   const [currentLanguage, setCurrentLanguage] = useState<'ko' | 'en'>('ko');
@@ -31,6 +33,11 @@ export default function AdminDashboard() {
   const [searchTerm, setSearchTerm] = useState('');
   const [isStudentModalOpen, setIsStudentModalOpen] = useState(false);
   const [isTeacherModalOpen, setIsTeacherModalOpen] = useState(false);
+  const [editingStudent, setEditingStudent] = useState(null);
+  const [editingTeacher, setEditingTeacher] = useState(null);
+  const [showConfirmDialog, setShowConfirmDialog] = useState(false);
+  const [pendingUpdate, setPendingUpdate] = useState<any>(null);
+  const { toast } = useToast();
 
   const handleLanguageToggle = () => {
     setCurrentLanguage(currentLanguage === 'ko' ? 'en' : 'ko');
@@ -43,6 +50,54 @@ export default function AdminDashboard() {
   const handleTeacherRegistration = (teacherData: any) => {
     console.log('Registering teacher:', teacherData);
     // TODO: Implement teacher registration logic
+    toast({
+      title: "교사 등록 완료",
+      description: "새 교사가 성공적으로 등록되었습니다.",
+    });
+  };
+
+  const handleStudentEdit = (student: any) => {
+    setEditingStudent(student);
+    setIsStudentModalOpen(true);
+  };
+
+  const handleTeacherEdit = (teacher: any) => {
+    setEditingTeacher(teacher);
+    setIsTeacherModalOpen(true);
+  };
+
+  const handleStudentUpdate = (studentData: any) => {
+    setPendingUpdate({ type: 'student', data: studentData });
+    setShowConfirmDialog(true);
+  };
+
+  const handleTeacherUpdate = (teacherData: any) => {
+    setPendingUpdate({ type: 'teacher', data: teacherData });
+    setShowConfirmDialog(true);
+  };
+
+  const confirmUpdate = () => {
+    if (pendingUpdate) {
+      console.log('Updating:', pendingUpdate);
+      // TODO: Implement actual update logic
+      toast({
+        title: `${pendingUpdate.type === 'student' ? '학생' : '교사'} 정보 업데이트 완료`,
+        description: "정보가 성공적으로 수정되었습니다.",
+      });
+      setShowConfirmDialog(false);
+      setPendingUpdate(null);
+      setEditingStudent(null);
+      setEditingTeacher(null);
+      setIsStudentModalOpen(false);
+      setIsTeacherModalOpen(false);
+    }
+  };
+
+  const closeModals = () => {
+    setEditingStudent(null);
+    setEditingTeacher(null);
+    setIsStudentModalOpen(false);
+    setIsTeacherModalOpen(false);
   };
 
   // Mock data
@@ -270,8 +325,14 @@ export default function AdminDashboard() {
                             </div>
                           </div>
                           <div className="flex items-center space-x-2">
-                            <Button variant="ghost" size="sm">
+                            <Button 
+                              variant="ghost" 
+                              size="sm"
+                              onClick={() => handleStudentEdit(student)}
+                              className="flex items-center space-x-1"
+                            >
                               <Edit className="h-4 w-4" />
+                              <span className="text-sm">수정</span>
                             </Button>
                           </div>
                         </div>
@@ -355,8 +416,14 @@ export default function AdminDashboard() {
                             </div>
                           </div>
                           <div className="flex items-center space-x-2">
-                            <Button variant="ghost" size="sm">
+                            <Button 
+                              variant="ghost" 
+                              size="sm"
+                              onClick={() => handleTeacherEdit(teacher)}
+                              className="flex items-center space-x-1"
+                            >
                               <Edit className="h-4 w-4" />
+                              <span className="text-sm">수정</span>
                             </Button>
                           </div>
                         </div>
@@ -373,15 +440,34 @@ export default function AdminDashboard() {
 
       <StudentRegistrationModal
         isOpen={isStudentModalOpen}
-        onClose={() => setIsStudentModalOpen(false)}
-        onSubmit={handleStudentRegistration}
+        onClose={closeModals}
+        onSubmit={editingStudent ? handleStudentUpdate : handleStudentRegistration}
+        editData={editingStudent}
+        isEditMode={!!editingStudent}
       />
 
       <TeacherRegistrationModal
         isOpen={isTeacherModalOpen}
-        onClose={() => setIsTeacherModalOpen(false)}
-        onSubmit={handleTeacherRegistration}
+        onClose={closeModals}
+        onSubmit={editingTeacher ? handleTeacherUpdate : handleTeacherRegistration}
+        editData={editingTeacher}
+        isEditMode={!!editingTeacher}
       />
+
+      <AlertDialog open={showConfirmDialog} onOpenChange={setShowConfirmDialog}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>정보 수정 확인</AlertDialogTitle>
+            <AlertDialogDescription>
+              정말 수정하시겠습니까? 이 작업은 되돌릴 수 없습니다.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>취소</AlertDialogCancel>
+            <AlertDialogAction onClick={confirmUpdate}>확인</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
 
       <Footer />
     </div>
