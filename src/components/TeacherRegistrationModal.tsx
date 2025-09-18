@@ -19,7 +19,7 @@ interface TeacherData {
     examManagement: boolean;
     analyticsView: boolean;
   };
-  status?: '예비' | '활성' | '휴직' | '계약종료';
+  status?: '활성' | '비활성';
 }
 interface TeacherRegistrationModalProps {
   isOpen: boolean;
@@ -46,7 +46,7 @@ export function TeacherRegistrationModal({
       examManagement: false,
       analyticsView: false
     },
-    status: '예비'
+    status: '활성'
   });
 
   useEffect(() => {
@@ -76,7 +76,7 @@ export function TeacherRegistrationModal({
           examManagement: false,
           analyticsView: false
         },
-        status: '예비'
+        status: '활성'
       });
     }
   }, [isEditMode, editData, isOpen]);
@@ -111,7 +111,7 @@ export function TeacherRegistrationModal({
           examManagement: false,
           analyticsView: false
         },
-        status: '예비'
+        status: '활성'
       });
     }
     onClose();
@@ -129,7 +129,7 @@ export function TeacherRegistrationModal({
         examManagement: false,
         analyticsView: false
       },
-      status: '예비'
+      status: '활성'
     });
     onClose();
   };
@@ -184,7 +184,7 @@ export function TeacherRegistrationModal({
                   <Label>교사 상태 *</Label>
                   <Select
                     value={formData.status}
-                    onValueChange={(value: '예비' | '활성' | '휴직' | '계약종료') => {
+                    onValueChange={(value: '활성' | '비활성') => {
                       setFormData(prev => ({
                         ...prev,
                         status: value
@@ -195,10 +195,8 @@ export function TeacherRegistrationModal({
                       <SelectValue placeholder="상태를 선택하세요" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="예비">예비</SelectItem>
                       <SelectItem value="활성">활성</SelectItem>
-                      <SelectItem value="휴직">휴직</SelectItem>
-                      <SelectItem value="계약종료">계약종료</SelectItem>
+                      <SelectItem value="비활성">비활성</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>

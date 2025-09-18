@@ -27,7 +27,7 @@ interface StudentFormData {
   contact: string;
   classNumber: string;
   memo: string;
-  status?: '대기' | '활성' | '휴학(일시중지)' | '비활성';
+  status?: '활성' | '비활성';
 }
 
 const gradeOptions = {
@@ -66,7 +66,7 @@ export const StudentRegistrationModal: React.FC<StudentRegistrationModalProps> =
     contact: '',
     classNumber: '',
     memo: '',
-    status: '대기'
+    status: '활성'
   });
 
   useEffect(() => {
@@ -96,7 +96,7 @@ export const StudentRegistrationModal: React.FC<StudentRegistrationModalProps> =
         contact: '',
         classNumber: '',
         memo: '',
-        status: '대기'
+        status: '활성'
       });
     }
   }, [isEditMode, editData, isOpen]);
@@ -113,7 +113,8 @@ export const StudentRegistrationModal: React.FC<StudentRegistrationModalProps> =
       grade: '',
       contact: '',
       classNumber: '',
-      memo: ''
+      memo: '',
+      status: '활성'
     });
     onClose();
   };
@@ -287,7 +288,7 @@ export const StudentRegistrationModal: React.FC<StudentRegistrationModalProps> =
               <Label>상태 *</Label>
               <Select
                 value={formData.status}
-                onValueChange={(value: '대기' | '활성' | '휴학(일시중지)' | '비활성') => {
+                onValueChange={(value: '활성' | '비활성') => {
                   handleInputChange('status', value);
                 }}
               >
@@ -295,9 +296,7 @@ export const StudentRegistrationModal: React.FC<StudentRegistrationModalProps> =
                   <SelectValue placeholder="상태를 선택하세요" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="대기">대기</SelectItem>
                   <SelectItem value="활성">활성</SelectItem>
-                  <SelectItem value="휴학(일시중지)">휴학(일시중지)</SelectItem>
                   <SelectItem value="비활성">비활성</SelectItem>
                 </SelectContent>
               </Select>
