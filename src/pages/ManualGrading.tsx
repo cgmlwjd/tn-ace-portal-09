@@ -40,11 +40,13 @@ export default function ManualGrading() {
       'mcq': '객관식',
       'short': '주관식', 
       'essay': '서술형',
+      'MCQ': '객관식',
+      'Short Answer': '주관식',
+      'Essay': '서술형',
       'Reading': '독해',
       'Writing': '작문',
       'Speaking': '말하기',
       'Listening': '듣기',
-      'Essay': '에세이',
       'Grammar': '문법',
       'Vocabulary': '어휘',
       'Math': '수학'
@@ -1191,7 +1193,7 @@ export default function ManualGrading() {
                                         ...prev,
                                         [questionKey]: e.target.value
                                       }))}
-                                      placeholder={`${categoryName} ${question.number}번 문제에 대한 피드백을 작성해주세요...`}
+                                      placeholder={`${getCategoryDisplayName(categoryName)} ${question.number}번 문제에 대한 피드백을 작성해주세요...`}
                                       rows={3}
                                     />
                                   </div>
