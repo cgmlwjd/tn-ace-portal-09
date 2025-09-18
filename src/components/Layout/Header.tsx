@@ -37,17 +37,6 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
           
           <div className="flex items-center space-x-4">
-            {onLanguageToggle && (
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={onLanguageToggle}
-                className="flex items-center space-x-2"
-              >
-                <Globe className="h-4 w-4" />
-                <span>{currentLanguage === 'ko' ? '한국어' : 'English'}</span>
-              </Button>
-            )}
             
             {user && (
               <>
