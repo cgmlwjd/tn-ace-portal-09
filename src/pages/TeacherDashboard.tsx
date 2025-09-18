@@ -242,7 +242,7 @@ export default function TeacherDashboard() {
           </div>
 
           {/* Stats Overview */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             <Card className="shadow-bronze">
               <CardContent className="p-6">
                 <div className="flex items-center space-x-3">
@@ -258,34 +258,10 @@ export default function TeacherDashboard() {
             <Card className="shadow-bronze">
               <CardContent className="p-6">
                 <div className="flex items-center space-x-3">
-                  <CheckCircle className="h-8 w-8 text-purple-500" />
-                  <div>
-                    <p className="text-sm text-muted-foreground">완료된 시험</p>
-                    <p className="text-2xl font-bold">{examStats.completedExams}</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="shadow-bronze">
-              <CardContent className="p-6">
-                <div className="flex items-center space-x-3">
                   <AlertCircle className="h-8 w-8 text-red-500" />
                   <div>
                     <p className="text-sm text-muted-foreground">채점 대기</p>
                     <p className="text-2xl font-bold">{examStats.pendingGrading}</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="shadow-bronze">
-              <CardContent className="p-6">
-                <div className="flex items-center space-x-3">
-                  <Clock className="h-8 w-8 text-green-500" />
-                  <div>
-                    <p className="text-sm text-muted-foreground">임시 저장된 시험</p>
-                    <p className="text-2xl font-bold">{examStats.activeExams}</p>
                   </div>
                 </div>
               </CardContent>
