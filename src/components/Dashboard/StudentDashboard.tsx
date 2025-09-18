@@ -224,22 +224,6 @@ export const StudentDashboard: React.FC = () => {
           ))}
         </div>
 
-        {/* School System & Grade */}
-        <div className="mb-3">
-          <p className="text-xs text-muted-foreground mb-1">대상 학제-학년:</p>
-          <div className="flex flex-wrap gap-1">
-            {exam.selectedCombinations?.map((combo: any, index: number) => {
-              const systemLabel = combo.schoolSystem === 'korea' ? '한국' : 
-                                combo.schoolSystem === 'usa' ? '미국' : 
-                                combo.schoolSystem === 'uk' ? '영국' : combo.schoolSystem;
-              return (
-                <Badge key={index} variant="secondary" className="text-xs">
-                  {systemLabel}-{combo.grade}
-                </Badge>
-              );
-            })}
-          </div>
-        </div>
       </CardHeader>
 
       <CardContent>
