@@ -35,6 +35,7 @@ export default function TeacherDashboard() {
       { schoolSystem: "usa", grade: "Grade 8" }
     ],
     created: "2024-01-15",
+    examDate: "2024-01-20T09:00",
     duration: "60분",
     questions: 25
   }, {
@@ -49,6 +50,7 @@ export default function TeacherDashboard() {
       { schoolSystem: "korea", grade: "고2" }
     ],
     created: "2024-01-12",
+    examDate: "2024-01-18T14:00",
     duration: "30분",
     questions: 8
   }, {
@@ -64,6 +66,7 @@ export default function TeacherDashboard() {
       { schoolSystem: "uk", grade: "Year 11" }
     ],
     created: "2024-01-10",
+    examDate: "2024-01-25T10:30",
     duration: "90분",
     questions: 3
   }, {
@@ -78,6 +81,7 @@ export default function TeacherDashboard() {
       { schoolSystem: "usa", grade: "Grade 12" }
     ],
     created: "2024-01-08",
+    examDate: "2024-01-22T13:00",
     duration: "120분",
     questions: 2
   }, {
@@ -94,6 +98,7 @@ export default function TeacherDashboard() {
       { schoolSystem: "korea", grade: "중3" }
     ],
     created: "2024-01-07",
+    examDate: "2024-01-15T11:00",
     duration: "80분",
     questions: 20
   }, {
@@ -109,6 +114,7 @@ export default function TeacherDashboard() {
       { schoolSystem: "usa", grade: "Grade 10" }
     ],
     created: "2024-01-05",
+    examDate: "2024-01-12T15:30",
     duration: "75분",
     questions: 18
   }];
@@ -324,7 +330,12 @@ export default function TeacherDashboard() {
                           <div>
                             <h4 className="font-semibold text-foreground">{exam.title}</h4>
                           </div>
-                          <p className="text-sm text-muted-foreground">생성일: {exam.created}</p>
+                          <div className="text-right">
+                            <p className="text-sm text-muted-foreground">생성일: {exam.created}</p>
+                            {exam.examDate && (
+                              <p className="text-sm text-muted-foreground">시험일: {new Date(exam.examDate).toLocaleString('ko-KR')}</p>
+                            )}
+                          </div>
                         </div>
                         
                         {/* 선택된 과목-카테고리 조합 표시 */}
