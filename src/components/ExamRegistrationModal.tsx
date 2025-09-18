@@ -446,7 +446,7 @@ export default function ExamRegistrationModal({ isOpen, onClose, onComplete }: E
 
                     {/* 선택된 학제-학년 조합 */}
                     <div className="space-y-2">
-                      <Label className="text-sm font-medium">선택된 학제-학년 조합</Label>
+                      <Label className="text-sm font-medium">선택된 과목 - 카테고리 조합</Label>
                       <div className="min-h-[2rem] flex flex-wrap gap-2">
                         {formData.subjectCombinations.length === 0 ? (
                           <p className="text-sm text-muted-foreground">선택된 조합이 없습니다.</p>
