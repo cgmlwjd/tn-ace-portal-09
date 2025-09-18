@@ -356,25 +356,23 @@ export const StudentRegistrationModal: React.FC<StudentRegistrationModalProps> =
           </div>
 
           {/* 상태 선택 */}
-          {isEditMode && (
-            <div className="space-y-3">
-              <Label>상태 *</Label>
-              <Select
-                value={formData.status}
-                onValueChange={(value: '활성' | '비활성') => {
-                  handleInputChange('status', value);
-                }}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="상태를 선택하세요" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="활성">활성</SelectItem>
-                  <SelectItem value="비활성">비활성</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          )}
+          <div className="space-y-3">
+            <Label>상태 *</Label>
+            <Select
+              value={formData.status}
+              onValueChange={(value: '활성' | '비활성') => {
+                handleInputChange('status', value);
+              }}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="상태를 선택하세요" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="활성">활성</SelectItem>
+                <SelectItem value="비활성">비활성</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
         </div>
 
         {/* 버튼 */}

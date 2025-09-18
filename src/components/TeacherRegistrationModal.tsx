@@ -288,36 +288,34 @@ export function TeacherRegistrationModal({
             </CardContent>
           </Card>
 
-          {/* 상태 선택 */}
-          {isEditMode && (
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg">상태 관리</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  <Label>교사 상태 *</Label>
-                  <Select
-                    value={formData.status}
-                    onValueChange={(value: '활성' | '비활성') => {
-                      setFormData(prev => ({
-                        ...prev,
-                        status: value
-                      }));
-                    }}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="상태를 선택하세요" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="활성">활성</SelectItem>
-                      <SelectItem value="비활성">비활성</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </CardContent>
-            </Card>
-          )}
+          {/* 상태 관리 */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg">상태 관리</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                <Label>교사 상태 *</Label>
+                <Select
+                  value={formData.status}
+                  onValueChange={(value: '활성' | '비활성') => {
+                    setFormData(prev => ({
+                      ...prev,
+                      status: value
+                    }));
+                  }}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="상태를 선택하세요" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="활성">활성</SelectItem>
+                    <SelectItem value="비활성">비활성</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </CardContent>
+          </Card>
 
 
           {/* 버튼 */}
