@@ -725,7 +725,7 @@ export default function ManualGrading() {
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2">
                   <Brain className="h-5 w-5" />
-                  <span>{getCategoryDisplayName(singleCategoryData![0])} 채점</span>
+                  <span>{getCategoryDisplayName(singleCategoryData![0])} {gradingData.exam.title.includes('수학') ? '채점' : '카테고리'}</span>
                 </CardTitle>
               </CardHeader>
               <CardContent>
