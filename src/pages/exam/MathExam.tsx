@@ -217,37 +217,46 @@ export default function MathExam() {
       const answerKey = `${currentSection}-${currentQuestion}`;
       
       return (
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center space-x-2">
-              <Icon className="h-5 w-5" />
-              <span>{currentSectionData.title} - 문제 {currentQuestion + 1}</span>
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-6">
-              <div>
-                <p className="text-lg font-medium mb-4">{currentQ.question}</p>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Problem Statement */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center space-x-2">
+                <Icon className="h-5 w-5" />
+                <span>수학 문제</span>
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="prose prose-sm max-w-none">
+                <p className="text-lg font-medium leading-relaxed">{currentQ.question}</p>
               </div>
-              
+            </CardContent>
+          </Card>
+          
+          {/* Question */}
+          <Card>
+            <CardHeader>
+              <CardTitle>문제 {currentQuestion + 1}</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="mb-4">정답을 선택하세요:</p>
               <RadioGroup
                 value={answers[answerKey] || ''}
                 onValueChange={(value) => updateAnswer(currentSection, currentQuestion, value)}
                 disabled={isPaused}
-                className="space-y-3"
               >
                 {currentQ.options.map((option: string, index: number) => (
-                  <div key={index} className="flex items-center space-x-3">
+                  <div key={index} className="flex items-center space-x-2">
                     <RadioGroupItem value={option} id={`option-${index}`} />
-                    <Label htmlFor={`option-${index}`} className="cursor-pointer font-medium">
+                    <Label htmlFor={`option-${index}`} className="cursor-pointer">
                       {option}
                     </Label>
                   </div>
                 ))}
               </RadioGroup>
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        </div>
       );
     }
     
@@ -402,12 +411,12 @@ export default function MathExam() {
                 {isPaused ? (
                   <>
                     <Play className="h-4 w-4 mr-2" />
-                    Resume
+                    재개
                   </>
                 ) : (
                   <>
                     <Pause className="h-4 w-4 mr-2" />
-                    Pause
+                    일시정지
                   </>
                 )}
               </Button>
@@ -428,11 +437,11 @@ export default function MathExam() {
             <div className="text-center">
               <h3 className="text-lg font-semibold mb-2">시험이 일시정지되었습니다</h3>
               <p className="text-muted-foreground mb-4">
-                Resume 버튼을 클릭하여 시험을 계속 진행하세요.
+                재개 버튼을 클릭하여 시험을 계속 진행하세요.
               </p>
               <Button onClick={togglePause}>
                 <Play className="h-4 w-4 mr-2" />
-                Resume
+                재개
               </Button>
             </div>
           </Card>
@@ -440,99 +449,66 @@ export default function MathExam() {
       )}
 
       <main className="flex-1 container mx-auto px-4 py-6">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        <div className="space-y-6">
           {/* Section Navigation */}
-          <div className="lg:col-span-1">
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-base">시험 섹션</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                {sections.map((section, index) => {
-                  const Icon = section.icon;
-                  const isActive = currentSection === index;
-                  const content = section.content;
-                  let questionCount = 0;
-                  
-                  if ('questions' in content) {
-                    questionCount = content.questions.length;
-                  } else if ('topics' in content) {
-                    questionCount = content.topics.length;
-                  }
-                  
-                  return (
-                    <Button
+          <Card>
+            <CardContent className="p-4">
+              <div className="flex items-center justify-center">
+                <div className="flex items-center space-x-2">
+                  {sections.map((section, index) => (
+                    <Badge
                       key={index}
-                      variant={isActive ? "default" : "outline"}
-                      className="w-full justify-start h-auto p-3"
-                      onClick={() => {
-                        if (!isPaused) {
-                          setCurrentSection(index);
-                          setCurrentQuestion(0);
-                        }
-                      }}
-                      disabled={isPaused}
+                      variant={index === currentSection ? "default" : "secondary"}
+                      className="cursor-pointer"
+                      onClick={() => !isPaused && setCurrentSection(index)}
                     >
-                      <div className="flex items-start space-x-3 text-left">
-                        <Icon className="h-5 w-5 mt-0.5 flex-shrink-0" />
-                        <div>
-                          <div className="font-medium">{section.title}</div>
-                          <div className="text-xs opacity-70">{questionCount}개 문제</div>
-                        </div>
-                      </div>
-                    </Button>
-                  );
-                })}
-              </CardContent>
-            </Card>
-          </div>
-          
-          {/* Main Content */}
-          <div className="lg:col-span-3">
-            {renderSectionContent()}
-            
-            {/* Navigation */}
-            <Card className="mt-6">
-              <CardContent className="p-4">
-                <div className="flex items-center justify-between">
-                  <Button
-                    variant="outline"
-                    onClick={prevQuestion}
-                    disabled={isPaused || (currentSection === 0 && currentQuestion === 0)}
-                  >
-                    이전 문제
-                  </Button>
-                  
-                  <div className="flex items-center space-x-2">
-                    <Badge variant="outline">
-                      섹션 {currentSection + 1}/{sections.length}
+                      {section.title}
                     </Badge>
-                    <Badge variant="outline">
-                      문제 {currentQuestion + 1}/{currentSectionData?.content && 'questions' in currentSectionData.content ? currentSectionData.content.questions.length : 0}
-                    </Badge>
-                  </div>
-                  
-                  {currentSection === sections.length - 1 && 
-                   currentQuestion === (currentSectionData?.content && 'questions' in currentSectionData.content ? currentSectionData.content.questions.length - 1 : 0) ? (
-                    <Button
-                      onClick={() => setShowSubmitModal(true)}
-                      disabled={isPaused}
-                      className="bg-brand-bronze hover:bg-brand-bronze/90"
-                    >
-                      시험 제출
-                    </Button>
-                  ) : (
-                    <Button
-                      onClick={nextQuestion}
-                      disabled={isPaused}
-                    >
-                      다음 문제
-                    </Button>
-                  )}
+                  ))}
                 </div>
-              </CardContent>
-            </Card>
-          </div>
+              </div>
+            </CardContent>
+          </Card>
+          
+          {/* Section Content */}
+          {renderSectionContent()}
+          
+          {/* Navigation */}
+          <Card>
+            <CardContent className="p-4">
+              <div className="flex items-center justify-between">
+                <Button
+                  variant="outline"
+                  onClick={prevQuestion}
+                  disabled={isPaused || (currentSection === 0 && currentQuestion === 0)}
+                >
+                  이전
+                </Button>
+                
+                {currentSection === sections.length - 1 && 
+                 currentQuestion === (currentSectionData?.content && 'questions' in currentSectionData.content 
+                   ? currentSectionData.content.questions.length - 1 
+                   : currentSectionData?.content && 'topics' in currentSectionData.content 
+                     ? currentSectionData.content.topics.length - 1 
+                     : 0) ? (
+                  <Button
+                    onClick={() => setShowSubmitModal(true)}
+                    disabled={isPaused}
+                    className="bg-brand-bronze hover:bg-brand-bronze/90"
+                  >
+                    시험 제출
+                  </Button>
+                ) : (
+                  <Button
+                    onClick={nextQuestion}
+                    disabled={isPaused}
+                  >
+                    다음
+                  </Button>
+                )}
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </main>
 
