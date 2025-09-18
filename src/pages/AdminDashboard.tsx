@@ -346,11 +346,12 @@ export default function AdminDashboard() {
                               </Badge>
                               <Badge variant="outline">{teacher.subject}</Badge>
                             </div>
-                            <p className="text-sm text-muted-foreground mb-1">{teacher.email}</p>
-                            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 text-xs text-muted-foreground">
-                              <div>입사일: {teacher.joinDate}</div>
-                              <div>최근 로그인: {teacher.lastLogin}</div>
-                              <div>생성한 시험: {teacher.examsCreated}개</div>
+                            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 sm:gap-4">
+                              <span className="text-sm text-muted-foreground">{teacher.email}</span>
+                              <div className="flex flex-col sm:flex-row gap-2 sm:gap-6 text-xs text-muted-foreground">
+                                <span>최근 로그인: {teacher.lastLogin}</span>
+                                <span>생성한 시험: {teacher.examsCreated}개</span>
+                              </div>
                             </div>
                           </div>
                           <div className="flex items-center space-x-2">
