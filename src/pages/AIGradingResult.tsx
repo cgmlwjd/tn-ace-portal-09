@@ -440,11 +440,11 @@ export default function AIGradingResult() {
         student: { name: "이수현", grade: "중2", schoolSystem: "korea" },
         exam: { 
           title: "수학 중간고사 - 대수", 
-          category: "Math",
+          category: "MCQ+Short+Essay",
           totalMaxScore: 100
         },
         categories: {
-          "Math": {
+          "MCQ": {
             questions: [
               {
                 number: 1,
@@ -523,6 +523,52 @@ export default function AIGradingResult() {
                 }
               }
             ]
+          },
+          "Short": {
+            questions: [
+              {
+                number: 1,
+                text: "다음 연립방정식을 풀어보시오.\n\n2x + 3y = 7\n4x - y = 5",
+                maxScore: 30,
+                aiGrading: {
+                  score: 27,
+                  breakdown: {
+                    method: { score: 15, maxScore: 15, comment: "풀이 방법이 적절함" },
+                    calculation: { score: 12, maxScore: 15, comment: "계산 과정이 정확하나 설명 부족" }
+                  },
+                  feedback: "연립방정식을 정확히 풀었습니다. 각 단계의 설명을 더 자세히 하면 좋겠습니다.",
+                  gradedAt: "2024-01-18 10:22:30",
+                  processingTime: "1.5초"
+                },
+                studentAnswer: {
+                  content: "2x + 3y = 7 ... ①\n4x - y = 5 ... ②\n\n②에서 y = 4x - 5\n①에 대입: 2x + 3(4x - 5) = 7\n2x + 12x - 15 = 7\n14x = 22\nx = 11/7\n\ny = 4(11/7) - 5 = 44/7 - 35/7 = 9/7\n\n따라서 x = 11/7, y = 9/7",
+                  submittedAt: "2024-01-18 10:19:45"
+                }
+              }
+            ]
+          },
+          "Essay": {
+            questions: [
+              {
+                number: 1,
+                text: "일차방정식 ax + b = 0 (a ≠ 0)의 해가 x = 3일 때, a와 b 사이의 관계를 구하고, 이를 이용하여 구체적인 예를 들어 설명하시오.",
+                maxScore: 50,
+                aiGrading: {
+                  score: 42,
+                  breakdown: {
+                    concept: { score: 20, maxScore: 25, comment: "개념 이해가 우수함" },
+                    example: { score: 22, maxScore: 25, comment: "구체적 예시가 적절함" }
+                  },
+                  feedback: "개념을 잘 이해하고 있으며 예시도 적절합니다. 설명을 더 체계적으로 정리하면 완벽할 것 같습니다.",
+                  gradedAt: "2024-01-18 10:25:45",
+                  processingTime: "2.8초"
+                },
+                studentAnswer: {
+                  content: "주어진 조건: ax + b = 0에서 x = 3이 해\n\n해 구하기:\nx = 3을 방정식에 대입하면\na(3) + b = 0\n3a + b = 0\n따라서 b = -3a\n\n관계식: b = -3a\n\n구체적인 예:\na = 2일 때, b = -3(2) = -6\n방정식: 2x - 6 = 0\n확인: 2(3) - 6 = 6 - 6 = 0 ✓\n\na = -1일 때, b = -3(-1) = 3  \n방정식: -x + 3 = 0\n확인: -(3) + 3 = -3 + 3 = 0 ✓\n\n결론: 일차방정식의 해가 주어졌을 때, 계수들 사이의 관계를 구할 수 있고, 이를 통해 다양한 형태의 방정식을 만들 수 있습니다.",
+                  submittedAt: "2024-01-18 10:23:20"
+                }
+              }
+            ]
           }
         }
       },
@@ -530,11 +576,11 @@ export default function AIGradingResult() {
         student: { name: "박지호", grade: "고1", schoolSystem: "usa" },
         exam: { 
           title: "Math Comprehensive Test - Geometry", 
-          category: "Math",
+          category: "MCQ+Short+Essay",
           totalMaxScore: 100
         },
         categories: {
-          "Math": {
+          "MCQ": {
             questions: [
               {
                 number: 1,
@@ -611,6 +657,52 @@ export default function AIGradingResult() {
                 studentAnswer: {
                   content: "A(0, 0), B(6, 0)이고 정사각형의 한 변이 6일 때:\n\nCase 1: 반시계 방향으로 정사각형 형성\nC(6, 6), D(0, 6)\n\nCase 2: 시계 방향으로 정사각형 형성  \nC(6, -6), D(0, -6)\n\n검증:\n- AB = 6 (주어진 조건)\n- BC = CD = DA = 6 (정사각형 조건)\n- 모든 내각이 90° (정사각형 조건)\n\n따라서 두 가지 경우: C(6, 6), D(0, 6) 또는 C(6, -6), D(0, -6)",
                   submittedAt: "2024-01-18 11:34:30"
+                }
+              }
+            ]
+          },
+          "Short": {
+            questions: [
+              {
+                number: 1,
+                text: "삼각형 ABC에서 A(1, 2), B(4, 6), C(7, 2)일 때, AB의 길이를 구하시오.",
+                maxScore: 30,
+                aiGrading: {
+                  score: 28,
+                  breakdown: {
+                    method: { score: 15, maxScore: 15, comment: "거리 공식을 정확히 적용함" },
+                    calculation: { score: 13, maxScore: 15, comment: "계산이 정확함" }
+                  },
+                  feedback: "거리 공식을 정확히 적용했습니다.",
+                  gradedAt: "2024-01-18 11:36:45",
+                  processingTime: "1.2초"
+                },
+                studentAnswer: {
+                  content: "AB의 길이:\nAB = √[(4-1)² + (6-2)²] = √[9 + 16] = √25 = 5",
+                  submittedAt: "2024-01-18 11:32:20"
+                }
+              }
+            ]
+          },
+          "Essay": {
+            questions: [
+              {
+                number: 1,
+                text: "좌표평면에서 두 점 사이의 거리 공식을 유도하고, 이를 이용하여 원의 방정식이 어떻게 도출되는지 설명하시오.",
+                maxScore: 50,
+                aiGrading: {
+                  score: 42,
+                  breakdown: {
+                    derivation: { score: 20, maxScore: 25, comment: "거리 공식 유도 과정이 정확함" },
+                    connection: { score: 22, maxScore: 25, comment: "원의 방정식과의 연결이 우수함" }
+                  },
+                  feedback: "거리 공식과 원의 방정식 사이의 관계를 잘 이해하고 있습니다.",
+                  gradedAt: "2024-01-18 11:38:10",
+                  processingTime: "2.5초"
+                },
+                studentAnswer: {
+                  content: "1. 거리 공식 유도:\n두 점 A(a, b), B(c, d)가 있을 때, 피타고라스 정리를 이용하여:\n- 가로 거리: |c - a|\n- 세로 거리: |d - b|\n- 대각선 거리(AB): √[(c-a)² + (d-b)²]\n\n2. 원의 방정식 도출:\n중심이 O(h, k)이고 반지름이 r인 원 위의 임의의 점을 P(x, y)라 하면:\n- 중심 O와 점 P 사이의 거리가 항상 r과 같음\n- 거리 공식을 적용하면: √[(x-h)² + (y-k)²] = r\n- 양변을 제곱하면: (x-h)² + (y-k)² = r²\n\n따라서 거리 공식이 원의 방정식의 기초가 됩니다.",
+                  submittedAt: "2024-01-18 11:35:30"
                 }
               }
             ]
