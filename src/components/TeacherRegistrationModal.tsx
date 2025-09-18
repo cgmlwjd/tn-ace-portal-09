@@ -131,8 +131,7 @@ export function TeacherRegistrationModal({
     return Object.keys(errors).length === 0;
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
     setSubmitAttempted(true);
     
     if (!validateForm()) {
@@ -197,7 +196,7 @@ export function TeacherRegistrationModal({
           </DialogTitle>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <div className="space-y-6">
           {/* 기본 정보 */}
           <Card>
             <CardHeader>
@@ -323,7 +322,7 @@ export function TeacherRegistrationModal({
             <Button type="button" variant="outline" onClick={handleClose}>
               취소
             </Button>
-            <Button type="submit" disabled={isSubmitting}>
+            <Button onClick={handleSubmit} disabled={isSubmitting}>
               {isSubmitting ? (
                 <div className="flex items-center space-x-2">
                   <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
@@ -334,7 +333,7 @@ export function TeacherRegistrationModal({
               )}
             </Button>
           </div>
-        </form>
+        </div>
       </DialogContent>
     </Dialog>;
 }
