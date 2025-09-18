@@ -455,7 +455,7 @@ export default function TeacherDashboard() {
                             </div>
                           </div>
                           
-                          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
+                          <div className="grid grid-cols-1 sm:grid-cols-4 gap-3 mb-4">
                             <div>
                               <p className="text-xs font-medium text-muted-foreground">제출 시간</p>
                               <p className="text-sm">{grade.submittedAt}</p>
@@ -468,29 +468,7 @@ export default function TeacherDashboard() {
                               <p className="text-xs font-medium text-muted-foreground">수동 채점 시간</p>
                               <p className="text-sm">{grade.manualGradingTime || '미완료'}</p>
                             </div>
-                          </div>
-
-                          
-                          <div className="flex items-center justify-between pt-3 border-t border-border">
-                            <div className="flex space-x-2">
-                              <Button 
-                                variant="outline" 
-                                size="sm" 
-                                onClick={() => handleAIGrading(grade.id)}
-                                disabled={grade.aiGradingTime ? false : false}
-                              >
-                                AI 채점
-                              </Button>
-                              <Button 
-                                size="sm" 
-                                onClick={() => navigate(`/teacher/grading/${grade.id}`)}
-                              >
-                                수동 채점
-                              </Button>
-                            </div>
-                            
-                            {/* 완료 상태 표시 (오른쪽 하단) */}
-                            <div className="flex flex-col gap-1">
+                            <div className="flex flex-col gap-1 items-end">
                               {grade.aiGradingTime && (
                                 <Badge variant="default" className="text-xs bg-green-500 hover:bg-green-600">
                                   AI 채점 완료
@@ -502,6 +480,24 @@ export default function TeacherDashboard() {
                                 </Badge>
                               )}
                             </div>
+                          </div>
+
+                          
+                          <div className="flex space-x-2 pt-3 border-t border-border">
+                            <Button 
+                              variant="outline" 
+                              size="sm" 
+                              onClick={() => handleAIGrading(grade.id)}
+                              disabled={grade.aiGradingTime ? false : false}
+                            >
+                              AI 채점
+                            </Button>
+                            <Button 
+                              size="sm" 
+                              onClick={() => navigate(`/teacher/grading/${grade.id}`)}
+                            >
+                              수동 채점
+                            </Button>
                           </div>
                         </div>)}
                     </div>
