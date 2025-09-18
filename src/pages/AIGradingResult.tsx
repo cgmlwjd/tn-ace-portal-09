@@ -24,6 +24,23 @@ export default function AIGradingResult() {
     }));
   };
 
+  const getCategoryDisplayName = (categoryName: string, examTitle: string) => {
+    // 수학 시험인지 확인 (시험 제목에 "수학"이 포함된 경우)
+    const isMathExam = examTitle.includes('수학');
+    
+    if (isMathExam) {
+      const mathCategoryMap: {[key: string]: string} = {
+        'MCQ': '객관식',
+        'Short': '주관식', 
+        'Essay': '서술형'
+      };
+      return mathCategoryMap[categoryName] || categoryName;
+    }
+    
+    // 영어 시험은 원래 카테고리명 유지
+    return categoryName;
+  };
+
   // AI 채점 결과 더미 데이터 (카테고리별 문제별 구조)
   const getAIResultByType = (id: string) => {
     const aiResults = {
@@ -600,94 +617,96 @@ export default function AIGradingResult() {
           }
         }
       },
-      "10": { // Math 단일 카테고리, 여러 문제 (함수)
+      "10": { // Math 여러 카테고리, 여러 문제 (함수)
         student: { name: "최예린", grade: "고1", schoolSystem: "korea" },
         exam: { 
           title: "수학 기말고사 - 함수", 
-          category: "Math",
+          category: "MCQ+Short+Essay",
           totalMaxScore: 100
         },
         categories: {
-          "Math": {
+          "MCQ": {
             questions: [
               {
                 number: 1,
-                text: "다음 함수의 정의역과 치역을 구하시오.\n\nf(x) = √(x - 2) + 1",
+                text: "다음 중 함수 f(x) = x² - 4x + 3의 최솟값을 구하는 방법으로 가장 적절한 것은?\n\n① 미분을 이용한다\n② 완전제곱식으로 변형한다\n③ 그래프를 그려본다\n④ 인수분해를 한다",
                 maxScore: 20,
                 aiGrading: {
                   score: 18,
                   breakdown: {
-                    domain: { score: 10, maxScore: 10, comment: "정의역을 정확히 구함" },
-                    range: { score: 8, maxScore: 10, comment: "치역 구하기 정확하나 설명 보완 필요" }
+                    accuracy: { score: 18, maxScore: 20, comment: "정답을 정확히 선택함" }
                   },
-                  feedback: "정의역과 치역을 잘 구했습니다. 치역에 대한 설명을 더 자세히 하면 좋겠습니다.",
+                  feedback: "완전제곱식 변형이 가장 적절한 방법임을 잘 알고 있습니다.",
                   gradedAt: "2024-01-18 14:50:25",
-                  processingTime: "1.5초"
+                  processingTime: "0.8초"
                 },
                 studentAnswer: {
-                  content: "f(x) = √(x - 2) + 1에서\n\n정의역: 제곱근 안의 값이 0 이상이어야 하므로\nx - 2 ≥ 0\nx ≥ 2\n따라서 정의역은 [2, +∞)\n\n치역: √(x - 2) ≥ 0이므로\n√(x - 2) + 1 ≥ 1\n따라서 치역은 [1, +∞)",
+                  content: "정답: ② 완전제곱식으로 변형한다\n\n이차함수의 최댓값이나 최솟값을 구할 때는 완전제곱식으로 변형하는 방법이 가장 일반적이고 정확합니다. f(x) = x² - 4x + 3을 완전제곱식으로 변형하면 f(x) = (x-2)² - 1이 되어 최솟값이 -1임을 쉽게 알 수 있습니다.",
                   submittedAt: "2024-01-18 14:45:20"
                 }
               },
               {
                 number: 2,
-                text: "함수 f(x) = x² - 4x + 3에 대해 다음을 구하시오.\n\n(1) 이 함수를 완전제곱식으로 나타내시오.\n(2) 꼭짓점의 좌표를 구하시오.\n(3) 축의 방정식을 구하시오.\n(4) 최댓값 또는 최솟값을 구하시오.",
+                text: "함수 f(x) = √(x-1) + 2의 정의역은?\n\n① x ≥ 0\n② x > 1\n③ x ≥ 1\n④ x > 0",
+                maxScore: 15,
+                aiGrading: {
+                  score: 15,
+                  breakdown: {
+                    accuracy: { score: 15, maxScore: 15, comment: "정의역을 정확히 구함" }
+                  },
+                  feedback: "제곱근 함수의 정의역을 정확히 이해하고 있습니다.",
+                  gradedAt: "2024-01-18 14:51:10",
+                  processingTime: "0.6초"
+                },
+                studentAnswer: {
+                  content: "정답: ③ x ≥ 1\n\n제곱근 안의 값이 0 이상이어야 하므로 x - 1 ≥ 0, 따라서 x ≥ 1입니다.",
+                  submittedAt: "2024-01-18 14:46:35"
+                }
+              }
+            ]
+          },
+          "Short": {
+            questions: [
+              {
+                number: 1,
+                text: "함수 f(x) = x² - 4x + 3에 대해 다음을 구하시오.\n\n(1) 이 함수를 완전제곱식으로 나타내시오.\n(2) 꼭짓점의 좌표를 구하시오.",
                 maxScore: 30,
                 aiGrading: {
                   score: 27,
                   breakdown: {
-                    completing: { score: 8, maxScore: 8, comment: "완전제곱식 변형 완벽" },
-                    vertex: { score: 7, maxScore: 7, comment: "꼭짓점 좌표 정확" },
-                    axis: { score: 6, maxScore: 7, comment: "축의 방정식 정확" },
-                    extremum: { score: 6, maxScore: 8, comment: "최솟값 정확하나 설명 부족" }
+                    completing: { score: 15, maxScore: 15, comment: "완전제곱식 변형 완벽" },
+                    vertex: { score: 12, maxScore: 15, comment: "꼭짓점 좌표 정확하나 설명 부족" }
                   },
-                  feedback: "모든 계산이 정확합니다. 최솟값을 갖는 이유에 대한 설명을 추가하면 좋겠습니다.",
+                  feedback: "계산이 정확합니다. 꼭짓점을 구하는 과정에 대한 설명을 추가하면 좋겠습니다.",
                   gradedAt: "2024-01-18 14:51:40",
+                  processingTime: "1.5초"
+                },
+                studentAnswer: {
+                  content: "(1) 완전제곱식 변형:\nf(x) = x² - 4x + 3\n= x² - 4x + 4 - 4 + 3\n= (x - 2)² - 1\n\n(2) 꼭짓점: (2, -1)",
+                  submittedAt: "2024-01-18 14:46:35"
+                }
+              }
+            ]
+          },
+          "Essay": {
+            questions: [
+              {
+                number: 1,
+                text: "합성함수와 역함수의 관계에 대해 설명하고, 구체적인 예시를 들어 증명하시오.\n\n조건: f(x) = 2x + 1, g(x) = x² - 3을 이용하여 설명할 것",
+                maxScore: 35,
+                aiGrading: {
+                  score: 28,
+                  breakdown: {
+                    theory: { score: 12, maxScore: 15, comment: "개념 이해도 우수" },
+                    example: { score: 16, maxScore: 20, comment: "구체적 예시 제시 완벽" }
+                  },
+                  feedback: "합성함수에 대한 이해가 우수합니다. 역함수와의 관계에 대한 설명을 더 보강하면 좋겠습니다.",
+                  gradedAt: "2024-01-18 14:52:20",
                   processingTime: "2.3초"
                 },
                 studentAnswer: {
-                  content: "(1) 완전제곱식 변형:\nf(x) = x² - 4x + 3\n= x² - 4x + 4 - 4 + 3\n= (x - 2)² - 1\n\n(2) 꼭짓점: (2, -1)\n\n(3) 축의 방정식: x = 2\n\n(4) a = 1 > 0이므로 아래로 볼록한 포물선\n따라서 최솟값을 가지며, 최솟값은 -1",
-                  submittedAt: "2024-01-18 14:46:35"
-                }
-              },
-              {
-                number: 3,
-                text: "합성함수를 구하시오.\n\nf(x) = 2x + 1, g(x) = x² - 3일 때,\n(1) (f ∘ g)(x)\n(2) (g ∘ f)(x)\n(3) f(g(2))와 g(f(2))의 값",
-                maxScore: 25,
-                aiGrading: {
-                  score: 23,
-                  breakdown: {
-                    fog: { score: 8, maxScore: 8, comment: "f∘g 정확히 구함" },
-                    gof: { score: 8, maxScore: 8, comment: "g∘f 정확히 구함" },
-                    values: { score: 7, maxScore: 9, comment: "함수값 계산 정확하나 과정 설명 부족" }
-                  },
-                  feedback: "합성함수를 정확히 구했습니다. 함수값 계산 과정을 더 자세히 보여주세요.",
-                  gradedAt: "2024-01-18 14:52:20",
-                  processingTime: "1.9초"
-                },
-                studentAnswer: {
-                  content: "(1) (f ∘ g)(x) = f(g(x)) = f(x² - 3)\n= 2(x² - 3) + 1 = 2x² - 6 + 1 = 2x² - 5\n\n(2) (g ∘ f)(x) = g(f(x)) = g(2x + 1)\n= (2x + 1)² - 3 = 4x² + 4x + 1 - 3 = 4x² + 4x - 2\n\n(3) f(g(2)) = f(2² - 3) = f(1) = 2(1) + 1 = 3\ng(f(2)) = g(2(2) + 1) = g(5) = 5² - 3 = 22",
+                  content: "합성함수란 두 함수를 연결하여 만든 새로운 함수입니다.\n\n주어진 함수로 합성함수를 구해보면:\n(f ∘ g)(x) = f(g(x)) = f(x² - 3) = 2(x² - 3) + 1 = 2x² - 5\n(g ∘ f)(x) = g(f(x)) = g(2x + 1) = (2x + 1)² - 3 = 4x² + 4x - 2\n\n역함수의 경우, f(x) = 2x + 1에서 f⁻¹(x) = (x-1)/2 입니다.\n이때 f(f⁻¹(x)) = f((x-1)/2) = 2·(x-1)/2 + 1 = x가 되어 원래 값으로 돌아옵니다.\n\n따라서 합성함수와 역함수는 서로 상호작용하여 원래 입력값을 복원하는 관계에 있습니다.",
                   submittedAt: "2024-01-18 14:47:15"
-                }
-              },
-              {
-                number: 4,
-                text: "역함수를 구하고 그래프의 관계를 설명하시오.\n\nf(x) = 3x - 2 (x ∈ ℝ)에 대해\n(1) 역함수 f⁻¹(x)를 구하시오.\n(2) f(x)와 f⁻¹(x)의 그래프의 관계를 설명하시오.\n(3) f(1)과 f⁻¹(1)의 값을 구하시오.",
-                maxScore: 25,
-                aiGrading: {
-                  score: 21,
-                  breakdown: {
-                    inverse: { score: 10, maxScore: 10, comment: "역함수를 정확히 구함" },
-                    relation: { score: 6, maxScore: 10, comment: "그래프 관계 설명이 부족" },
-                    values: { score: 5, maxScore: 5, comment: "함수값 계산 정확" }
-                  },
-                  feedback: "역함수 계산은 완벽합니다. 그래프 관계에 대한 설명을 더 구체적으로 해주세요.",
-                  gradedAt: "2024-01-18 14:53:10",
-                  processingTime: "2.1초"
-                },
-                studentAnswer: {
-                  content: "(1) 역함수 구하기:\ny = 3x - 2에서 x와 y를 바꾸면\nx = 3y - 2\n3y = x + 2\ny = (x + 2)/3\n\n따라서 f⁻¹(x) = (x + 2)/3\n\n(2) 그래프 관계:\nf(x)와 f⁻¹(x)의 그래프는 직선 y = x에 대하여 대칭이다.\n\n(3) f(1) = 3(1) - 2 = 1\nf⁻¹(1) = (1 + 2)/3 = 1",
-                  submittedAt: "2024-01-18 14:48:25"
                 }
               }
             ]
@@ -800,7 +819,7 @@ export default function AIGradingResult() {
                 >
                   <div className="flex items-center space-x-2">
                     <Brain className="h-5 w-5" />
-                    <span>{categoryName} 카테고리</span>
+                    <span>{getCategoryDisplayName(categoryName, resultData.exam.title)} 카테고리</span>
                     <Badge variant="outline">
                       {categoryData.questions.reduce((total, q) => total + q.aiGrading.score, 0)}/
                       {categoryData.questions.reduce((total, q) => total + q.maxScore, 0)}점
@@ -821,7 +840,7 @@ export default function AIGradingResult() {
                         {/* Question Header */}
                         <div className="flex items-center justify-between mb-4">
                           <h3 className="text-lg font-semibold">
-                            {categoryName} {question.number}번 문제
+                            {getCategoryDisplayName(categoryName, resultData.exam.title)} {question.number}번 문제
                           </h3>
                           <Badge className="bg-green-500 hover:bg-green-600">
                             {question.aiGrading.score}/{question.maxScore}점
