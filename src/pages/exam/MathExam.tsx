@@ -16,7 +16,7 @@ import { Clock, Play, Pause, Calculator, PenTool, FileText } from 'lucide-react'
 // Mock math exam content with sections
 const examSections = {
   mcq: {
-    title: '객관식 (MCQ)',
+    title: '객관식',
     icon: Calculator,
     color: 'bg-red-50 text-red-700 border-red-200',
     content: {
@@ -24,59 +24,58 @@ const examSections = {
         {
           id: 1,
           question: '다음 식의 값을 구하시오: 3x + 5 = 14',
-          options: ['x = 2', 'x = 3', 'x = 4', 'x = 5'],
-          correctAnswer: 'x = 3'
+          options: ['x = 2', 'x = 3', 'x = 4', 'x = 5']
         },
         {
           id: 2,
           question: '다음 중 소수가 아닌 것은?',
-          options: ['7', '9', '11', '13'],
-          correctAnswer: '9'
+          options: ['7', '9', '11', '13']
         },
         {
           id: 3,
           question: '삼각형의 내각의 합은?',
-          options: ['90도', '120도', '180도', '360도'],
-          correctAnswer: '180도'
+          options: ['90도', '120도', '180도', '360도']
         },
         {
           id: 4,
           question: '2³ × 2² = ?',
-          options: ['2⁵', '2⁶', '4⁵', '4⁶'],
-          correctAnswer: '2⁵'
+          options: ['2⁵', '2⁶', '4⁵', '4⁶']
         },
         {
           id: 5,
           question: '원의 넓이 공식은?',
-          options: ['πr', '2πr', 'πr²', '2πr²'],
-          correctAnswer: 'πr²'
+          options: ['πr', '2πr', 'πr²', '2πr²']
         }
       ]
     }
   },
   short: {
-    title: '주관식 (Short Answer)',
+    title: '주관식',
     icon: PenTool,
     color: 'bg-blue-50 text-blue-700 border-blue-200',
     content: {
       questions: [
         {
           id: 1,
+          type: 'short-answer',
           question: '다음 연립방정식을 풀어 x, y의 값을 구하시오.\n2x + 3y = 7\nx - y = 1',
           instruction: '계산 과정을 포함하여 답하시오.'
         },
         {
           id: 2,
+          type: 'short-answer',
           question: '직각삼각형에서 빗변이 5cm, 한 변이 3cm일 때 나머지 한 변의 길이를 구하시오.',
           instruction: '피타고라스 정리를 이용하여 계산하시오.'
         },
         {
           id: 3,
+          type: 'short-answer',
           question: '다음 이차방정식의 해를 구하시오: x² - 5x + 6 = 0',
           instruction: '인수분해 또는 근의 공식을 사용하시오.'
         },
         {
           id: 4,
+          type: 'short-answer',
           question: '함수 f(x) = 2x² - 4x + 1에서 x = 2일 때 함수값을 구하시오.',
           instruction: '단계별로 계산 과정을 보이시오.'
         }
@@ -84,26 +83,24 @@ const examSections = {
     }
   },
   essay: {
-    title: '서술형 (Essay)',
+    title: '서술형',
     icon: FileText,
     color: 'bg-green-50 text-green-700 border-green-200',
     content: {
-      questions: [
+      topics: [
         {
           id: 1,
-          question: '확률과 통계 문제 해결',
+          title: '확률과 통계 문제 해결',
+          topic: '조합을 이용한 확률 계산',
           prompt: '한 학급에 남학생 15명, 여학생 10명이 있습니다. 이 중에서 임의로 3명을 선택할 때, 남학생 2명과 여학생 1명이 선택될 확률을 구하고, 이를 구하는 과정을 자세히 설명하시오.',
-          instruction: '조합의 개념을 사용하여 단계별로 해결 과정을 서술하고, 최종 답을 분수와 소수로 모두 표현하시오.',
-          minWords: 150,
-          maxWords: 300
+          wordCount: { min: 150, max: 300 }
         },
         {
           id: 2,
-          question: '함수의 그래프와 최댓값 문제',
+          title: '함수의 그래프와 최댓값 문제',
+          topic: '이차함수의 성질 분석',
           prompt: '이차함수 y = -x² + 4x + 5의 그래프의 성질을 분석하고, 이 함수의 최댓값과 그때의 x값을 구하시오. 또한 이 함수가 x축과 만나는 점의 좌표를 구하시오.',
-          instruction: '완전제곱식으로 변형하는 과정, 꼭짓점 좌표 구하기, 판별식 이용한 교점 구하기 등의 방법을 모두 활용하여 단계적으로 해결하시오.',
-          minWords: 200,
-          maxWords: 400
+          wordCount: { min: 200, max: 400 }
         }
       ]
     }
@@ -124,11 +121,8 @@ export default function MathExam() {
   const [showSubmitModal, setShowSubmitModal] = useState(false);
   const [answers, setAnswers] = useState<Record<string, any>>({});
   
-  // Get sections based on exam categories (mcq, short, math-essay -> essay)
-  const sections = examData?.categories?.map((cat: string) => {
-    const sectionKey = cat === 'math-essay' ? 'essay' : cat;
-    return examSections[sectionKey as keyof typeof examSections];
-  }).filter(Boolean) || [];
+  // Get sections based on exam categories
+  const sections = examData?.categories?.map((cat: string) => examSections[cat as keyof typeof examSections]).filter(Boolean) || [];
   const currentSectionData = sections[currentSection];
   
   // Timer effect
@@ -187,6 +181,8 @@ export default function MathExam() {
     
     if (currentContent && 'questions' in currentContent) {
       totalQuestions = currentContent.questions.length;
+    } else if (currentContent && 'topics' in currentContent) {
+      totalQuestions = currentContent.topics.length;
     }
     
     if (currentQuestion < totalQuestions - 1) {
@@ -215,8 +211,8 @@ export default function MathExam() {
     const Icon = currentSectionData.icon;
     const content = currentSectionData.content;
     
-    // MCQ Section (객관식)
-    if (currentSectionData.title === '객관식 (MCQ)' && 'questions' in content) {
+    // MCQ Section - Multiple Choice Questions
+    if ('questions' in content && content.questions[0]?.options) {
       const currentQ = content.questions[currentQuestion];
       const answerKey = `${currentSection}-${currentQuestion}`;
       
@@ -255,8 +251,8 @@ export default function MathExam() {
       );
     }
     
-    // Short Answer Section (주관식)
-    if (currentSectionData.title === '주관식 (Short Answer)' && 'questions' in content) {
+    // Short Answer Section - questions with type but no topics
+    if ('questions' in content && content.questions[0]?.type && !content.questions[0]?.section) {
       const currentQ = content.questions[currentQuestion];
       const answerKey = `${currentSection}-${currentQuestion}`;
       
@@ -289,9 +285,9 @@ export default function MathExam() {
       );
     }
     
-    // Essay Section (서술형)
-    if (currentSectionData.title === '서술형 (Essay)' && 'questions' in content) {
-      const currentQ = content.questions[currentQuestion];
+    // Essay Section - topics
+    if ('topics' in content) {
+      const currentTopic = content.topics[currentQuestion];
       const answerKey = `${currentSection}-${currentQuestion}`;
       const text = answers[answerKey] || '';
       const wordCount = text.trim().split(/\s+/).filter(word => word.length > 0).length;
@@ -301,18 +297,18 @@ export default function MathExam() {
           <CardHeader>
             <CardTitle className="flex items-center space-x-2">
               <Icon className="h-5 w-5" />
-              <span>{currentQ.question}</span>
+              <span>{currentTopic.title}</span>
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
               <div>
-                <h4 className="font-medium text-lg">{currentQ.prompt}</h4>
-                <p className="text-sm text-muted-foreground mt-2">{currentQ.instruction}</p>
+                <h4 className="font-medium">{currentTopic.topic}</h4>
+                <p className="text-sm text-muted-foreground mt-2">{currentTopic.prompt}</p>
                 <div className="flex items-center space-x-4 mt-2 text-xs text-muted-foreground">
-                  <span>권장 단어 수: {currentQ.minWords}-{currentQ.maxWords} 단어</span>
-                  <span className={wordCount < currentQ.minWords ? 'text-red-600' : wordCount > currentQ.maxWords ? 'text-orange-600' : 'text-green-600'}>
-                    현재: {wordCount} 단어
+                  <span>Required: {currentTopic.wordCount.min}-{currentTopic.wordCount.max} words</span>
+                  <span className={wordCount < currentTopic.wordCount.min ? 'text-red-600' : wordCount > currentTopic.wordCount.max ? 'text-orange-600' : 'text-green-600'}>
+                    Current: {wordCount} words
                   </span>
                 </div>
               </div>
@@ -344,6 +340,8 @@ export default function MathExam() {
       
       if ('questions' in content) {
         sectionQuestions = content.questions.length;
+      } else if ('topics' in content) {
+        sectionQuestions = content.topics.length;
       }
       
       if (sIdx < currentSection) {
@@ -458,6 +456,8 @@ export default function MathExam() {
                   
                   if ('questions' in content) {
                     questionCount = content.questions.length;
+                  } else if ('topics' in content) {
+                    questionCount = content.topics.length;
                   }
                   
                   return (
