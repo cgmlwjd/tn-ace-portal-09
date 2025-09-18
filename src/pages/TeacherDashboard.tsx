@@ -441,19 +441,15 @@ export default function TeacherDashboard() {
                               </div>
                             </div>
                             <div className="flex flex-col items-end space-y-1">
-                              {grade.aiGradingTime && (
-                                <Badge variant="default" className="text-xs bg-green-500 hover:bg-green-600">
-                                  AI 채점 완료
-                                </Badge>
-                              )}
-                              {grade.manualGradingTime && (
-                                <Badge variant="default" className="text-xs bg-blue-500 hover:bg-blue-600">
-                                  수동 채점 완료
-                                </Badge>
-                              )}
-                              {!grade.aiGradingTime && !grade.manualGradingTime && (
+                              {/* 대기 상태 표시 (오른쪽 위) */}
+                              {!grade.aiGradingTime && (
                                 <Badge variant="destructive" className="text-xs">
-                                  채점 대기
+                                  AI 채점 대기
+                                </Badge>
+                              )}
+                              {!grade.manualGradingTime && (
+                                <Badge variant="outline" className="text-xs border-orange-500 text-orange-600">
+                                  수동 채점 대기
                                 </Badge>
                               )}
                             </div>
@@ -472,6 +468,20 @@ export default function TeacherDashboard() {
                               <p className="text-xs font-medium text-muted-foreground">수동 채점 시간</p>
                               <p className="text-sm">{grade.manualGradingTime || '미완료'}</p>
                             </div>
+                          </div>
+
+                          {/* 완료 상태 표시 (하단) */}
+                          <div className="flex flex-wrap gap-2 mb-4">
+                            {grade.aiGradingTime && (
+                              <Badge variant="default" className="text-xs bg-green-500 hover:bg-green-600">
+                                AI 채점 완료
+                              </Badge>
+                            )}
+                            {grade.manualGradingTime && (
+                              <Badge variant="default" className="text-xs bg-blue-500 hover:bg-blue-600">
+                                수동 채점 완료
+                              </Badge>
+                            )}
                           </div>
                           
                           <div className="flex space-x-2 pt-3 border-t border-border">
