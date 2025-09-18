@@ -26,7 +26,7 @@ export default function AIGradingResult() {
 
   const getCategoryDisplayName = (categoryName: string, examTitle: string) => {
     // 수학 시험인지 확인 (시험 제목에 "수학"이 포함된 경우)
-    const isMathExam = examTitle.includes('수학');
+    const isMathExam = examTitle.includes('수학') || examTitle.includes('Math');
     
     if (isMathExam) {
       const mathCategoryMap: {[key: string]: string} = {
