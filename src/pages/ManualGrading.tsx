@@ -28,16 +28,20 @@ export default function ManualGrading() {
   };
 
   const getCategoryDisplayName = (categoryName: string) => {
-    const categoryMap: {[key: string]: string} = {
-      'MCQ': '객관식',
-      'Short': '주관식', 
-      'Essay': '서술형',
-      'Reading': 'Reading',
-      'Writing': 'Writing',
-      'Speaking': 'Speaking',
-      'Listening': 'Listening'
-    };
-    return categoryMap[categoryName] || categoryName;
+    // 수학 시험인지 확인 (시험 제목에 "수학"이 포함된 경우)
+    const isMathExam = gradingData.exam.title.includes('수학');
+    
+    if (isMathExam) {
+      const mathCategoryMap: {[key: string]: string} = {
+        'MCQ': '객관식',
+        'Short': '주관식', 
+        'Essay': '서술형'
+      };
+      return mathCategoryMap[categoryName] || categoryName;
+    }
+    
+    // 영어 시험은 원래 카테고리명 유지
+    return categoryName;
   };
 
   const toggleCategory = (category: string) => {
