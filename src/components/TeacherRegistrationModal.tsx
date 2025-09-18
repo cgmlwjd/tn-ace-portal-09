@@ -13,6 +13,7 @@ interface TeacherData {
   teacherName: string;
   password: string;
   contact: string;
+  subject: '영어' | '수학' | '';
   permissions: {
     questionBankEdit: boolean;
     accountManagement: boolean;
@@ -40,6 +41,7 @@ export function TeacherRegistrationModal({
     teacherName: '',
     password: '',
     contact: '',
+    subject: '',
     permissions: {
       questionBankEdit: false,
       accountManagement: false,
@@ -56,6 +58,7 @@ export function TeacherRegistrationModal({
         teacherName: editData.name || '',
         password: '',
         contact: editData.contact || '',
+        subject: editData.subject || '',
         permissions: {
           questionBankEdit: false,
           accountManagement: false,
@@ -70,6 +73,7 @@ export function TeacherRegistrationModal({
         teacherName: '',
         password: '',
         contact: '',
+        subject: '',
         permissions: {
           questionBankEdit: false,
           accountManagement: false,
@@ -105,6 +109,7 @@ export function TeacherRegistrationModal({
         teacherName: '',
         password: '',
         contact: '',
+        subject: '',
         permissions: {
           questionBankEdit: false,
           accountManagement: false,
@@ -123,6 +128,7 @@ export function TeacherRegistrationModal({
       teacherName: '',
       password: '',
       contact: '',
+      subject: '',
       permissions: {
         questionBankEdit: false,
         accountManagement: false,
@@ -173,6 +179,35 @@ export function TeacherRegistrationModal({
             </CardContent>
           </Card>
 
+          {/* 담당 과목 */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg">담당 과목</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                <Label htmlFor="subject">담당 과목 *</Label>
+                <Select
+                  value={formData.subject}
+                  onValueChange={(value: '영어' | '수학') => {
+                    setFormData(prev => ({
+                      ...prev,
+                      subject: value
+                    }));
+                  }}
+                >
+                  <SelectTrigger className="bg-background">
+                    <SelectValue placeholder="담당 과목을 선택하세요" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-background z-50">
+                    <SelectItem value="영어">영어</SelectItem>
+                    <SelectItem value="수학">수학</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </CardContent>
+          </Card>
+
           {/* 상태 선택 */}
           {isEditMode && (
             <Card>
@@ -210,7 +245,7 @@ export function TeacherRegistrationModal({
             <Button type="button" variant="outline" onClick={handleClose}>
               취소
             </Button>
-            <Button type="submit" disabled={!formData.teacherName || !formData.teacherId || (!isEditMode && !formData.password)}>
+            <Button type="submit" disabled={!formData.teacherName || !formData.teacherId || !formData.subject || (!isEditMode && !formData.password)}>
               <UserPlus className="h-4 w-4 mr-2" />
               {isEditMode ? '교사 수정' : '교사 등록'}
             </Button>
