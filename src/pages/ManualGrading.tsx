@@ -34,26 +34,6 @@ export default function ManualGrading() {
     }));
   };
 
-  // Category name mapping for Korean display
-  const getCategoryDisplayName = (categoryName: string) => {
-    const categoryMap: { [key: string]: string } = {
-      'mcq': '객관식',
-      'short': '주관식', 
-      'essay': '서술형',
-      'MCQ': '객관식',
-      'Short Answer': '주관식',
-      'Essay': '서술형',
-      'Reading': '독해',
-      'Writing': '작문',
-      'Speaking': '말하기',
-      'Listening': '듣기',
-      'Grammar': '문법',
-      'Vocabulary': '어휘',
-      'Math': '수학'
-    };
-    return categoryMap[categoryName] || categoryName;
-  };
-
   // Mock data with same structure as AI grading result
   const getGradingDataByType = (id: string) => {
     const gradingDataTypes = {
@@ -496,114 +476,91 @@ export default function ManualGrading() {
           }
         }
       },
-      "10": { // Math 여러 카테고리 (객관식, 주관식, 서술형)
+      "10": { // Math 단일 카테고리, 여러 문제 (함수)
         id: id,
         student: { name: "최예린", grade: "고1", schoolSystem: "korea", studentId: "2024010" },
-        exam: { title: "수학 기말고사", category: "mcq+short+essay", totalMaxScore: 100, timeLimit: "90분" },
+        exam: { title: "수학 기말고사 - 함수", category: "Math", totalMaxScore: 100, timeLimit: "90분" },
         categories: {
-          "mcq": {
+          "Math": {
             questions: [
               {
                 number: 1,
-                text: "다음 중 함수 f(x) = x² - 4x + 3의 최솟값을 구한 것으로 올바른 것은?\n\n① -1\n② 0\n③ 1\n④ 3\n⑤ 4",
-                maxScore: 10,
+                text: "다음 함수의 정의역과 치역을 구하시오.\n\nf(x) = √(x - 2) + 1",
+                maxScore: 20,
                 aiGrading: {
-                  score: 10,
+                  score: 18,
                   breakdown: {
-                    accuracy: { score: 10, maxScore: 10, comment: "정답을 정확히 선택함" }
+                    domain: { score: 10, maxScore: 10, comment: "정의역을 정확히 구함" },
+                    range: { score: 8, maxScore: 10, comment: "치역 구하기 정확하나 설명 보완 필요" }
                   },
-                  feedback: "완전제곱식으로 변형하여 최솟값을 올바르게 구했습니다.",
+                  feedback: "정의역과 치역을 잘 구했습니다. 치역에 대한 설명을 더 자세히 하면 좋겠습니다.",
                   gradedAt: "2024-01-18 14:50:25"
                 },
                 studentAnswer: {
-                  content: "정답: ①\n\n풀이:\nf(x) = x² - 4x + 3\n= (x - 2)² - 4 + 3\n= (x - 2)² - 1\n\n이차항의 계수가 양수이므로 아래로 볼록한 포물선이며, x = 2일 때 최솟값 -1을 갖는다.",
+                  content: "f(x) = √(x - 2) + 1에서\n\n정의역: 제곱근 안의 값이 0 이상이어야 하므로\nx - 2 ≥ 0\nx ≥ 2\n따라서 정의역은 [2, +∞)\n\n치역: √(x - 2) ≥ 0이므로\n√(x - 2) + 1 ≥ 1\n따라서 치역은 [1, +∞)",
                   submittedAt: "2024-01-18 14:45:20",
-                  timeSpent: "8분"
+                  timeSpent: "15분"
                 }
               },
               {
                 number: 2,
-                text: "원의 중심이 (2, -1)이고 반지름이 3인 원의 방정식은?\n\n① (x - 2)² + (y + 1)² = 9\n② (x + 2)² + (y - 1)² = 9\n③ (x - 2)² + (y + 1)² = 3\n④ (x + 2)² + (y - 1)² = 3\n⑤ (x - 2)² + (y - 1)² = 9",
-                maxScore: 10,
+                text: "함수 f(x) = x² - 4x + 3에 대해 다음을 구하시오.\n\n(1) 이 함수를 완전제곱식으로 나타내시오.\n(2) 꼭짓점의 좌표를 구하시오.\n(3) 축의 방정식을 구하시오.\n(4) 최댓값 또는 최솟값을 구하시오.",
+                maxScore: 30,
                 aiGrading: {
-                  score: 10,
+                  score: 27,
                   breakdown: {
-                    accuracy: { score: 10, maxScore: 10, comment: "원의 방정식을 정확히 구함" }
+                    completing: { score: 8, maxScore: 8, comment: "완전제곱식 변형 완벽" },
+                    vertex: { score: 7, maxScore: 7, comment: "꼭짓점 좌표 정확" },
+                    axis: { score: 6, maxScore: 7, comment: "축의 방정식 정확" },
+                    extremum: { score: 6, maxScore: 8, comment: "최솟값 정확하나 설명 부족" }
                   },
-                  feedback: "원의 표준 방정식을 정확히 적용했습니다.",
-                  gradedAt: "2024-01-18 14:51:10"
+                  feedback: "모든 계산이 정확합니다. 최솟값을 갖는 이유에 대한 설명을 추가하면 좋겠습니다.",
+                  gradedAt: "2024-01-18 14:51:40"
                 },
                 studentAnswer: {
-                  content: "정답: ①\n\n풀이:\n원의 중심이 (a, b)이고 반지름이 r인 원의 방정식은\n(x - a)² + (y - b)² = r²\n\n중심 (2, -1), 반지름 3이므로\n(x - 2)² + (y - (-1))² = 3²\n(x - 2)² + (y + 1)² = 9",
-                  submittedAt: "2024-01-18 14:46:15",
-                  timeSpent: "5분"
-                }
-              }
-            ]
-          },
-          "short": {
-            questions: [
-              {
-                number: 1,
-                text: "함수 f(x) = √(x - 2) + 1의 정의역과 치역을 구하시오.",
-                maxScore: 15,
-                aiGrading: {
-                  score: 13,
-                  breakdown: {
-                    domain: { score: 8, maxScore: 8, comment: "정의역을 정확히 구함" },
-                    range: { score: 5, maxScore: 7, comment: "치역 구하기 정확하나 설명 보완 필요" }
-                  },
-                  feedback: "정의역은 완벽하게 구했습니다. 치역에 대한 설명을 더 자세히 하면 좋겠습니다.",
-                  gradedAt: "2024-01-18 14:52:30"
-                },
-                studentAnswer: {
-                  content: "정의역: 제곱근 안의 값이 0 이상이어야 하므로\nx - 2 ≥ 0\nx ≥ 2\n따라서 정의역은 [2, +∞)\n\n치역: √(x - 2) ≥ 0이므로\n√(x - 2) + 1 ≥ 1\n따라서 치역은 [1, +∞)",
-                  submittedAt: "2024-01-18 14:47:30",
-                  timeSpent: "12분"
+                  content: "(1) 완전제곱식 변형:\nf(x) = x² - 4x + 3\n= x² - 4x + 4 - 4 + 3\n= (x - 2)² - 1\n\n(2) 꼭짓점: (2, -1)\n\n(3) 축의 방정식: x = 2\n\n(4) a = 1 > 0이므로 아래로 볼록한 포물선\n따라서 최솟값을 가지며, 최솟값은 -1",
+                  submittedAt: "2024-01-18 14:46:35",
+                  timeSpent: "25분"
                 }
               },
               {
-                number: 2,
-                text: "역함수 f⁻¹(x)를 구하시오.\n\nf(x) = 3x - 2 (x ∈ ℝ)",
-                maxScore: 15,
+                number: 3,
+                text: "합성함수를 구하시오.\n\nf(x) = 2x + 1, g(x) = x² - 3일 때,\n(1) (f ∘ g)(x)\n(2) (g ∘ f)(x)\n(3) f(g(2))와 g(f(2))의 값",
+                maxScore: 25,
                 aiGrading: {
-                  score: 15,
+                  score: 23,
                   breakdown: {
-                    process: { score: 8, maxScore: 8, comment: "역함수 구하는 과정이 정확함" },
-                    result: { score: 7, maxScore: 7, comment: "최종 답이 정확함" }
+                    fog: { score: 8, maxScore: 8, comment: "f∘g 정확히 구함" },
+                    gof: { score: 8, maxScore: 8, comment: "g∘f 정확히 구함" },
+                    values: { score: 7, maxScore: 9, comment: "함수값 계산 정확하나 과정 설명 부족" }
                   },
-                  feedback: "역함수를 구하는 과정과 결과가 모두 정확합니다.",
-                  gradedAt: "2024-01-18 14:53:45"
+                  feedback: "합성함수를 정확히 구했습니다. 함수값 계산 과정을 더 자세히 보여주세요.",
+                  gradedAt: "2024-01-18 14:52:20"
                 },
                 studentAnswer: {
-                  content: "y = 3x - 2에서 x와 y를 바꾸면\nx = 3y - 2\n3y = x + 2\ny = (x + 2)/3\n\n따라서 f⁻¹(x) = (x + 2)/3",
-                  submittedAt: "2024-01-18 14:48:45",
-                  timeSpent: "10분"
+                  content: "(1) (f ∘ g)(x) = f(g(x)) = f(x² - 3)\n= 2(x² - 3) + 1 = 2x² - 6 + 1 = 2x² - 5\n\n(2) (g ∘ f)(x) = g(f(x)) = g(2x + 1)\n= (2x + 1)² - 3 = 4x² + 4x + 1 - 3 = 4x² + 4x - 2\n\n(3) f(g(2)) = f(2² - 3) = f(1) = 2(1) + 1 = 3\ng(f(2)) = g(2(2) + 1) = g(5) = 5² - 3 = 22",
+                  submittedAt: "2024-01-18 14:47:15",
+                  timeSpent: "20분"
                 }
-              }
-            ]
-          },
-          "essay": {
-            questions: [
+              },
               {
-                number: 1,
-                text: "다음 문제를 단계별로 해결하고 과정을 상세히 설명하시오.\n\n삼각형 ABC에서 A(1, 2), B(4, 6), C(7, 2)일 때,\n(1) AB의 길이를 구하시오.\n(2) 삼각형 ABC의 넓이를 구하시오.\n(3) BC의 중점을 구하고, 이 점과 A를 잇는 직선의 방정식을 구하시오.\n\n각 단계마다 사용한 공식과 계산 과정을 명확히 서술하시오.",
-                maxScore: 40,
+                number: 4,
+                text: "역함수를 구하고 그래프의 관계를 설명하시오.\n\nf(x) = 3x - 2 (x ∈ ℝ)에 대해\n(1) 역함수 f⁻¹(x)를 구하시오.\n(2) f(x)와 f⁻¹(x)의 그래프의 관계를 설명하시오.\n(3) f(1)과 f⁻¹(1)의 값을 구하시오.",
+                maxScore: 25,
                 aiGrading: {
-                  score: 35,
+                  score: 21,
                   breakdown: {
-                    distance: { score: 12, maxScore: 12, comment: "거리 공식을 정확히 적용하고 계산이 정확함" },
-                    area: { score: 10, maxScore: 12, comment: "넓이 계산 정확하나 공식 설명 부족" },
-                    midpoint: { score: 8, maxScore: 8, comment: "중점 공식을 정확히 적용함" },
-                    equation: { score: 5, maxScore: 8, comment: "직선의 방정식 계산 정확하나 과정 설명 부족" }
+                    inverse: { score: 10, maxScore: 10, comment: "역함수를 정확히 구함" },
+                    relation: { score: 6, maxScore: 10, comment: "그래프 관계 설명이 부족" },
+                    values: { score: 5, maxScore: 5, comment: "함수값 계산 정확" }
                   },
-                  feedback: "전반적으로 계산이 정확합니다. 각 단계에서 사용한 공식에 대한 설명을 더 자세히 해주시면 좋겠습니다.",
-                  gradedAt: "2024-01-18 14:55:20"
+                  feedback: "역함수 계산은 완벽합니다. 그래프 관계에 대한 설명을 더 구체적으로 해주세요.",
+                  gradedAt: "2024-01-18 14:53:10"
                 },
                 studentAnswer: {
-                  content: "(1) AB의 길이 구하기\n사용 공식: 두 점 사이의 거리 공식 d = √[(x₂-x₁)² + (y₂-y₁)²]\n\nA(1, 2), B(4, 6)이므로\nAB = √[(4-1)² + (6-2)²]\n   = √[3² + 4²]\n   = √[9 + 16]\n   = √25 = 5\n\n(2) 삼각형 ABC의 넓이 구하기\n신발끈 공식 사용:\n넓이 = ½|x₁(y₂-y₃) + x₂(y₃-y₁) + x₃(y₁-y₂)|\n\nA(1, 2), B(4, 6), C(7, 2)를 대입하면\n넓이 = ½|1(6-2) + 4(2-2) + 7(2-6)|\n     = ½|1×4 + 4×0 + 7×(-4)|\n     = ½|4 + 0 - 28|\n     = ½ × 24 = 12\n\n(3) BC의 중점과 직선의 방정식\n중점 공식: ((x₁+x₂)/2, (y₁+y₂)/2)\n\nB(4, 6), C(7, 2)의 중점 M은\nM = ((4+7)/2, (6+2)/2) = (5.5, 4)\n\nA(1, 2)와 M(5.5, 4)를 잇는 직선의 방정식:\n기울기 = (4-2)/(5.5-1) = 2/4.5 = 4/9\n\ny - 2 = (4/9)(x - 1)\ny = (4/9)x - 4/9 + 2\ny = (4/9)x + 14/9",
-                  submittedAt: "2024-01-18 14:50:30",
-                  timeSpent: "35분"
+                  content: "(1) 역함수 구하기:\ny = 3x - 2에서 x와 y를 바꾸면\nx = 3y - 2\n3y = x + 2\ny = (x + 2)/3\n\n따라서 f⁻¹(x) = (x + 2)/3\n\n(2) 그래프 관계:\nf(x)와 f⁻¹(x)의 그래프는 직선 y = x에 대하여 대칭이다.\n\n(3) f(1) = 3(1) - 2 = 1\nf⁻¹(1) = (1 + 2)/3 = 1",
+                  submittedAt: "2024-01-18 14:48:25",
+                  timeSpent: "30분"
                 }
               }
             ]
@@ -703,7 +660,7 @@ export default function ManualGrading() {
                 <h1 className="text-3xl font-bold text-foreground">수동 채점</h1>
                 <p className="text-muted-foreground">
                   {isSingleCategory ? 
-                    `${getCategoryDisplayName(singleCategoryData![0])} 영역 학생 답안 검토 및 채점` : 
+                    `${singleCategoryData![0]} 영역 학생 답안 검토 및 채점` : 
                     '카테고리별 문제별 학생 답안 검토 및 채점'}
                 </p>
               </div>
@@ -751,7 +708,7 @@ export default function ManualGrading() {
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2">
                   <Brain className="h-5 w-5" />
-                  <span>{getCategoryDisplayName(singleCategoryData![0])} 채점</span>
+                  <span>{singleCategoryData![0]} 채점</span>
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -979,7 +936,7 @@ export default function ManualGrading() {
                   >
                     <div className="flex items-center space-x-2">
                       <Brain className="h-5 w-5" />
-                      <span>{getCategoryDisplayName(categoryName)} {isSingleCategory ? '채점' : '카테고리'}</span>
+                      <span>{categoryName} {isSingleCategory ? '채점' : '카테고리'}</span>
                       <Badge variant="outline">{categoryData.questions.length}문제</Badge>
                     </div>
                     {!isSingleCategory && (
@@ -1001,9 +958,9 @@ export default function ManualGrading() {
                           {/* Question Header - 단일 카테고리에서 여러 문제일 때만 문제 번호 표시 */}
                           {(!isSingleCategory || categoryData.questions.length > 1) && (
                               <div className="flex items-center justify-between mb-4">
-                                 <h3 className="text-xl font-semibold">
-                                   {getCategoryDisplayName(categoryName)} {question.number}번 문제
-                                 </h3>
+                                <h3 className="text-xl font-semibold">
+                                  {categoryName} {question.number}번 문제
+                                </h3>
                                 <Badge variant="outline" className="text-sm">
                                   배점: {question.maxScore}점
                                 </Badge>
@@ -1193,7 +1150,7 @@ export default function ManualGrading() {
                                         ...prev,
                                         [questionKey]: e.target.value
                                       }))}
-                                      placeholder={`${getCategoryDisplayName(categoryName)} ${question.number}번 문제에 대한 피드백을 작성해주세요...`}
+                                      placeholder={`${categoryName} ${question.number}번 문제에 대한 피드백을 작성해주세요...`}
                                       rows={3}
                                     />
                                   </div>
