@@ -330,10 +330,7 @@ export function TeacherRegistrationModal({
                   <span>{isEditMode ? '교사 수정 중...' : '교사 등록 중...'}</span>
                 </div>
               ) : (
-                <>
-                  <UserPlus className="h-4 w-4 mr-2" />
-                  {isEditMode ? '교사 수정' : '교사 등록'}
-                </>
+                '등록'
               )}
             </Button>
           </div>
