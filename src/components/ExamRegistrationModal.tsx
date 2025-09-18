@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
 import { ChevronLeft, ChevronRight, Upload, Download, BookOpen, FileText, Mic, PenTool, X, Calculator } from 'lucide-react';
@@ -22,6 +23,11 @@ interface SchoolGradeCombination {
   grade: string;
 }
 
+interface SubjectCombination {
+  subject: string;
+  category: string;
+}
+
 interface ExamFormData {
   title: string;
   selectedSchoolSystems: string[];
@@ -29,6 +35,7 @@ interface ExamFormData {
   examDate: string;
   description: string;
   categories: ExamCategory[];
+  subjectCombinations: SubjectCombination[];
 }
 
 const categoryLabels = {
@@ -39,6 +46,26 @@ const categoryLabels = {
   mcq: { name: '객관식 (수학)', icon: Calculator, color: 'text-red-500' },
   short: { name: '주관식 (수학)', icon: PenTool, color: 'text-blue-600' },
   'math-essay': { name: '서술형 (수학)', icon: FileText, color: 'text-green-600' }
+};
+
+const subjectLabels = {
+  english: '영어',
+  math: '수학'
+};
+
+const categoriesBySubject = {
+  english: ['reading', 'writing', 'essay', 'speaking'],
+  math: ['객관식', '주관식', '서술형']
+};
+
+const subjectCategoryLabels = {
+  reading: 'Reading',
+  writing: 'Writing',
+  essay: 'Essay',
+  speaking: 'Speaking',
+  객관식: '객관식',
+  주관식: '주관식',
+  서술형: '서술형'
 };
 
 const schoolSystemLabels = {
@@ -55,13 +82,15 @@ const gradesBySystem = {
 
 export default function ExamRegistrationModal({ isOpen, onClose, onComplete }: ExamRegistrationModalProps) {
   const [currentStep, setCurrentStep] = useState(1);
+  const [selectedSubject, setSelectedSubject] = useState<string>('');
   const [formData, setFormData] = useState<ExamFormData>({
     title: '',
     selectedSchoolSystems: [],
     selectedCombinations: [],
     examDate: '',
     description: '',
-    categories: []
+    categories: [],
+    subjectCombinations: []
   });
 
   const handleInputChange = (field: keyof ExamFormData, value: any) => {
@@ -130,9 +159,44 @@ export default function ExamRegistrationModal({ isOpen, onClose, onComplete }: E
     }));
   };
 
+  const handleSubjectChange = (subject: string) => {
+    setSelectedSubject(subject);
+  };
+
+  const handleSubjectCategorySelection = (subject: string, category: string) => {
+    const combinationExists = formData.subjectCombinations.some(
+      combo => combo.subject === subject && combo.category === category
+    );
+
+    let newCombinations: SubjectCombination[];
+    if (combinationExists) {
+      // Remove combination
+      newCombinations = formData.subjectCombinations.filter(
+        combo => !(combo.subject === subject && combo.category === category)
+      );
+    } else {
+      // Add combination
+      newCombinations = [...formData.subjectCombinations, { subject, category }];
+    }
+
+    setFormData(prev => ({
+      ...prev,
+      subjectCombinations: newCombinations
+    }));
+  };
+
+  const removeSubjectCombination = (subject: string, category: string) => {
+    setFormData(prev => ({
+      ...prev,
+      subjectCombinations: prev.subjectCombinations.filter(
+        combo => !(combo.subject === subject && combo.category === category)
+      )
+    }));
+  };
+
   const handleNext = () => {
-    if (currentStep === 1 && formData.categories.length === 0) {
-      alert('최소 1개의 문제 카테고리를 선택해주세요.');
+    if (currentStep === 1 && formData.subjectCombinations.length === 0) {
+      alert('최소 1개의 과목과 카테고리를 선택해주세요.');
       return;
     }
     setCurrentStep(2);
@@ -150,19 +214,23 @@ export default function ExamRegistrationModal({ isOpen, onClose, onComplete }: E
       status: 'active'
     };
     onComplete(examData);
-    setCurrentStep(1);
+    
+    // Reset form
     setFormData({
       title: '',
       selectedSchoolSystems: [],
       selectedCombinations: [],
       examDate: '',
       description: '',
-      categories: []
+      categories: [],
+      subjectCombinations: []
     });
+    setSelectedSubject('');
+    setCurrentStep(1);
     onClose();
   };
 
-  const isStep1Valid = formData.title && formData.selectedCombinations.length > 0 && formData.examDate && formData.categories.length > 0;
+  const isStep1Valid = formData.title && formData.selectedCombinations.length > 0 && formData.examDate && formData.subjectCombinations.length > 0;
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -314,48 +382,95 @@ export default function ExamRegistrationModal({ isOpen, onClose, onComplete }: E
                 </CardContent>
               </Card>
 
-              {/* 문제 카테고리 선택 */}
+              {/* 과목 및 카테고리 선택 */}
               <Card>
                 <CardHeader>
-                  <CardTitle className="text-lg">문제 카테고리 선택 *</CardTitle>
-                  <p className="text-sm text-muted-foreground">최소 1개, 최대 4개까지 선택 가능합니다.</p>
+                  <CardTitle className="text-lg">과목 및 카테고리 선택 *</CardTitle>
+                  <p className="text-sm text-muted-foreground">영어 또는 수학을 선택하고 해당 카테고리를 선택하세요.</p>
                 </CardHeader>
-                <CardContent>
-                  <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                    {Object.entries(categoryLabels).map(([key, { name, icon: Icon, color }]) => (
-                      <div key={key} className="flex items-center space-x-3 p-4 border border-border rounded-lg hover:bg-muted/50 transition-colors">
-                        <Checkbox
-                          id={key}
-                          checked={formData.categories.includes(key as ExamCategory)}
-                          onCheckedChange={(checked) => handleCategoryChange(key as ExamCategory, checked as boolean)}
-                        />
-                        <div className="flex items-center space-x-2">
-                          <Icon className={`h-5 w-5 ${color}`} />
-                          <Label htmlFor={key} className="font-medium cursor-pointer">
-                            {name}
-                          </Label>
+                <CardContent className="space-y-6">
+                  {/* 학제 및 학년 선택 섹션 */}
+                  <div className="space-y-4">
+                    <Label className="text-base font-medium">학제 및 학년 선택 *</Label>
+                    <p className="text-sm text-muted-foreground">학제를 선택한 후, 해당 학제의 학년을 선택하세요.</p>
+                    
+                    {/* 학제 선택 (과목 선택) */}
+                    <div className="space-y-4">
+                      <Label className="text-base font-medium">학제 선택</Label>
+                      <RadioGroup 
+                        value={selectedSubject}
+                        onValueChange={handleSubjectChange}
+                        className="grid grid-cols-3 gap-4"
+                      >
+                        {Object.entries(subjectLabels).map(([key, label]) => (
+                          <div key={key} className="flex items-center space-x-3 p-3 border border-border rounded-lg hover:bg-muted/50 transition-colors">
+                            <RadioGroupItem 
+                              value={key} 
+                              id={`subject-${key}`}
+                            />
+                            <Label htmlFor={`subject-${key}`} className="font-medium cursor-pointer">
+                              {label}
+                            </Label>
+                          </div>
+                        ))}
+                      </RadioGroup>
+                    </div>
+
+                    {/* 선택된 과목에 대한 카테고리 선택 */}
+                    {selectedSubject && (
+                      <div className="space-y-4 p-4 border border-border rounded-lg bg-muted/20">
+                        <Label className="text-base font-medium">
+                          {subjectLabels[selectedSubject as keyof typeof subjectLabels]} 학년 선택
+                        </Label>
+                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                          {categoriesBySubject[selectedSubject as keyof typeof categoriesBySubject]?.map((category) => {
+                            const isSelected = formData.subjectCombinations.some(
+                              combo => combo.subject === selectedSubject && combo.category === category
+                            );
+                            
+                            return (
+                              <Button
+                                key={category}
+                                variant={isSelected ? "default" : "outline"}
+                                size="sm"
+                                className="h-8 text-xs"
+                                onClick={() => handleSubjectCategorySelection(selectedSubject, category)}
+                              >
+                                {subjectCategoryLabels[category as keyof typeof subjectCategoryLabels]}
+                              </Button>
+                            );
+                          })}
                         </div>
                       </div>
-                    ))}
-                  </div>
-                  
-                  {/* 선택된 카테고리 표시 */}
-                  <div className="mt-4 space-y-2">
-                    <Label className="text-sm text-muted-foreground">선택된 카테고리</Label>
-                    <div className="min-h-[2rem] flex flex-wrap gap-2">
-                      {formData.categories.length === 0 ? (
-                        <p className="text-sm text-muted-foreground">선택된 카테고리가 없습니다.</p>
-                      ) : (
-                        formData.categories.map((category) => {
-                          const { name, icon: Icon, color } = categoryLabels[category];
-                          return (
-                            <Badge key={category} variant="secondary" className="flex items-center gap-1">
-                              <Icon className={`h-3 w-3 ${color}`} />
-                              {name}
-                            </Badge>
-                          );
-                        })
-                      )}
+                    )}
+
+                    {/* 선택된 학제-학년 조합 */}
+                    <div className="space-y-2">
+                      <Label className="text-sm font-medium">선택된 학제-학년 조합</Label>
+                      <div className="min-h-[2rem] flex flex-wrap gap-2">
+                        {formData.subjectCombinations.length === 0 ? (
+                          <p className="text-sm text-muted-foreground">선택된 조합이 없습니다.</p>
+                        ) : (
+                          formData.subjectCombinations.map((combo, index) => {
+                            const subjectLabel = subjectLabels[combo.subject as keyof typeof subjectLabels];
+                            const categoryDisplay = subjectCategoryLabels[combo.category as keyof typeof subjectCategoryLabels];
+                            
+                            return (
+                              <Badge key={index} variant="secondary" className="flex items-center gap-2 px-3 py-1">
+                                <span>{subjectLabel}-{categoryDisplay}</span>
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  className="h-4 w-4 p-0 hover:bg-destructive hover:text-destructive-foreground"
+                                  onClick={() => removeSubjectCombination(combo.subject, combo.category)}
+                                >
+                                  <X className="h-3 w-3" />
+                                </Button>
+                              </Badge>
+                            );
+                          })
+                        )}
+                      </div>
                     </div>
                   </div>
                 </CardContent>
