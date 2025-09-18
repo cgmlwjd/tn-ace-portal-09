@@ -261,10 +261,12 @@ export default function AdminDashboard() {
                               </Badge>
                               <Badge variant="outline">{student.grade}</Badge>
                             </div>
-                            <div className="flex items-center space-x-4 text-sm text-muted-foreground">
-                              <span>{student.email}</span>
-                              <span>최근 로그인: {student.lastLogin}</span>
-                              <span>응시한 시험: {student.examsTaken}회</span>
+                            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 sm:gap-4">
+                              <span className="text-sm text-muted-foreground">{student.email}</span>
+                              <div className="flex flex-col sm:flex-row gap-2 sm:gap-6 text-xs text-muted-foreground">
+                                <span>최근 로그인: {student.lastLogin}</span>
+                                <span>응시한 시험: {student.examsTaken}회</span>
+                              </div>
                             </div>
                           </div>
                           <div className="flex items-center space-x-2">
