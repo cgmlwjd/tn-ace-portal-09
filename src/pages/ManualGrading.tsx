@@ -408,85 +408,72 @@ export default function ManualGrading() {
       "9": { // Math 단일 카테고리, 여러 문제 (기하)
         id: id,
         student: { name: "박지호", grade: "고1", schoolSystem: "usa", studentId: "2024009" },
-        exam: { title: "Math Comprehensive Test - Geometry", category: "Math", totalMaxScore: 100, timeLimit: "75분" },
+        exam: { title: "Math Comprehensive Test - Geometry", category: "MCQ+Short+Essay", totalMaxScore: 100, timeLimit: "75분" },
         categories: {
-          "Math": {
+          "MCQ": {
             questions: [
               {
                 number: 1,
-                text: "원의 중심이 원점이고 반지름이 5인 원의 방정식을 구하고, 점 (3, 4)가 이 원 위에 있는지 확인하시오.",
+                text: "원의 중심이 원점이고 반지름이 5인 원의 방정식은?\n\n① x² + y² = 5\n② x² + y² = 10\n③ x² + y² = 25\n④ x² + y² = 50",
                 maxScore: 20,
                 aiGrading: {
                   score: 18,
                   breakdown: {
-                    equation: { score: 10, maxScore: 10, comment: "원의 방정식이 정확함" },
-                    verification: { score: 8, maxScore: 10, comment: "점이 원 위에 있음을 정확히 확인" }
+                    accuracy: { score: 18, maxScore: 20, comment: "원의 방정식을 정확히 알고 있음" }
                   },
-                  feedback: "원의 방정식과 점의 위치 확인을 정확히 했습니다.",
+                  feedback: "원의 방정식을 정확히 구했습니다.",
                   gradedAt: "2024-01-18 11:35:20"
                 },
                 studentAnswer: {
-                  content: "원의 중심이 원점 (0, 0)이고 반지름이 5인 원의 방정식:\nx² + y² = 25\n\n점 (3, 4)가 원 위에 있는지 확인:\n3² + 4² = 9 + 16 = 25\n방정식을 만족하므로 점 (3, 4)는 이 원 위에 있다.",
+                  content: "정답: ③ x² + y² = 25\n\n원의 중심이 원점이고 반지름이 r인 원의 방정식은 x² + y² = r²이므로, r = 5일 때 x² + y² = 25입니다.",
                   submittedAt: "2024-01-18 11:30:45",
-                  timeSpent: "12분"
+                  timeSpent: "3분"
                 }
-              },
+              }
+            ]
+          },
+          "Short": {
+            questions: [
               {
-                number: 2,
-                text: "삼각형 ABC에서 A(1, 2), B(4, 6), C(7, 2)일 때, 다음을 구하시오.\n\n(1) AB의 길이\n(2) 삼각형 ABC의 넓이\n(3) BC의 중점 좌표",
+                number: 1,
+                text: "삼각형 ABC에서 A(1, 2), B(4, 6), C(7, 2)일 때, AB의 길이를 구하시오.",
                 maxScore: 30,
                 aiGrading: {
                   score: 26,
                   breakdown: {
-                    distance: { score: 10, maxScore: 10, comment: "거리 공식 정확히 적용" },
-                    area: { score: 8, maxScore: 10, comment: "넓이 계산 정확하나 과정 설명 부족" },
-                    midpoint: { score: 8, maxScore: 10, comment: "중점 공식 정확히 적용" }
+                    method: { score: 15, maxScore: 15, comment: "거리 공식을 정확히 적용함" },
+                    calculation: { score: 11, maxScore: 15, comment: "계산이 정확하나 과정 설명 부족" }
                   },
-                  feedback: "모든 계산이 정확합니다. 넓이 구하는 과정을 더 자세히 설명하면 좋겠습니다.",
+                  feedback: "거리 공식을 정확히 적용했습니다. 계산 과정을 더 자세히 보여주면 좋겠습니다.",
                   gradedAt: "2024-01-18 11:36:45"
                 },
                 studentAnswer: {
-                  content: "(1) AB의 길이:\nAB = √[(4-1)² + (6-2)²] = √[9 + 16] = √25 = 5\n\n(2) 삼각형 ABC의 넓이:\n신발끈 공식 사용:\n넓이 = ½|x₁(y₂-y₃) + x₂(y₃-y₁) + x₃(y₁-y₂)|\n= ½|1(6-2) + 4(2-2) + 7(2-6)|\n= ½|4 + 0 - 28| = ½ × 24 = 12\n\n(3) BC의 중점:\n중점 = ((4+7)/2, (6+2)/2) = (5.5, 4)",
+                  content: "AB의 길이:\nAB = √[(4-1)² + (6-2)²] = √[9 + 16] = √25 = 5",
                   submittedAt: "2024-01-18 11:32:20",
-                  timeSpent: "18분"
+                  timeSpent: "8분"
                 }
-              },
+              }
+            ]
+          },
+          "Essay": {
+            questions: [
               {
-                number: 3,
-                text: "직선 2x - 3y + 6 = 0과 직선 x + y - 4 = 0의 교점을 구하고, 두 직선이 수직인지 확인하시오.",
-                maxScore: 25,
+                number: 1,
+                text: "좌표평면에서 두 점 사이의 거리 공식을 유도하고, 이를 이용하여 원의 방정식이 어떻게 도출되는지 설명하시오.",
+                maxScore: 50,
                 aiGrading: {
-                  score: 23,
+                  score: 42,
                   breakdown: {
-                    intersection: { score: 15, maxScore: 15, comment: "교점 계산이 정확함" },
-                    perpendicular: { score: 8, maxScore: 10, comment: "수직 여부 확인 정확하나 설명 보완 필요" }
+                    derivation: { score: 20, maxScore: 25, comment: "거리 공식 유도 과정이 정확함" },
+                    connection: { score: 22, maxScore: 25, comment: "원의 방정식과의 연결이 우수함" }
                   },
-                  feedback: "교점 계산은 완벽합니다. 수직 조건에 대한 설명을 더 자세히 하면 좋겠습니다.",
-                  gradedAt: "2024-01-18 11:37:30"
+                  feedback: "거리 공식과 원의 방정식 사이의 관계를 잘 이해하고 있습니다.",
+                  gradedAt: "2024-01-18 11:38:10"
                 },
                 studentAnswer: {
-                  content: "교점 구하기:\n2x - 3y + 6 = 0 ... ①\nx + y - 4 = 0 ... ②\n\n②에서 y = 4 - x\n①에 대입: 2x - 3(4-x) + 6 = 0\n2x - 12 + 3x + 6 = 0\n5x = 6\nx = 6/5\n\ny = 4 - 6/5 = 14/5\n\n교점: (6/5, 14/5)\n\n수직 여부 확인:\n직선 ①의 기울기: 2/3\n직선 ②의 기울기: -1\n기울기의 곱: (2/3) × (-1) = -2/3 ≠ -1\n따라서 두 직선은 수직이 아니다.",
-                  submittedAt: "2024-01-18 11:33:15",
+                  content: "1. 거리 공식 유도:\n두 점 A(a, b), B(c, d)가 있을 때, 피타고라스 정리를 이용하여:\n- 가로 거리: |c - a|\n- 세로 거리: |d - b|\n- 대각선 거리(AB): √[(c-a)² + (d-b)²]\n\n2. 원의 방정식 도출:\n중심이 O(h, k)이고 반지름이 r인 원 위의 임의의 점을 P(x, y)라 하면:\n- 중심 O와 점 P 사이의 거리가 항상 r과 같음\n- 거리 공식을 적용하면: √[(x-h)² + (y-k)²] = r\n- 양변을 제곱하면: (x-h)² + (y-k)² = r²\n\n따라서 거리 공식이 원의 방정식의 기초가 됩니다.",
+                  submittedAt: "2024-01-18 11:35:30",
                   timeSpent: "20분"
-                }
-              },
-              {
-                number: 4,
-                text: "정사각형 ABCD의 한 변의 길이가 6이고, A(0, 0), B(6, 0)일 때, 나머지 두 점 C, D의 좌표를 구하시오. (두 가지 경우가 있음)",
-                maxScore: 25,
-                aiGrading: {
-                  score: 21,
-                  breakdown: {
-                    case1: { score: 12, maxScore: 12, comment: "첫 번째 경우 정확" },
-                    case2: { score: 9, maxScore: 13, comment: "두 번째 경우 계산 실수" }
-                  },
-                  feedback: "첫 번째 경우는 완벽합니다. 두 번째 경우의 계산을 다시 확인해보세요.",
-                  gradedAt: "2024-01-18 11:38:15"
-                },
-                studentAnswer: {
-                  content: "A(0, 0), B(6, 0)이고 정사각형의 한 변이 6일 때:\n\nCase 1: 반시계 방향으로 정사각형 형성\nC(6, 6), D(0, 6)\n\nCase 2: 시계 방향으로 정사각형 형성  \nC(6, -6), D(0, -6)\n\n검증:\n- AB = 6 (주어진 조건)\n- BC = CD = DA = 6 (정사각형 조건)\n- 모든 내각이 90° (정사각형 조건)\n\n따라서 두 가지 경우: C(6, 6), D(0, 6) 또는 C(6, -6), D(0, -6)",
-                  submittedAt: "2024-01-18 11:34:30",
-                  timeSpent: "25분"
                 }
               }
             ]
@@ -496,88 +483,72 @@ export default function ManualGrading() {
       "10": { // Math 단일 카테고리, 여러 문제 (함수)
         id: id,
         student: { name: "최예린", grade: "고1", schoolSystem: "korea", studentId: "2024010" },
-        exam: { title: "수학 기말고사 - 함수", category: "Math", totalMaxScore: 100, timeLimit: "90분" },
+        exam: { title: "수학 기말고사 - 함수", category: "MCQ+Short+Essay", totalMaxScore: 100, timeLimit: "90분" },
         categories: {
-          "Math": {
+          "MCQ": {
             questions: [
               {
                 number: 1,
-                text: "다음 함수의 정의역과 치역을 구하시오.\n\nf(x) = √(x - 2) + 1",
+                text: "함수 f(x) = √(x-1) + 2의 정의역은?\n\n① x ≥ 0\n② x > 1\n③ x ≥ 1\n④ x > 0",
                 maxScore: 20,
                 aiGrading: {
                   score: 18,
                   breakdown: {
-                    domain: { score: 10, maxScore: 10, comment: "정의역을 정확히 구함" },
-                    range: { score: 8, maxScore: 10, comment: "치역 구하기 정확하나 설명 보완 필요" }
+                    accuracy: { score: 18, maxScore: 20, comment: "정의역을 정확히 구함" }
                   },
-                  feedback: "정의역과 치역을 잘 구했습니다. 치역에 대한 설명을 더 자세히 하면 좋겠습니다.",
-                  gradedAt: "2024-01-18 14:50:25"
+                  feedback: "제곱근 함수의 정의역을 정확히 이해하고 있습니다.",
+                  gradedAt: "2024-01-18 14:51:10"
                 },
                 studentAnswer: {
-                  content: "f(x) = √(x - 2) + 1에서\n\n정의역: 제곱근 안의 값이 0 이상이어야 하므로\nx - 2 ≥ 0\nx ≥ 2\n따라서 정의역은 [2, +∞)\n\n치역: √(x - 2) ≥ 0이므로\n√(x - 2) + 1 ≥ 1\n따라서 치역은 [1, +∞)",
-                  submittedAt: "2024-01-18 14:45:20",
-                  timeSpent: "15분"
+                  content: "정답: ③ x ≥ 1\n\n제곱근 안의 값이 0 이상이어야 하므로 x - 1 ≥ 0, 따라서 x ≥ 1입니다.",
+                  submittedAt: "2024-01-18 14:46:35",
+                  timeSpent: "3분"
                 }
-              },
+              }
+            ]
+          },
+          "Short": {
+            questions: [
               {
-                number: 2,
-                text: "함수 f(x) = x² - 4x + 3에 대해 다음을 구하시오.\n\n(1) 이 함수를 완전제곱식으로 나타내시오.\n(2) 꼭짓점의 좌표를 구하시오.\n(3) 축의 방정식을 구하시오.\n(4) 최댓값 또는 최솟값을 구하시오.",
+                number: 1,
+                text: "함수 f(x) = x² - 4x + 3에 대해 다음을 구하시오.\n\n(1) 이 함수를 완전제곱식으로 나타내시오.\n(2) 꼭짓점의 좌표를 구하시오.",
                 maxScore: 30,
                 aiGrading: {
                   score: 27,
                   breakdown: {
-                    completing: { score: 8, maxScore: 8, comment: "완전제곱식 변형 완벽" },
-                    vertex: { score: 7, maxScore: 7, comment: "꼭짓점 좌표 정확" },
-                    axis: { score: 6, maxScore: 7, comment: "축의 방정식 정확" },
-                    extremum: { score: 6, maxScore: 8, comment: "최솟값 정확하나 설명 부족" }
+                    completing: { score: 15, maxScore: 15, comment: "완전제곱식 변형 완벽" },
+                    vertex: { score: 12, maxScore: 15, comment: "꼭짓점 좌표 정확하나 설명 부족" }
                   },
-                  feedback: "모든 계산이 정확합니다. 최솟값을 갖는 이유에 대한 설명을 추가하면 좋겠습니다.",
+                  feedback: "계산이 정확합니다. 꼭짓점을 구하는 과정에 대한 설명을 추가하면 좋겠습니다.",
                   gradedAt: "2024-01-18 14:51:40"
                 },
                 studentAnswer: {
-                  content: "(1) 완전제곱식 변형:\nf(x) = x² - 4x + 3\n= x² - 4x + 4 - 4 + 3\n= (x - 2)² - 1\n\n(2) 꼭짓점: (2, -1)\n\n(3) 축의 방정식: x = 2\n\n(4) a = 1 > 0이므로 아래로 볼록한 포물선\n따라서 최솟값을 가지며, 최솟값은 -1",
+                  content: "(1) 완전제곱식 변형:\nf(x) = x² - 4x + 3\n= x² - 4x + 4 - 4 + 3\n= (x - 2)² - 1\n\n(2) 꼭짓점: (2, -1)",
                   submittedAt: "2024-01-18 14:46:35",
-                  timeSpent: "25분"
+                  timeSpent: "12분"
                 }
-              },
+              }
+            ]
+          },
+          "Essay": {
+            questions: [
               {
-                number: 3,
-                text: "합성함수를 구하시오.\n\nf(x) = 2x + 1, g(x) = x² - 3일 때,\n(1) (f ∘ g)(x)\n(2) (g ∘ f)(x)\n(3) f(g(2))와 g(f(2))의 값",
-                maxScore: 25,
+                number: 1,
+                text: "합성함수와 역함수의 관계에 대해 설명하고, 구체적인 예시를 들어 증명하시오.\n\n조건: f(x) = 2x + 1, g(x) = x² - 3을 이용하여 설명할 것",
+                maxScore: 50,
                 aiGrading: {
-                  score: 23,
+                  score: 42,
                   breakdown: {
-                    fog: { score: 8, maxScore: 8, comment: "f∘g 정확히 구함" },
-                    gof: { score: 8, maxScore: 8, comment: "g∘f 정확히 구함" },
-                    values: { score: 7, maxScore: 9, comment: "함수값 계산 정확하나 과정 설명 부족" }
+                    theory: { score: 20, maxScore: 25, comment: "개념 이해도 우수" },
+                    example: { score: 22, maxScore: 25, comment: "구체적 예시 제시 완벽" }
                   },
-                  feedback: "합성함수를 정확히 구했습니다. 함수값 계산 과정을 더 자세히 보여주세요.",
+                  feedback: "합성함수에 대한 이해가 우수합니다. 역함수와의 관계에 대한 설명을 더 보강하면 좋겠습니다.",
                   gradedAt: "2024-01-18 14:52:20"
                 },
                 studentAnswer: {
-                  content: "(1) (f ∘ g)(x) = f(g(x)) = f(x² - 3)\n= 2(x² - 3) + 1 = 2x² - 6 + 1 = 2x² - 5\n\n(2) (g ∘ f)(x) = g(f(x)) = g(2x + 1)\n= (2x + 1)² - 3 = 4x² + 4x + 1 - 3 = 4x² + 4x - 2\n\n(3) f(g(2)) = f(2² - 3) = f(1) = 2(1) + 1 = 3\ng(f(2)) = g(2(2) + 1) = g(5) = 5² - 3 = 22",
+                  content: "합성함수란 두 함수를 연결하여 만든 새로운 함수입니다.\n\n주어진 함수로 합성함수를 구해보면:\n(f ∘ g)(x) = f(g(x)) = f(x² - 3) = 2(x² - 3) + 1 = 2x² - 5\n(g ∘ f)(x) = g(f(x)) = g(2x + 1) = (2x + 1)² - 3 = 4x² + 4x - 2\n\n역함수의 경우, f(x) = 2x + 1에서 f⁻¹(x) = (x-1)/2 입니다.\n이때 f(f⁻¹(x)) = f((x-1)/2) = 2·(x-1)/2 + 1 = x가 되어 원래 값으로 돌아옵니다.\n\n따라서 합성함수와 역함수는 서로 상호작용하여 원래 입력값을 복원하는 관계에 있습니다.",
                   submittedAt: "2024-01-18 14:47:15",
-                  timeSpent: "20분"
-                }
-              },
-              {
-                number: 4,
-                text: "역함수를 구하고 그래프의 관계를 설명하시오.\n\nf(x) = 3x - 2 (x ∈ ℝ)에 대해\n(1) 역함수 f⁻¹(x)를 구하시오.\n(2) f(x)와 f⁻¹(x)의 그래프의 관계를 설명하시오.\n(3) f(1)과 f⁻¹(1)의 값을 구하시오.",
-                maxScore: 25,
-                aiGrading: {
-                  score: 21,
-                  breakdown: {
-                    inverse: { score: 10, maxScore: 10, comment: "역함수를 정확히 구함" },
-                    relation: { score: 6, maxScore: 10, comment: "그래프 관계 설명이 부족" },
-                    values: { score: 5, maxScore: 5, comment: "함수값 계산 정확" }
-                  },
-                  feedback: "역함수 계산은 완벽합니다. 그래프 관계에 대한 설명을 더 구체적으로 해주세요.",
-                  gradedAt: "2024-01-18 14:53:10"
-                },
-                studentAnswer: {
-                  content: "(1) 역함수 구하기:\ny = 3x - 2에서 x와 y를 바꾸면\nx = 3y - 2\n3y = x + 2\ny = (x + 2)/3\n\n따라서 f⁻¹(x) = (x + 2)/3\n\n(2) 그래프 관계:\nf(x)와 f⁻¹(x)의 그래프는 직선 y = x에 대하여 대칭이다.\n\n(3) f(1) = 3(1) - 2 = 1\nf⁻¹(1) = (1 + 2)/3 = 1",
-                  submittedAt: "2024-01-18 14:48:25",
-                  timeSpent: "30분"
+                  timeSpent: "25분"
                 }
               }
             ]
