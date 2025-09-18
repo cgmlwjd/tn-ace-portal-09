@@ -470,37 +470,38 @@ export default function TeacherDashboard() {
                             </div>
                           </div>
 
-                          {/* 완료 상태 표시 (하단) */}
-                          <div className="flex flex-wrap gap-2 mb-4">
-                            {grade.aiGradingTime && (
-                              <Badge variant="default" className="text-xs bg-green-500 hover:bg-green-600">
-                                AI 채점 완료
-                              </Badge>
-                            )}
-                            {grade.manualGradingTime && (
-                              <Badge variant="default" className="text-xs bg-blue-500 hover:bg-blue-600">
-                                수동 채점 완료
-                              </Badge>
-                            )}
-                          </div>
                           
-                          <div className="flex space-x-2 pt-3 border-t border-border">
-            <Button 
-              variant="outline" 
-              size="sm" 
-              className="flex-1"
-              onClick={() => handleAIGrading(grade.id)}
-              disabled={grade.aiGradingTime ? false : false}
-            >
-              AI 채점
-            </Button>
-                            <Button 
-                              size="sm" 
-                              className="flex-1"
-                              onClick={() => navigate(`/teacher/grading/${grade.id}`)}
-                            >
-                              수동 채점
-                            </Button>
+                          <div className="flex items-center justify-between pt-3 border-t border-border">
+                            <div className="flex space-x-2">
+                              <Button 
+                                variant="outline" 
+                                size="sm" 
+                                onClick={() => handleAIGrading(grade.id)}
+                                disabled={grade.aiGradingTime ? false : false}
+                              >
+                                AI 채점
+                              </Button>
+                              <Button 
+                                size="sm" 
+                                onClick={() => navigate(`/teacher/grading/${grade.id}`)}
+                              >
+                                수동 채점
+                              </Button>
+                            </div>
+                            
+                            {/* 완료 상태 표시 (오른쪽 하단) */}
+                            <div className="flex flex-col gap-1">
+                              {grade.aiGradingTime && (
+                                <Badge variant="default" className="text-xs bg-green-500 hover:bg-green-600">
+                                  AI 채점 완료
+                                </Badge>
+                              )}
+                              {grade.manualGradingTime && (
+                                <Badge variant="default" className="text-xs bg-blue-500 hover:bg-blue-600">
+                                  수동 채점 완료
+                                </Badge>
+                              )}
+                            </div>
                           </div>
                         </div>)}
                     </div>
