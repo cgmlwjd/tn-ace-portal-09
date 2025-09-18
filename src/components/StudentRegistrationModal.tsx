@@ -69,6 +69,11 @@ export const StudentRegistrationModal: React.FC<StudentRegistrationModalProps> =
     status: '활성'
   });
 
+  // 상태 관리 추가
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formErrors, setFormErrors] = useState<{[key: string]: string}>({});
+  const [submitAttempted, setSubmitAttempted] = useState(false);
+
   useEffect(() => {
     if (isEditMode && editData) {
       setFormData({
@@ -99,24 +104,76 @@ export const StudentRegistrationModal: React.FC<StudentRegistrationModalProps> =
         status: '활성'
       });
     }
+    // 모달이 열릴 때마다 상태 초기화
+    setFormErrors({});
+    setSubmitAttempted(false);
+    setIsSubmitting(false);
   }, [isEditMode, editData, isOpen]);
 
-  const handleSubmit = () => {
-    onSubmit(formData);
-    setFormData({
-      name: '',
-      birthDate: '',
-      gender: 'male',
-      studentId: '',
-      password: '',
-      educationSystem: 'korean',
-      grade: '',
-      contact: '',
-      classNumber: '',
-      memo: '',
-      status: '활성'
-    });
-    onClose();
+  const validateForm = () => {
+    const errors: {[key: string]: string} = {};
+    
+    if (!formData.name.trim()) {
+      errors.name = '이름을 입력해주세요.';
+    }
+    
+    if (!formData.birthDate) {
+      errors.birthDate = '생년월일을 선택해주세요.';
+    }
+    
+    if (!formData.studentId.trim()) {
+      errors.studentId = '아이디를 입력해주세요.';
+    }
+    
+    if (!isEditMode && !formData.password.trim()) {
+      errors.password = '비밀번호를 입력해주세요.';
+    }
+    
+    if (!formData.educationSystem) {
+      errors.educationSystem = '학제를 선택해주세요.';
+    }
+    
+    if (!formData.grade) {
+      errors.grade = '학년을 선택해주세요.';
+    }
+
+    setFormErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
+  const handleSubmit = async () => {
+    setSubmitAttempted(true);
+    
+    if (!validateForm()) {
+      return;
+    }
+    
+    setIsSubmitting(true);
+    
+    try {
+      await onSubmit(formData);
+      
+      // 성공 시 폼 초기화
+      setFormData({
+        name: '',
+        birthDate: '',
+        gender: 'male',
+        studentId: '',
+        password: '',
+        educationSystem: 'korean',
+        grade: '',
+        contact: '',
+        classNumber: '',
+        memo: '',
+        status: '활성'
+      });
+      
+      onClose();
+    } catch (error) {
+      console.error('학생 등록/수정 실패:', error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleInputChange = (field: keyof StudentFormData, value: string) => {
@@ -144,7 +201,11 @@ export const StudentRegistrationModal: React.FC<StudentRegistrationModalProps> =
                 onChange={(e) => handleInputChange('name', e.target.value)}
                 placeholder="학생 이름을 입력하세요"
                 required
+                className={formErrors.name ? "border-red-500" : ""}
               />
+              {formErrors.name && (
+                <p className="text-sm text-red-500">{formErrors.name}</p>
+              )}
             </div>
             
             <div className="space-y-2">
@@ -155,7 +216,11 @@ export const StudentRegistrationModal: React.FC<StudentRegistrationModalProps> =
                 value={formData.birthDate}
                 onChange={(e) => handleInputChange('birthDate', e.target.value)}
                 required
+                className={formErrors.birthDate ? "border-red-500" : ""}
               />
+              {formErrors.birthDate && (
+                <p className="text-sm text-red-500">{formErrors.birthDate}</p>
+              )}
             </div>
           </div>
 
@@ -188,7 +253,11 @@ export const StudentRegistrationModal: React.FC<StudentRegistrationModalProps> =
                 onChange={(e) => handleInputChange('studentId', e.target.value)}
                 placeholder="로그인에 사용할 아이디를 입력하세요"
                 required
+                className={formErrors.studentId ? "border-red-500" : ""}
               />
+              {formErrors.studentId && (
+                <p className="text-sm text-red-500">{formErrors.studentId}</p>
+              )}
             </div>
 
             <div className="space-y-2">
@@ -200,7 +269,11 @@ export const StudentRegistrationModal: React.FC<StudentRegistrationModalProps> =
                 onChange={(e) => handleInputChange('password', e.target.value)}
                 placeholder="비밀번호를 입력하세요"
                 required
+                className={formErrors.password ? "border-red-500" : ""}
               />
+              {formErrors.password && (
+                <p className="text-sm text-red-500">{formErrors.password}</p>
+              )}
             </div>
           </div>
 
@@ -311,10 +384,17 @@ export const StudentRegistrationModal: React.FC<StudentRegistrationModalProps> =
           </Button>
           <Button 
             onClick={handleSubmit}
-            disabled={!formData.name || !formData.birthDate || !formData.studentId || (!isEditMode && !formData.password) || !formData.educationSystem || !formData.grade}
+            disabled={isSubmitting}
             className="bg-brand-bronze hover:bg-brand-bronze/90 text-primary-foreground"
           >
-            {isEditMode ? '수정' : '등록'}
+            {isSubmitting ? (
+              <div className="flex items-center space-x-2">
+                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                <span>{isEditMode ? '수정 중...' : '등록 중...'}</span>
+              </div>
+            ) : (
+              isEditMode ? '수정' : '등록'
+            )}
           </Button>
         </div>
       </DialogContent>

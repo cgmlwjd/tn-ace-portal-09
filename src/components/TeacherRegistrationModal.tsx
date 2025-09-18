@@ -51,6 +51,11 @@ export function TeacherRegistrationModal({
     status: '활성'
   });
 
+  // 상태 관리 추가
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formErrors, setFormErrors] = useState<{[key: string]: string}>({});
+  const [submitAttempted, setSubmitAttempted] = useState(false);
+
   useEffect(() => {
     if (isEditMode && editData) {
       setFormData({
@@ -83,6 +88,10 @@ export function TeacherRegistrationModal({
         status: '활성'
       });
     }
+    // 모달이 열릴 때마다 상태 초기화
+    setFormErrors({});
+    setSubmitAttempted(false);
+    setIsSubmitting(false);
   }, [isEditMode, editData, isOpen]);
   const handleInputChange = (field: keyof Omit<TeacherData, 'permissions'>, value: string) => {
     setFormData(prev => ({
@@ -99,27 +108,64 @@ export function TeacherRegistrationModal({
       }
     }));
   };
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    onSubmit(formData);
-    if (!isEditMode) {
-      // Reset form only for new registration
-      setFormData({
-        teacherId: '',
-        teacherName: '',
-        password: '',
-        contact: '',
-        subject: '',
-        permissions: {
-          questionBankEdit: false,
-          accountManagement: false,
-          examManagement: false,
-          analyticsView: false
-        },
-        status: '활성'
-      });
+  const validateForm = () => {
+    const errors: {[key: string]: string} = {};
+    
+    if (!formData.teacherId.trim()) {
+      errors.teacherId = '교사 아이디를 입력해주세요.';
     }
-    onClose();
+    
+    if (!formData.teacherName.trim()) {
+      errors.teacherName = '교사 이름을 입력해주세요.';
+    }
+    
+    if (!isEditMode && !formData.password.trim()) {
+      errors.password = '비밀번호를 입력해주세요.';
+    }
+    
+    if (!formData.subject) {
+      errors.subject = '담당 과목을 선택해주세요.';
+    }
+
+    setFormErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubmitAttempted(true);
+    
+    if (!validateForm()) {
+      return;
+    }
+    
+    setIsSubmitting(true);
+    
+    try {
+      await onSubmit(formData);
+      if (!isEditMode) {
+        // Reset form only for new registration
+        setFormData({
+          teacherId: '',
+          teacherName: '',
+          password: '',
+          contact: '',
+          subject: '',
+          permissions: {
+            questionBankEdit: false,
+            accountManagement: false,
+            examManagement: false,
+            analyticsView: false
+          },
+          status: '활성'
+        });
+      }
+      onClose();
+    } catch (error) {
+      console.error('교사 등록/수정 실패:', error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
   const handleClose = () => {
     // Reset form when closing
@@ -137,6 +183,9 @@ export function TeacherRegistrationModal({
       },
       status: '활성'
     });
+    setFormErrors({});
+    setSubmitAttempted(false);
+    setIsSubmitting(false);
     onClose();
   };
   return <Dialog open={isOpen} onOpenChange={handleClose}>
@@ -158,18 +207,49 @@ export function TeacherRegistrationModal({
               <div className="grid md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="teacherId">교사 아이디 *</Label>
-                  <Input id="teacherId" value={formData.teacherId} onChange={e => handleInputChange('teacherId', e.target.value)} placeholder="예: T001" required />
+                  <Input 
+                    id="teacherId" 
+                    value={formData.teacherId} 
+                    onChange={e => handleInputChange('teacherId', e.target.value)} 
+                    placeholder="예: T001" 
+                    required 
+                    className={formErrors.teacherId ? "border-red-500" : ""}
+                  />
+                  {formErrors.teacherId && (
+                    <p className="text-sm text-red-500">{formErrors.teacherId}</p>
+                  )}
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="teacherName">교사 이름 *</Label>
-                  <Input id="teacherName" value={formData.teacherName} onChange={e => handleInputChange('teacherName', e.target.value)} placeholder="예: 김선생" required />
+                  <Input 
+                    id="teacherName" 
+                    value={formData.teacherName} 
+                    onChange={e => handleInputChange('teacherName', e.target.value)} 
+                    placeholder="예: 김선생" 
+                    required 
+                    className={formErrors.teacherName ? "border-red-500" : ""}
+                  />
+                  {formErrors.teacherName && (
+                    <p className="text-sm text-red-500">{formErrors.teacherName}</p>
+                  )}
                 </div>
               </div>
               
               <div className="grid md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="password">비밀번호 *</Label>
-                  <Input id="password" type="password" value={formData.password} onChange={e => handleInputChange('password', e.target.value)} placeholder="초기 비밀번호 설정" required />
+                  <Input 
+                    id="password" 
+                    type="password" 
+                    value={formData.password} 
+                    onChange={e => handleInputChange('password', e.target.value)} 
+                    placeholder="초기 비밀번호 설정" 
+                    required 
+                    className={formErrors.password ? "border-red-500" : ""}
+                  />
+                  {formErrors.password && (
+                    <p className="text-sm text-red-500">{formErrors.password}</p>
+                  )}
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="contact">연락처</Label>
@@ -245,9 +325,18 @@ export function TeacherRegistrationModal({
             <Button type="button" variant="outline" onClick={handleClose}>
               취소
             </Button>
-            <Button type="submit" disabled={!formData.teacherName || !formData.teacherId || !formData.subject || (!isEditMode && !formData.password)}>
-              <UserPlus className="h-4 w-4 mr-2" />
-              {isEditMode ? '교사 수정' : '교사 등록'}
+            <Button type="submit" disabled={isSubmitting}>
+              {isSubmitting ? (
+                <div className="flex items-center space-x-2">
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  <span>{isEditMode ? '교사 수정 중...' : '교사 등록 중...'}</span>
+                </div>
+              ) : (
+                <>
+                  <UserPlus className="h-4 w-4 mr-2" />
+                  {isEditMode ? '교사 수정' : '교사 등록'}
+                </>
+              )}
             </Button>
           </div>
         </form>
