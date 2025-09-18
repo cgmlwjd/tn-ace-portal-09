@@ -27,9 +27,9 @@ export default function ManualGrading() {
     setCurrentLanguage(currentLanguage === 'ko' ? 'en' : 'ko');
   };
 
-  const getCategoryDisplayName = (categoryName: string) => {
+  const getCategoryDisplayName = (categoryName: string, examTitle?: string) => {
     // 수학 시험인지 확인 (시험 제목에 "수학"이 포함된 경우)
-    const isMathExam = gradingData.exam.title.includes('수학');
+    const isMathExam = examTitle?.includes('수학') || examTitle?.includes('Math');
     
     if (isMathExam) {
       const mathCategoryMap: {[key: string]: string} = {
@@ -575,11 +575,11 @@ export default function ManualGrading() {
       categoryData.questions.forEach((question) => {
         const key = `${categoryName}-${question.number}`;
         if (!manualScores[key]) {
-          missingScores.push(`${getCategoryDisplayName(categoryName)} ${question.number}번`);
+          missingScores.push(`${getCategoryDisplayName(categoryName, gradingData.exam.title)} ${question.number}번`);
         } else {
           const score = parseInt(manualScores[key]);
           if (isNaN(score) || score < 0 || score > question.maxScore) {
-            missingScores.push(`${getCategoryDisplayName(categoryName)} ${question.number}번 (점수 범위 오류)`);
+            missingScores.push(`${getCategoryDisplayName(categoryName, gradingData.exam.title)} ${question.number}번 (점수 범위 오류)`);
           }
         }
       });
@@ -696,7 +696,7 @@ export default function ManualGrading() {
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2">
                   <Brain className="h-5 w-5" />
-                  <span>{getCategoryDisplayName(singleCategoryData![0])} {gradingData.exam.title.includes('수학') ? '채점' : '카테고리'}</span>
+                  <span>{getCategoryDisplayName(singleCategoryData![0], gradingData.exam.title)} {gradingData.exam.title.includes('수학') ? '채점' : '카테고리'}</span>
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -924,7 +924,7 @@ export default function ManualGrading() {
                   >
                     <div className="flex items-center space-x-2">
                       <Brain className="h-5 w-5" />
-                      <span>{getCategoryDisplayName(categoryName)} {isSingleCategory ? '채점' : '카테고리'}</span>
+                      <span>{getCategoryDisplayName(categoryName, gradingData.exam.title)} {isSingleCategory ? '채점' : '카테고리'}</span>
                       <Badge variant="outline">{categoryData.questions.length}문제</Badge>
                     </div>
                     {!isSingleCategory && (
@@ -947,7 +947,7 @@ export default function ManualGrading() {
                           {(!isSingleCategory || categoryData.questions.length > 1) && (
                               <div className="flex items-center justify-between mb-4">
                                 <h3 className="text-xl font-semibold">
-                                  {getCategoryDisplayName(categoryName)} {question.number}번 문제
+                                  {getCategoryDisplayName(categoryName, gradingData.exam.title)} {question.number}번 문제
                                 </h3>
                                 <Badge variant="outline" className="text-sm">
                                   배점: {question.maxScore}점
@@ -1138,7 +1138,7 @@ export default function ManualGrading() {
                                         ...prev,
                                         [questionKey]: e.target.value
                                       }))}
-                                      placeholder={`${getCategoryDisplayName(categoryName)} ${question.number}번 문제에 대한 피드백을 작성해주세요...`}
+                                      placeholder={`${getCategoryDisplayName(categoryName, gradingData.exam.title)} ${question.number}번 문제에 대한 피드백을 작성해주세요...`}
                                       rows={3}
                                     />
                                   </div>
