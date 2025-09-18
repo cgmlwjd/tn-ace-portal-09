@@ -483,11 +483,10 @@ export default function TeacherDashboard() {
                           </div>
 
                           
-                          <div className="flex flex-col sm:flex-row gap-2 pt-3 border-t border-border">
+                          <div className="flex space-x-2 pt-3 border-t border-border">
                             <Button 
                               variant="outline" 
                               size="sm" 
-                              className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 border-gray-300"
                               onClick={() => handleAIGrading(grade.id)}
                               disabled={grade.aiGradingTime ? false : false}
                             >
@@ -495,7 +494,6 @@ export default function TeacherDashboard() {
                             </Button>
                             <Button 
                               size="sm" 
-                              className="flex-1 bg-amber-600 hover:bg-amber-700 text-white"
                               onClick={() => navigate(`/teacher/grading/${grade.id}`)}
                             >
                               수동 채점
