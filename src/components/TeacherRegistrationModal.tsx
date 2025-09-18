@@ -195,26 +195,10 @@ export function TeacherRegistrationModal({
                       <SelectValue placeholder="상태를 선택하세요" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="예비">
-                        <div className="flex items-center space-x-2">
-                          <Badge variant="secondary">예비</Badge>
-                        </div>
-                      </SelectItem>
-                      <SelectItem value="활성">
-                        <div className="flex items-center space-x-2">
-                          <Badge variant="default">활성</Badge>
-                        </div>
-                      </SelectItem>
-                      <SelectItem value="휴직">
-                        <div className="flex items-center space-x-2">
-                          <Badge variant="outline">휴직</Badge>
-                        </div>
-                      </SelectItem>
-                      <SelectItem value="계약종료">
-                        <div className="flex items-center space-x-2">
-                          <Badge variant="destructive">계약종료</Badge>
-                        </div>
-                      </SelectItem>
+                      <SelectItem value="예비">예비</SelectItem>
+                      <SelectItem value="활성">활성</SelectItem>
+                      <SelectItem value="휴직">휴직</SelectItem>
+                      <SelectItem value="계약종료">계약종료</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>

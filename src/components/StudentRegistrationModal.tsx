@@ -295,26 +295,10 @@ export const StudentRegistrationModal: React.FC<StudentRegistrationModalProps> =
                   <SelectValue placeholder="상태를 선택하세요" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="대기">
-                    <div className="flex items-center space-x-2">
-                      <Badge variant="secondary">대기</Badge>
-                    </div>
-                  </SelectItem>
-                  <SelectItem value="활성">
-                    <div className="flex items-center space-x-2">
-                      <Badge variant="default">활성</Badge>
-                    </div>
-                  </SelectItem>
-                  <SelectItem value="휴학(일시중지)">
-                    <div className="flex items-center space-x-2">
-                      <Badge variant="outline">휴학(일시중지)</Badge>
-                    </div>
-                  </SelectItem>
-                  <SelectItem value="비활성">
-                    <div className="flex items-center space-x-2">
-                      <Badge variant="destructive">비활성</Badge>
-                    </div>
-                  </SelectItem>
+                  <SelectItem value="대기">대기</SelectItem>
+                  <SelectItem value="활성">활성</SelectItem>
+                  <SelectItem value="휴학(일시중지)">휴학(일시중지)</SelectItem>
+                  <SelectItem value="비활성">비활성</SelectItem>
                 </SelectContent>
               </Select>
             </div>
