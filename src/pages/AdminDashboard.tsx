@@ -322,18 +322,16 @@ export default function AdminDashboard() {
                                 <span>최근 로그인: {student.lastLogin}</span>
                                 <span>응시한 시험: {student.examsTaken}회</span>
                               </div>
+                              <Button 
+                                variant="ghost" 
+                                size="sm"
+                                onClick={() => handleStudentEdit(student)}
+                                className="flex items-center space-x-1 w-fit"
+                              >
+                                <Edit className="h-4 w-4" />
+                                <span className="text-sm">수정</span>
+                              </Button>
                             </div>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <Button 
-                              variant="ghost" 
-                              size="sm"
-                              onClick={() => handleStudentEdit(student)}
-                              className="flex items-center space-x-1"
-                            >
-                              <Edit className="h-4 w-4" />
-                              <span className="text-sm">수정</span>
-                            </Button>
                           </div>
                         </div>
                       </div>
