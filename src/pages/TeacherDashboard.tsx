@@ -26,6 +26,10 @@ export default function TeacherDashboard() {
     id: 1,
     title: "영어 중간고사 - 2학년",
     categories: ["reading", "writing"],
+    subjectCombinations: [
+      { subject: "english", category: "reading" },
+      { subject: "english", category: "writing" }
+    ],
     selectedCombinations: [
       { schoolSystem: "korea", grade: "중2" },
       { schoolSystem: "usa", grade: "Grade 8" }
@@ -37,6 +41,9 @@ export default function TeacherDashboard() {
     id: 2,
     title: "Speaking Test - Level 3",
     categories: ["speaking"],
+    subjectCombinations: [
+      { subject: "english", category: "speaking" }
+    ],
     selectedCombinations: [
       { schoolSystem: "korea", grade: "고1" },
       { schoolSystem: "korea", grade: "고2" }
@@ -48,6 +55,10 @@ export default function TeacherDashboard() {
     id: 3,
     title: "Essay Writing Assessment",
     categories: ["writing", "essay"],
+    subjectCombinations: [
+      { subject: "english", category: "writing" },
+      { subject: "english", category: "essay" }
+    ],
     selectedCombinations: [
       { schoolSystem: "uk", grade: "Year 10" },
       { schoolSystem: "uk", grade: "Year 11" }
@@ -59,6 +70,9 @@ export default function TeacherDashboard() {
     id: 4,
     title: "Essay 평가 시험",
     categories: ["essay"],
+    subjectCombinations: [
+      { subject: "english", category: "essay" }
+    ],
     selectedCombinations: [
       { schoolSystem: "usa", grade: "Grade 11" },
       { schoolSystem: "usa", grade: "Grade 12" }
@@ -70,6 +84,11 @@ export default function TeacherDashboard() {
     id: 5,
     title: "수학 중간고사 - 대수",
     categories: ["mcq", "short", "math-essay"],
+    subjectCombinations: [
+      { subject: "math", category: "객관식" },
+      { subject: "math", category: "주관식" },
+      { subject: "math", category: "서술형" }
+    ],
     selectedCombinations: [
       { schoolSystem: "korea", grade: "중2" },
       { schoolSystem: "korea", grade: "중3" }
@@ -81,6 +100,10 @@ export default function TeacherDashboard() {
     id: 6,
     title: "Math Test - Geometry",
     categories: ["mcq", "short"],
+    subjectCombinations: [
+      { subject: "math", category: "객관식" },
+      { subject: "math", category: "주관식" }
+    ],
     selectedCombinations: [
       { schoolSystem: "usa", grade: "Grade 9" },
       { schoolSystem: "usa", grade: "Grade 10" }
@@ -304,19 +327,50 @@ export default function TeacherDashboard() {
                           <p className="text-sm text-muted-foreground">생성일: {exam.created}</p>
                         </div>
                         
-                        <div className="flex flex-wrap gap-2 mb-3">
-                           {exam.categories?.map((category: string) => (
-                             <Badge key={category} variant="outline" className="text-xs">
-                                {category === 'reading' ? 'Reading (영어)' : 
-                                 category === 'writing' ? 'Writing (영어)' : 
-                                 category === 'essay' ? 'Essay (영어)' : 
-                                 category === 'speaking' ? 'Speaking (영어)' :
-                                 category === 'mcq' ? '객관식 (수학)' : 
-                                 category === 'short' ? '주관식 (수학)' : 
-                                 category === 'math-essay' ? '서술형 (수학)' : category}
-                             </Badge>
-                          ))}
-                        </div>
+                        {/* 선택된 과목-카테고리 조합 표시 */}
+                        {exam.subjectCombinations && exam.subjectCombinations.length > 0 && (
+                          <div className="mb-3">
+                            <p className="text-xs text-muted-foreground mb-1">과목 카테고리:</p>
+                            <div className="flex flex-wrap gap-2">
+                              {exam.subjectCombinations.map((combo: any, index: number) => {
+                                const subjectLabel = combo.subject === 'english' ? '영어' : combo.subject === 'math' ? '수학' : combo.subject;
+                                const categoryLabels: { [key: string]: string } = {
+                                  'reading': 'Reading',
+                                  'writing': 'Writing', 
+                                  'essay': 'Essay',
+                                  'speaking': 'Speaking',
+                                  '객관식': '객관식',
+                                  '주관식': '주관식',
+                                  '서술형': '서술형'
+                                };
+                                const categoryLabel = categoryLabels[combo.category] || combo.category;
+                                
+                                return (
+                                  <Badge key={index} variant="outline" className="text-xs">
+                                    {subjectLabel} - {categoryLabel}
+                                  </Badge>
+                                );
+                              })}
+                            </div>
+                          </div>
+                        )}
+                        
+                        {/* 기존 카테고리 형식 호환성 (이전 시험들을 위해) */}
+                        {(!exam.subjectCombinations || exam.subjectCombinations.length === 0) && exam.categories && (
+                          <div className="flex flex-wrap gap-2 mb-3">
+                             {exam.categories?.map((category: string) => (
+                               <Badge key={category} variant="outline" className="text-xs">
+                                  {category === 'reading' ? 'Reading (영어)' : 
+                                   category === 'writing' ? 'Writing (영어)' : 
+                                   category === 'essay' ? 'Essay (영어)' : 
+                                   category === 'speaking' ? 'Speaking (영어)' :
+                                   category === 'mcq' ? '객관식 (수학)' : 
+                                   category === 'short' ? '주관식 (수학)' : 
+                                   category === 'math-essay' ? '서술형 (수학)' : category}
+                               </Badge>
+                            ))}
+                          </div>
+                        )}
 
                         {/* 학제-학년 정보 표시 */}
                         <div className="mb-3">
