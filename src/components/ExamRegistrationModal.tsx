@@ -396,7 +396,7 @@ export default function ExamRegistrationModal({ isOpen, onClose, onComplete }: E
                     
                     {/* 학제 선택 (과목 선택) */}
                     <div className="space-y-4">
-                      <Label className="text-base font-medium">과목선택</Label>
+                      <Label className="text-base font-medium">과목 선택</Label>
                       <RadioGroup 
                         value={selectedSubject}
                         onValueChange={handleSubjectChange}
