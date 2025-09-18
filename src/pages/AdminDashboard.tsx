@@ -272,9 +272,6 @@ export default function AdminDashboard() {
                             <Button variant="ghost" size="sm">
                               <Edit className="h-4 w-4" />
                             </Button>
-                            <Button variant="ghost" size="sm">
-                              <MoreHorizontal className="h-4 w-4" />
-                            </Button>
                           </div>
                         </div>
                       </div>
