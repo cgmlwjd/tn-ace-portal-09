@@ -488,10 +488,31 @@ export default function ExamRegistrationModal({ isOpen, onClose, onComplete }: E
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-6">
-                    {formData.categories.map((category) => {
-                      const { name, icon: Icon, color } = categoryLabels[category];
+                    {formData.subjectCombinations.map((combination, index) => {
+                      // Map category names to the appropriate categoryLabels key
+                      const getCategoryKey = (subject: string, category: string) => {
+                        if (subject === 'english') {
+                          return category; // reading, writing, essay, speaking
+                        } else if (subject === 'math') {
+                          const mathCategoryMap: { [key: string]: string } = {
+                            '객관식': 'mcq',
+                            '주관식': 'short', 
+                            '서술형': 'math-essay'
+                          };
+                          return mathCategoryMap[category] || category;
+                        }
+                        return category;
+                      };
+
+                      const categoryKey = getCategoryKey(combination.subject, combination.category) as keyof typeof categoryLabels;
+                      const categoryInfo = categoryLabels[categoryKey];
+                      
+                      if (!categoryInfo) return null;
+
+                      const { name, icon: Icon, color } = categoryInfo;
+                      
                       return (
-                        <div key={category} className="border border-border rounded-lg p-4">
+                        <div key={`${combination.subject}-${combination.category}-${index}`} className="border border-border rounded-lg p-4">
                           <div className="flex items-center space-x-2 mb-4">
                             <Icon className={`h-5 w-5 ${color}`} />
                             <h3 className="font-semibold">{name} 문제</h3>
@@ -525,7 +546,7 @@ export default function ExamRegistrationModal({ isOpen, onClose, onComplete }: E
                             </div>
 
                             {/* Math 카테고리 이미지 업로드 */}
-                            {(category === 'mcq' || category === 'short' || category === 'math-essay') && (
+                            {combination.subject === 'math' && (
                               <div className="space-y-2">
                                 <Label>이미지 파일 업로드 (수학 문제)</Label>
                                 <div className="border-2 border-dashed border-border rounded-lg p-4 text-center hover:bg-muted/50 transition-colors cursor-pointer">
