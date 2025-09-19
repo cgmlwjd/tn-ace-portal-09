@@ -246,7 +246,7 @@ export const StudentRegistrationModal: React.FC<StudentRegistrationModalProps> =
           {/* 아이디 및 비밀번호 */}
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <div className="flex justify-between items-center">
+              <div className="flex justify-between items-center h-8">
                 <Label htmlFor="studentId">아이디 *</Label>
               </div>
               <Input
@@ -263,7 +263,7 @@ export const StudentRegistrationModal: React.FC<StudentRegistrationModalProps> =
             </div>
 
             <div className="space-y-2">
-              <div className="flex justify-between items-center">
+              <div className="flex justify-between items-center h-8">
                 <Label htmlFor="password">비밀번호 *</Label>
                 {isEditMode && (
                   <Button
