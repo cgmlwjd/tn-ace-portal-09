@@ -31,6 +31,8 @@ export default function AdminDashboard() {
   const [currentLanguage, setCurrentLanguage] = useState<'ko' | 'en'>('ko');
   const [activeTab, setActiveTab] = useState('students');
   const [searchTerm, setSearchTerm] = useState('');
+  const [selectedEducationSystem, setSelectedEducationSystem] = useState('all');
+  const [selectedGrade, setSelectedGrade] = useState('all');
   const [isStudentModalOpen, setIsStudentModalOpen] = useState(false);
   const [isTeacherModalOpen, setIsTeacherModalOpen] = useState(false);
   const [editingStudent, setEditingStudent] = useState(null);
@@ -186,10 +188,46 @@ export default function AdminDashboard() {
     }
   ];
 
-  const filteredStudents = students.filter(student =>
-    student.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    student.email.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  // 학제별 학년 옵션
+  const getGradeOptions = (educationSystem: string) => {
+    switch (educationSystem) {
+      case 'elementary':
+        return [
+          { value: '1', label: '1학년' },
+          { value: '2', label: '2학년' },
+          { value: '3', label: '3학년' },
+          { value: '4', label: '4학년' },
+          { value: '5', label: '5학년' },
+          { value: '6', label: '6학년' }
+        ];
+      case 'middle':
+      case 'high':
+        return [
+          { value: '1', label: '1학년' },
+          { value: '2', label: '2학년' },
+          { value: '3', label: '3학년' }
+        ];
+      default:
+        return [
+          { value: '1', label: '1학년' },
+          { value: '2', label: '2학년' },
+          { value: '3', label: '3학년' },
+          { value: '4', label: '4학년' },
+          { value: '5', label: '5학년' },
+          { value: '6', label: '6학년' }
+        ];
+    }
+  };
+
+  const filteredStudents = students.filter(student => {
+    const matchesSearch = student.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      student.email.toLowerCase().includes(searchTerm.toLowerCase());
+    
+    const matchesGrade = selectedGrade === 'all' || 
+      student.grade === `${selectedGrade}학년`;
+    
+    return matchesSearch && matchesGrade;
+  });
 
   const filteredTeachers = teachers.filter(teacher =>
     teacher.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -280,15 +318,31 @@ export default function AdminDashboard() {
                         className="pl-10"
                       />
                     </div>
-                    <Select>
+                    <Select value={selectedEducationSystem} onValueChange={(value) => {
+                      setSelectedEducationSystem(value);
+                      setSelectedGrade('all'); // 학제 변경시 학년 초기화
+                    }}>
+                      <SelectTrigger className="w-32">
+                        <SelectValue placeholder="학제" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">전체</SelectItem>
+                        <SelectItem value="elementary">초등학교</SelectItem>
+                        <SelectItem value="middle">중학교</SelectItem>
+                        <SelectItem value="high">고등학교</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <Select value={selectedGrade} onValueChange={setSelectedGrade}>
                       <SelectTrigger className="w-32">
                         <SelectValue placeholder="학년" />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="all">전체</SelectItem>
-                        <SelectItem value="1">1학년</SelectItem>
-                        <SelectItem value="2">2학년</SelectItem>
-                        <SelectItem value="3">3학년</SelectItem>
+                        {getGradeOptions(selectedEducationSystem).map((option) => (
+                          <SelectItem key={option.value} value={option.value}>
+                            {option.label}
+                          </SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
                     <Select>
