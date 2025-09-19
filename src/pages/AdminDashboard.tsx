@@ -117,7 +117,8 @@ export default function AdminDashboard() {
       id: 1,
       name: '김민수',
       email: 'minsu.kim@student.com',
-      grade: '2학년',
+      educationSystem: '한국',
+      grade: '중2',
       status: 'active',
       joinDate: '2024-01-15',
       lastLogin: '2024-01-20 14:30',
@@ -127,7 +128,8 @@ export default function AdminDashboard() {
       id: 2,
       name: '이지은',
       email: 'jieun.lee@student.com',
-      grade: '3학년',
+      educationSystem: '한국',
+      grade: '고3',
       status: 'active',
       joinDate: '2024-01-10',
       lastLogin: '2024-01-20 09:15',
@@ -137,7 +139,8 @@ export default function AdminDashboard() {
       id: 3,
       name: '박상현',
       email: 'sanghyun.park@student.com',
-      grade: '1학년',
+      educationSystem: '미국',
+      grade: 'grade 9',
       status: 'inactive',
       joinDate: '2023-12-20',
       lastLogin: '2024-01-18 16:45',
@@ -147,7 +150,8 @@ export default function AdminDashboard() {
       id: 4,
       name: '최유나',
       email: 'yuna.choi@student.com',
-      grade: '2학년',
+      educationSystem: '영국',
+      grade: 'Year 10',
       status: 'active',
       joinDate: '2024-01-12',
       lastLogin: '2024-01-20 11:20',
@@ -405,7 +409,7 @@ export default function AdminDashboard() {
                               <Badge variant={student.status === 'active' ? 'default' : 'secondary'}>
                                 {student.status === 'active' ? '활성' : '비활성'}
                               </Badge>
-                              <Badge variant="outline">{student.grade}</Badge>
+                              <Badge variant="outline">{student.educationSystem} - {student.grade}</Badge>
                             </div>
                             <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 sm:gap-4">
                               <span className="text-sm text-muted-foreground">{student.email}</span>
