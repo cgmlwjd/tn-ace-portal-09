@@ -324,9 +324,20 @@ export const SpeakingInterface: React.FC<SpeakingInterfaceProps> = ({ question, 
                 <span className="px-2 py-1 bg-muted text-sm rounded">{question.type}</span>
               </div>
               
-              <div>
-                <p className="font-medium text-lg mb-2">{question.question}</p>
-                <p className="text-sm text-muted-foreground">{question.instruction}</p>
+              <div className="text-center space-y-4">
+                <p className="text-muted-foreground">문제를 듣고 답변해주세요</p>
+                <Button 
+                  variant="outline" 
+                  size="lg"
+                  className="w-full"
+                  onClick={() => {
+                    // TODO: TTS 기능 구현 시 audio 재생
+                    console.log('Playing question audio:', question.question);
+                  }}
+                >
+                  <Play className="h-4 w-4 mr-2" />
+                  문제 듣기
+                </Button>
               </div>
             </div>
 
