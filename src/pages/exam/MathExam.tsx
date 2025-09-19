@@ -281,7 +281,7 @@ export default function MathExam() {
               </div>
               
               <Textarea
-                placeholder="계산 과정과 답을 작성하세요..."
+                placeholder="답변만 작성해주세요..."
                 value={answers[answerKey] || ''}
                 onChange={(e) => updateAnswer(currentSection, currentQuestion, e.target.value)}
                 disabled={isPaused}
