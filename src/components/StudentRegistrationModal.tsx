@@ -273,15 +273,17 @@ export const StudentRegistrationModal: React.FC<StudentRegistrationModalProps> =
                   required
                   className={formErrors.password ? "border-red-500" : ""}
                 />
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="icon"
-                  onClick={() => handleInputChange('password', '')}
-                  className="shrink-0"
-                >
-                  <RotateCcw className="h-4 w-4" />
-                </Button>
+                {isEditMode && (
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="icon"
+                    onClick={() => handleInputChange('password', '')}
+                    className="shrink-0"
+                  >
+                    <RotateCcw className="h-4 w-4" />
+                  </Button>
+                )}
               </div>
               {formErrors.password && (
                 <p className="text-sm text-red-500">{formErrors.password}</p>
