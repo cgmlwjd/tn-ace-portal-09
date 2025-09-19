@@ -264,10 +264,13 @@ export default function AdminDashboard() {
     const matchesSearch = student.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       student.email.toLowerCase().includes(searchTerm.toLowerCase());
     
-    const matchesGrade = selectedGrade === 'all' || 
-      student.grade === `${selectedGrade}학년`;
+    const matchesEducationSystem = !selectedEducationSystem || selectedEducationSystem === 'all' || 
+      student.educationSystem === selectedEducationSystem;
     
-    return matchesSearch && matchesGrade;
+    const matchesGrade = !selectedGrade || selectedGrade === 'all' || 
+      student.grade === selectedGrade;
+    
+    return matchesSearch && matchesEducationSystem && matchesGrade;
   });
 
   const filteredTeachers = teachers.filter(teacher =>
@@ -359,31 +362,37 @@ export default function AdminDashboard() {
                         className="pl-10"
                       />
                     </div>
-                    <Select value={selectedEducationSystem} onValueChange={(value) => {
-                      setSelectedEducationSystem(value);
-                      setSelectedGrade(''); // 학제 변경시 학년 초기화
-                    }}>
+                    <Select>
                       <SelectTrigger className="w-32">
                         <SelectValue placeholder="학제" />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="all">전체</SelectItem>
-                        <SelectItem value="korean">한국</SelectItem>
-                        <SelectItem value="us">미국</SelectItem>
-                        <SelectItem value="uk">영국</SelectItem>
+                        <SelectItem value="한국">한국</SelectItem>
+                        <SelectItem value="미국">미국</SelectItem>
+                        <SelectItem value="영국">영국</SelectItem>
                       </SelectContent>
                     </Select>
-                    <Select value={selectedGrade} onValueChange={setSelectedGrade}>
+                    <Select>
                       <SelectTrigger className="w-32">
                         <SelectValue placeholder="학년" />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="all">전체</SelectItem>
-                        {getGradeOptions(selectedEducationSystem).map((option) => (
-                          <SelectItem key={option.value} value={option.value}>
-                            {option.label}
-                          </SelectItem>
-                        ))}
+                        <SelectItem value="초1">초1</SelectItem>
+                        <SelectItem value="초2">초2</SelectItem>
+                        <SelectItem value="초3">초3</SelectItem>
+                        <SelectItem value="초4">초4</SelectItem>
+                        <SelectItem value="초5">초5</SelectItem>
+                        <SelectItem value="초6">초6</SelectItem>
+                        <SelectItem value="중1">중1</SelectItem>
+                        <SelectItem value="중2">중2</SelectItem>
+                        <SelectItem value="중3">중3</SelectItem>
+                        <SelectItem value="고1">고1</SelectItem>
+                        <SelectItem value="고2">고2</SelectItem>
+                        <SelectItem value="고3">고3</SelectItem>
+                        <SelectItem value="grade 9">grade 9</SelectItem>
+                        <SelectItem value="Year 10">Year 10</SelectItem>
                       </SelectContent>
                     </Select>
                     <Select>
