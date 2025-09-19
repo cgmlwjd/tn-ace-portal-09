@@ -191,21 +191,52 @@ export default function AdminDashboard() {
   // 학제별 학년 옵션
   const getGradeOptions = (educationSystem: string) => {
     switch (educationSystem) {
-      case 'elementary':
+      case 'korean':
         return [
           { value: '1', label: '1학년' },
           { value: '2', label: '2학년' },
           { value: '3', label: '3학년' },
           { value: '4', label: '4학년' },
           { value: '5', label: '5학년' },
-          { value: '6', label: '6학년' }
+          { value: '6', label: '6학년' },
+          { value: '7', label: '7학년' },
+          { value: '8', label: '8학년' },
+          { value: '9', label: '9학년' },
+          { value: '10', label: '10학년' },
+          { value: '11', label: '11학년' },
+          { value: '12', label: '12학년' }
         ];
-      case 'middle':
-      case 'high':
+      case 'us':
         return [
-          { value: '1', label: '1학년' },
-          { value: '2', label: '2학년' },
-          { value: '3', label: '3학년' }
+          { value: 'K', label: 'Kindergarten' },
+          { value: '1', label: 'Grade 1' },
+          { value: '2', label: 'Grade 2' },
+          { value: '3', label: 'Grade 3' },
+          { value: '4', label: 'Grade 4' },
+          { value: '5', label: 'Grade 5' },
+          { value: '6', label: 'Grade 6' },
+          { value: '7', label: 'Grade 7' },
+          { value: '8', label: 'Grade 8' },
+          { value: '9', label: 'Grade 9' },
+          { value: '10', label: 'Grade 10' },
+          { value: '11', label: 'Grade 11' },
+          { value: '12', label: 'Grade 12' }
+        ];
+      case 'uk':
+        return [
+          { value: '1', label: 'Year 1' },
+          { value: '2', label: 'Year 2' },
+          { value: '3', label: 'Year 3' },
+          { value: '4', label: 'Year 4' },
+          { value: '5', label: 'Year 5' },
+          { value: '6', label: 'Year 6' },
+          { value: '7', label: 'Year 7' },
+          { value: '8', label: 'Year 8' },
+          { value: '9', label: 'Year 9' },
+          { value: '10', label: 'Year 10' },
+          { value: '11', label: 'Year 11' },
+          { value: '12', label: 'Year 12' },
+          { value: '13', label: 'Year 13' }
         ];
       default:
         return [
@@ -214,7 +245,13 @@ export default function AdminDashboard() {
           { value: '3', label: '3학년' },
           { value: '4', label: '4학년' },
           { value: '5', label: '5학년' },
-          { value: '6', label: '6학년' }
+          { value: '6', label: '6학년' },
+          { value: '7', label: '7학년' },
+          { value: '8', label: '8학년' },
+          { value: '9', label: '9학년' },
+          { value: '10', label: '10학년' },
+          { value: '11', label: '11학년' },
+          { value: '12', label: '12학년' }
         ];
     }
   };
@@ -327,9 +364,9 @@ export default function AdminDashboard() {
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="all">전체</SelectItem>
-                        <SelectItem value="elementary">초등학교</SelectItem>
-                        <SelectItem value="middle">중학교</SelectItem>
-                        <SelectItem value="high">고등학교</SelectItem>
+                        <SelectItem value="korean">한국</SelectItem>
+                        <SelectItem value="us">미국</SelectItem>
+                        <SelectItem value="uk">영국</SelectItem>
                       </SelectContent>
                     </Select>
                     <Select value={selectedGrade} onValueChange={setSelectedGrade}>
