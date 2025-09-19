@@ -1190,7 +1190,7 @@ export default function ManualGrading() {
               className="flex-1"
             >
               <Save className="h-4 w-4 mr-2" />
-              {isSaving ? '저장 중...' : '임시 저장'}
+              {isSaving ? '저장 중...' : '채점 수정'}
             </Button>
             <Button
               variant="outline"
