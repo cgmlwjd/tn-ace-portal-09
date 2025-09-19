@@ -229,7 +229,20 @@ export function TeacherRegistrationModal({
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="password">비밀번호 *</Label>
+              <div className="flex justify-between items-center">
+                <Label htmlFor="password">비밀번호 *</Label>
+                {isEditMode && (
+                  <Button
+                    type="button"
+                    variant="destructive"
+                    size="sm"
+                    onClick={() => setFormData(prev => ({ ...prev, password: '' }))}
+                    className="text-xs"
+                  >
+                    비밀번호 초기화
+                  </Button>
+                )}
+              </div>
               <Input 
                 id="password" 
                 type="password" 
