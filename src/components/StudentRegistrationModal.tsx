@@ -246,7 +246,9 @@ export const StudentRegistrationModal: React.FC<StudentRegistrationModalProps> =
           {/* 아이디 및 비밀번호 */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="studentId">아이디 *</Label>
+              <div className="flex justify-between items-center">
+                <Label htmlFor="studentId">아이디 *</Label>
+              </div>
               <Input
                 id="studentId"
                 value={formData.studentId}
