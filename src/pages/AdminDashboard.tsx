@@ -193,18 +193,18 @@ export default function AdminDashboard() {
     switch (educationSystem) {
       case 'korean':
         return [
-          { value: '1', label: '1학년' },
-          { value: '2', label: '2학년' },
-          { value: '3', label: '3학년' },
-          { value: '4', label: '4학년' },
-          { value: '5', label: '5학년' },
-          { value: '6', label: '6학년' },
-          { value: '7', label: '7학년' },
-          { value: '8', label: '8학년' },
-          { value: '9', label: '9학년' },
-          { value: '10', label: '10학년' },
-          { value: '11', label: '11학년' },
-          { value: '12', label: '12학년' }
+          { value: '초1', label: '초1' },
+          { value: '초2', label: '초2' },
+          { value: '초3', label: '초3' },
+          { value: '초4', label: '초4' },
+          { value: '초5', label: '초5' },
+          { value: '초6', label: '초6' },
+          { value: '중1', label: '중1' },
+          { value: '중2', label: '중2' },
+          { value: '중3', label: '중3' },
+          { value: '고1', label: '고1' },
+          { value: '고2', label: '고2' },
+          { value: '고3', label: '고3' }
         ];
       case 'us':
         return [
