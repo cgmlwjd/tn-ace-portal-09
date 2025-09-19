@@ -31,8 +31,8 @@ export default function AdminDashboard() {
   const [currentLanguage, setCurrentLanguage] = useState<'ko' | 'en'>('ko');
   const [activeTab, setActiveTab] = useState('students');
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedEducationSystem, setSelectedEducationSystem] = useState('all');
-  const [selectedGrade, setSelectedGrade] = useState('all');
+  const [selectedEducationSystem, setSelectedEducationSystem] = useState('');
+  const [selectedGrade, setSelectedGrade] = useState('');
   const [isStudentModalOpen, setIsStudentModalOpen] = useState(false);
   const [isTeacherModalOpen, setIsTeacherModalOpen] = useState(false);
   const [editingStudent, setEditingStudent] = useState(null);
@@ -361,7 +361,7 @@ export default function AdminDashboard() {
                     </div>
                     <Select value={selectedEducationSystem} onValueChange={(value) => {
                       setSelectedEducationSystem(value);
-                      setSelectedGrade('all'); // 학제 변경시 학년 초기화
+                      setSelectedGrade(''); // 학제 변경시 학년 초기화
                     }}>
                       <SelectTrigger className="w-32">
                         <SelectValue placeholder="학제" />
