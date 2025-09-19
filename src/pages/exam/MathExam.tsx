@@ -59,25 +59,25 @@ const examSections = {
           id: 1,
           type: 'short-answer',
           question: '다음 연립방정식을 풀어 x, y의 값을 구하시오.\n2x + 3y = 7\nx - y = 1',
-          instruction: '계산 과정을 포함하여 답하시오.'
+          instruction: '답을 작성하세요'
         },
         {
           id: 2,
           type: 'short-answer',
           question: '직각삼각형에서 빗변이 5cm, 한 변이 3cm일 때 나머지 한 변의 길이를 구하시오.',
-          instruction: '피타고라스 정리를 이용하여 계산하시오.'
+          instruction: '답을 작성하세요'
         },
         {
           id: 3,
           type: 'short-answer',
           question: '다음 이차방정식의 해를 구하시오: x² - 5x + 6 = 0',
-          instruction: '인수분해 또는 근의 공식을 사용하시오.'
+          instruction: '답을 작성하세요'
         },
         {
           id: 4,
           type: 'short-answer',
           question: '함수 f(x) = 2x² - 4x + 1에서 x = 2일 때 함수값을 구하시오.',
-          instruction: '단계별로 계산 과정을 보이시오.'
+          instruction: '답을 작성하세요'
         }
       ]
     }
