@@ -13,7 +13,6 @@ interface TeacherData {
   teacherName: string;
   password: string;
   contact: string;
-  subject: '영어' | '수학' | '';
   permissions: {
     questionBankEdit: boolean;
     accountManagement: boolean;
@@ -41,7 +40,6 @@ export function TeacherRegistrationModal({
     teacherName: '',
     password: '',
     contact: '',
-    subject: '',
     permissions: {
       questionBankEdit: false,
       accountManagement: false,
@@ -63,7 +61,6 @@ export function TeacherRegistrationModal({
         teacherName: editData.name || '',
         password: '',
         contact: editData.contact || '',
-        subject: editData.subject || '',
         permissions: {
           questionBankEdit: false,
           accountManagement: false,
@@ -78,7 +75,6 @@ export function TeacherRegistrationModal({
         teacherName: '',
         password: '',
         contact: '',
-        subject: '',
         permissions: {
           questionBankEdit: false,
           accountManagement: false,
@@ -122,10 +118,6 @@ export function TeacherRegistrationModal({
     if (!isEditMode && !formData.password.trim()) {
       errors.password = '비밀번호를 입력해주세요.';
     }
-    
-    if (!formData.subject) {
-      errors.subject = '담당 과목을 선택해주세요.';
-    }
 
     setFormErrors(errors);
     return Object.keys(errors).length === 0;
@@ -149,7 +141,6 @@ export function TeacherRegistrationModal({
           teacherName: '',
           password: '',
           contact: '',
-          subject: '',
           permissions: {
             questionBankEdit: false,
             accountManagement: false,
@@ -173,7 +164,6 @@ export function TeacherRegistrationModal({
       teacherName: '',
       password: '',
       contact: '',
-      subject: '',
       permissions: {
         questionBankEdit: false,
         accountManagement: false,
@@ -252,30 +242,6 @@ export function TeacherRegistrationModal({
                 onChange={e => handleInputChange('contact', e.target.value)} 
                 placeholder="예: 010-1234-5678" 
               />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="subject">담당 과목 *</Label>
-              <Select
-                value={formData.subject}
-                onValueChange={(value: '영어' | '수학') => {
-                  setFormData(prev => ({
-                    ...prev,
-                    subject: value
-                  }));
-                }}
-              >
-                <SelectTrigger className="bg-background">
-                  <SelectValue placeholder="담당 과목을 선택하세요" />
-                </SelectTrigger>
-                <SelectContent className="bg-background z-50">
-                  <SelectItem value="영어">영어</SelectItem>
-                  <SelectItem value="수학">수학</SelectItem>
-                </SelectContent>
-              </Select>
-              {formErrors.subject && (
-                <p className="text-sm text-red-500">{formErrors.subject}</p>
-              )}
             </div>
 
             <div className="space-y-2">
