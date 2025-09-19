@@ -7,6 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Textarea } from '@/components/ui/textarea';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Badge } from '@/components/ui/badge';
+import { RotateCcw } from 'lucide-react';
 
 interface StudentRegistrationModalProps {
   isOpen: boolean;
@@ -262,15 +263,26 @@ export const StudentRegistrationModal: React.FC<StudentRegistrationModalProps> =
 
             <div className="space-y-2">
               <Label htmlFor="password">비밀번호 *</Label>
-              <Input
-                id="password"
-                type="password"
-                value={formData.password}
-                onChange={(e) => handleInputChange('password', e.target.value)}
-                placeholder="비밀번호를 입력하세요"
-                required
-                className={formErrors.password ? "border-red-500" : ""}
-              />
+              <div className="flex gap-2">
+                <Input
+                  id="password"
+                  type="password"
+                  value={formData.password}
+                  onChange={(e) => handleInputChange('password', e.target.value)}
+                  placeholder="비밀번호를 입력하세요"
+                  required
+                  className={formErrors.password ? "border-red-500" : ""}
+                />
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="icon"
+                  onClick={() => handleInputChange('password', '')}
+                  className="shrink-0"
+                >
+                  <RotateCcw className="h-4 w-4" />
+                </Button>
+              </div>
               {formErrors.password && (
                 <p className="text-sm text-red-500">{formErrors.password}</p>
               )}
