@@ -214,6 +214,7 @@ export default function MathExam() {
     // MCQ Section - Multiple Choice Questions
     if ('questions' in content && content.questions[0]?.options) {
       const currentQ = content.questions[currentQuestion];
+      if (!currentQ) return null; // Safety check for undefined question
       const answerKey = `${currentSection}-${currentQuestion}`;
       
       return (
@@ -263,6 +264,7 @@ export default function MathExam() {
     // Short Answer Section - questions with type but no topics
     if ('questions' in content && content.questions[0]?.type && !content.questions[0]?.section) {
       const currentQ = content.questions[currentQuestion];
+      if (!currentQ) return null; // Safety check for undefined question
       const answerKey = `${currentSection}-${currentQuestion}`;
       
       return (
@@ -297,6 +299,7 @@ export default function MathExam() {
     // Essay Section - topics
     if ('topics' in content) {
       const currentTopic = content.topics[currentQuestion];
+      if (!currentTopic) return null; // Safety check for undefined topic
       const answerKey = `${currentSection}-${currentQuestion}`;
       const text = answers[answerKey] || '';
       const wordCount = text.trim().split(/\s+/).filter(word => word.length > 0).length;
