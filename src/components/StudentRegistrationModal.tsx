@@ -333,12 +333,12 @@ export const StudentRegistrationModal: React.FC<StudentRegistrationModalProps> =
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="classNumber">반</Label>
+              <Label htmlFor="classNumber">학교 이름</Label>
               <Input
                 id="classNumber"
                 value={formData.classNumber}
                 onChange={(e) => handleInputChange('classNumber', e.target.value)}
-                placeholder="A반, 1반 등"
+                placeholder="학교 이름을 입력하세요"
               />
             </div>
           </div>
