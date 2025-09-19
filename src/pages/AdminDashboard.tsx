@@ -367,7 +367,7 @@ export default function AdminDashboard() {
                         <SelectValue placeholder="학제" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="all">전체</SelectItem>
+                        <SelectItem value="all">학제</SelectItem>
                         <SelectItem value="korean">한국</SelectItem>
                         <SelectItem value="us">미국</SelectItem>
                         <SelectItem value="uk">영국</SelectItem>
@@ -378,7 +378,7 @@ export default function AdminDashboard() {
                         <SelectValue placeholder="학년" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="all">전체</SelectItem>
+                        <SelectItem value="all">학년</SelectItem>
                         {getGradeOptions(selectedEducationSystem).map((option) => (
                           <SelectItem key={option.value} value={option.value}>
                             {option.label}
