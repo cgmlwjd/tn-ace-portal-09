@@ -194,7 +194,7 @@ export function TeacherRegistrationModal({
                 id="teacherName" 
                 value={formData.teacherName} 
                 onChange={e => handleInputChange('teacherName', e.target.value)} 
-                placeholder="예: 김선생" 
+                placeholder="예: 김선생alice" 
                 required 
                 className={formErrors.teacherName ? "border-red-500" : ""}
               />
