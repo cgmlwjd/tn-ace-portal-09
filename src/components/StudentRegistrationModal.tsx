@@ -266,12 +266,12 @@ export const StudentRegistrationModal: React.FC<StudentRegistrationModalProps> =
                 {isEditMode && (
                   <Button
                     type="button"
-                    variant="ghost"
+                    variant="destructive"
                     size="sm"
                     onClick={() => handleInputChange('password', '')}
-                    className="text-xs text-muted-foreground hover:text-foreground"
+                    className="text-xs"
                   >
-                    비밀번호 수정
+                    비밀번호 초기화
                   </Button>
                 )}
               </div>
